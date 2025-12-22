@@ -17,13 +17,8 @@ public class TileManager {
 
     // CLASS VARIABLES
     public final TileLinkedList tiles = new TileLinkedList();
-
-    // For full tiles
-    int[][] mapCompleteTileNum;
-    // For path, water, ...
-    int[][] mapTransparentTileNum;
-
     public String mapName;
+    public int[][][] tileMapNum;
 
     // UTILS
     GameCanvas gc;
@@ -32,36 +27,55 @@ public class TileManager {
         this.gc = gc;
         this.mapName = mapName;
 
-        // Tiles
-        mapCompleteTileNum = new int[gc.maxWorldCol][gc.maxWorldRow];
-        mapTransparentTileNum = new int[gc.maxWorldCol][gc.maxWorldRow];
+        // Tile types
         getTileImage();
 
         // Load map
-        loadMap("/res/maps/" + mapName);
+        tileMapNum = new int[gc.maxWorldCol][gc.maxWorldRow][gc.layerCount];
+        loadMap("/res/maps/" + mapName + ".txt");
     }
 
     private void getTileImage(){
 
         try {
             // Complete tiles
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/transparent.png"))), true, false));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/grass.png")))));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/wall.png"))), false, true));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/earth.png")))));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/sand.png")))));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/water.png"))), true, false));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/path_cross.png"))), true, false));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/path_horizontal.png"))), true, false));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/path_vertical.png"))), true, false));
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/tiles/tree.png"))), true, true));
+            // THE FIRST TILE MUST BE TRANSPARENT (SKIPPED WHEN DRAWN)
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/transparent.png"))), 1, 2));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/grass.png"))), 0));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/wall.png"))), true, 0));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/earth.png"))), 0));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/sand.png"))), 0));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/water.png"))), true, 1, 2));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/path_cross.png"))), 1));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/path_horizontal.png"))), 1));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/path_vertical.png"))), 1));
+
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(getClass().
+                    getResourceAsStream("/res/tiles/tree.png"))), true, 1, 2));
 
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    private void loadTiles(String filePath, boolean transparent){
+    public void loadMap(String filePath){
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             assert is != null;
@@ -72,6 +86,7 @@ public class TileManager {
 
             while (col < gc.maxWorldCol && row < gc.maxWorldRow){
 
+                // GET THE LINE AND FORMAT IT
                 String line = br.readLine();
                 while (line.contains("  ")) {
                     line = line.replace("  ", " ");
@@ -80,17 +95,20 @@ public class TileManager {
                     line = line.substring(1);
                 }
 
-                String[] numbers = line.split(" ");
+                // GET THE STRINGS FOR EVERY TILES
+                String[] lineLayerNumbers = line.split(" ");
 
                 while (col < gc.maxWorldCol){
 
-                    int num = Integer.parseInt(numbers[col]);
+                    // GET THE NUMBERS FOR EVERY LAYER OF A TILE
+                    String[] tileLayerNumbers = lineLayerNumbers[col].split(":");
+                    for (int layer = 0; layer < tileLayerNumbers.length; layer++) {
 
-                    if (!transparent) {
-                        mapCompleteTileNum[col][row] = num % (tiles.size());
-                    } else {
-                        mapTransparentTileNum[col][row] = num % (tiles.size());
+                        // LAYER VALUE
+                        int num = Integer.parseInt(tileLayerNumbers[layer]);
+                        tileMapNum[col][row][layer] = num;
                     }
+
                     col++;
                 }
 
@@ -105,19 +123,11 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath){
-
-        loadTiles(filePath + ".txt", false);
-        loadTiles(filePath + "-t.txt", true);
-    }
-
-    private void drawTiles(Graphics2D g2, int[][] mapTileNum){
+    public void draw(Graphics2D g2){
         int worldCol = 0;
         int worldRow = 0;
 
         while (worldCol < gc.maxWorldCol && worldRow < gc.maxWorldRow){
-            // GET TILE ID
-            int tileID = mapTileNum[worldCol][worldRow];
 
             // GET WHERE TILE WILL BE DRAWN
             int worldX = worldCol * gc.tileSize;
@@ -125,26 +135,28 @@ public class TileManager {
             int screenX = (int)(worldX - gc.player.getWorldX() + gc.player.screenX);
             int screenY = (int)(worldY - gc.player.getWorldY() + gc.player.screenY);
 
-            if (tileID >= 0
-                    && worldX > gc.player.getWorldX() - gc.player.screenX - gc.tileSize
+            // DRAW IF TILE IN SCREEN
+            if (worldX > gc.player.getWorldX() - gc.player.screenX - gc.tileSize
                     && worldX < gc.player.getWorldX() + gc.player.screenX + gc.tileSize
                     && worldY > gc.player.getWorldY() - gc.player.screenY - gc.tileSize
                     && worldY < gc.player.getWorldY() + gc.player.screenY + gc.tileSize){
-                g2.drawImage(tiles.getTile(tileID).image, screenX, screenY, gc.tileSize, gc.tileSize, null);
+
+                for (int layer = 0; layer < gc.layerCount; layer++) {
+
+                    // GET TILE ID
+                    int tileID = tileMapNum[worldCol][worldRow][layer];
+                    if (tileID != 0) {
+                        g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.tileSize, gc.tileSize, null);
+                    }
+                }
             }
 
             worldCol++;
-
             if (worldCol == gc.maxWorldCol){
+
                 worldCol = 0;
                 worldRow++;
             }
         }
-    }
-
-    public void draw(Graphics2D g2){
-
-        drawTiles(g2, mapCompleteTileNum);
-        drawTiles(g2, mapTransparentTileNum);
     }
 }

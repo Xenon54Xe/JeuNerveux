@@ -34,6 +34,7 @@ public class GameCanvas extends Canvas implements Runnable {
     // FPS
     private final int FPS = 60;
     private final double drawInterval = 1.0 / FPS;
+    public double dt;
     // TEST FPS
     private int frameCount = 0;
     private double timeBetweenFPSFrames = 0;
@@ -46,12 +47,16 @@ public class GameCanvas extends Canvas implements Runnable {
     public final MouseMotionHandler mouseMH = new MouseMotionHandler();
 
     // TILES
-    public final TileManager tileM = new TileManager(this, "map02-sav");
+    public final int layerCount = 3;
+    public final TileManager tileM = new TileManager(this, "map03");
     // UI
     public final UIManager uiM = new UIManager(this);
 
     // ENTITIES
     public Player player = new Player(this);
+
+    // COLLISION CHECKER
+    public CollisionChecker cChecker = new CollisionChecker(this);
 
     // UTILS
     private final MapMaker mapMaker = new MapMaker(this);
@@ -93,7 +98,7 @@ public class GameCanvas extends Canvas implements Runnable {
         long lastTime = System.nanoTime();
         while (gameThread != null) {
 
-            double dt = (System.nanoTime() - lastTime) / 1_000_000_000.0;
+            dt = (System.nanoTime() - lastTime) / 1_000_000_000.0;
 
             if (dt >= drawInterval) {
                 update(dt);

@@ -50,6 +50,10 @@ public class UIBox extends UIObject implements IUIBox{
 
     @Override
     public boolean mouseOver() {
+        if(! isShow()){
+            return false;
+        }
+
         return mouseMH.getScreenX() > getScreenX()
                 && mouseMH.getScreenX() < getScreenX() + width
                 && mouseMH.getScreenY() > getScreenY()

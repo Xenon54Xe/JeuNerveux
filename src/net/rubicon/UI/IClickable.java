@@ -2,11 +2,11 @@ package net.rubicon.UI;
 
 public interface IClickable {
 
-    public void setPayload(String payload);
+    void setPayload(String payload);
 
-    public void setActive(boolean active);
+    void setActive(boolean active);
 
-    public String getPayload();
+    String getPayload();
 
-    public void isClicked(); // Verify is clicked and then do things
+    void isClicked(); // Verify is clicked and then do things
 }

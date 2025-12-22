@@ -1,29 +1,29 @@
 package net.rubicon.tile;
 
 import net.rubicon.UI.UIImageButton;
+import net.rubicon.UI.UIObject;
 import net.rubicon.UI.UITextButton;
 import net.rubicon.event.IListener;
 import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
-
-public class MapMaker implements IListener<String> {
-
-    // CLASS VARIABLES
-    private boolean active = true;
-    private int tileID = 0;
-    private final UIImageButton uiButtonTileType;
-
-    private int layer = 0;
-    private final UITextButton uiButtonChangeLayer;
+public class MapMaker implements IListener<String>, ISaveMap {
 
     // UTILS
     private final GameCanvas gc;
+
+    // CLASS VARIABLES
+    private boolean active;
+
+    // UI
+    private int tileID = 1;
+    private final UIImageButton uiButtonTileType;
+    private int layer = 0;
+    private final UITextButton uiButtonChangeLayer;
+
+    private UIObject[] objectsToHide;
+
 
     public MapMaker(GameCanvas gc) {
         // INIT
@@ -34,16 +34,29 @@ public class MapMaker implements IListener<String> {
 
         // BUTTON TILE TYPE
         int size = (int)(gc.tileSize * 0.8);
-        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).image, Color.BLUE, "Change tile type", "change-tile-type", gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
+        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, "Change tile type", "change-tile-type", gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
         gc.uiM.addUIObject(uiButtonTileType);
 
         // BUTTON SAVE
-        UITextButton uiTextButton = new UITextButton(gc, Color.BLACK, Color.WHITE, "save", "click to save", "save", gc.tileSize, gc.tileSize * 2, gc.tileSize * 3, gc.tileSize);
-        gc.uiM.addUIObject(uiTextButton);
+        UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, "save", "click to save", "save", gc.tileSize, gc.tileSize * 2, gc.tileSize * 3, gc.tileSize);
+        gc.uiM.addUIObject(uiTextButtonSave);
 
         // BUTTON CHANGE LAYER
         uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, "layer", "Layer : 0", "layer", gc.tileSize, gc.tileSize * 4, gc.tileSize * 2, gc.tileSize);
         gc.uiM.addUIObject(uiButtonChangeLayer);
+
+        // ACTIVATE
+        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, "activate", "Activate map making", "activate", gc.tileSize * 10, gc.tileSize, gc.tileSize, gc.tileSize);
+        gc.uiM.addUIObject(uiTextButtonActivate);
+
+        // REGISTERING OBJECTS TO HIDE
+        objectsToHide = new UIObject[3];
+        objectsToHide[0] = uiButtonTileType;
+        objectsToHide[1] = uiTextButtonSave;
+        objectsToHide[2] = uiButtonChangeLayer;
+
+        // MAKING THEM HIDDEN OR NOT
+        setActive(false);
     }
 
     public void update(){
@@ -55,72 +68,20 @@ public class MapMaker implements IListener<String> {
                 if (worldX > gc.maxWorldCol - 1 || worldX < 0 || worldY > gc.maxWorldRow - 1 || worldY < 0){
                     return;
                 }
-                if (layer == 0) {
-                    gc.tileM.mapCompleteTileNum[worldX][worldY] = tileID;
-                }
-                else {
-                    gc.tileM.mapTransparentTileNum[worldX][worldY] = tileID;
-                }
+                gc.tileM.tileMapNum[worldX][worldY][layer] = tileID;
             }
         }
     }
 
-    private void saveMap(){
-        String fileName = gc.tileM.mapName;
+    public void saveMap() {
+        ISaveMap.super.saveMap(gc.tileM.mapName, gc.tileM.tileMapNum);
+    }
 
-        try { // MAKE THE FILE
-            File mapFile = new File("src/res/maps/" + fileName + "-sav.txt");
-            if(mapFile.createNewFile()){
-                System.out.println("File creation success");
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+    private void setActive(boolean active){
+        this.active = active;
 
-        // WRITE THE FILE
-        try (BufferedWriter mapWriter = new BufferedWriter(new FileWriter("src/res/maps/" + fileName + "-sav.txt"))){
-
-            int[][] completeMap = gc.tileM.mapCompleteTileNum;
-
-            for (int row = 0; row < gc.maxWorldRow; row++) {
-
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int col = 0; col < gc.maxWorldCol; col++) {
-
-                    stringBuilder.append(completeMap[col][row]);
-                    if (col != gc.maxWorldRow - 1){
-                        stringBuilder.append(" ");
-                    }
-                }
-                mapWriter.write(String.valueOf(stringBuilder));
-                mapWriter.newLine();
-            }
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
-
-        // WRITE THE FILE
-        try (BufferedWriter mapWriter = new BufferedWriter(new FileWriter("src/res/maps/" + fileName + "-sav-t.txt"))){
-
-            int[][] transparentMap = gc.tileM.mapTransparentTileNum;
-
-            for (int row = 0; row < gc.maxWorldRow; row++) {
-
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int col = 0; col < gc.maxWorldCol; col++) {
-
-                    stringBuilder.append(transparentMap[col][row]);
-                    if (col != gc.maxWorldRow - 1){
-                        stringBuilder.append(" ");
-                    }
-                }
-                mapWriter.write(String.valueOf(stringBuilder));
-                mapWriter.newLine();
-            }
-
-        }catch (IOException e){
-            e.printStackTrace();
+        for (UIObject object : objectsToHide){
+            object.setShow(active);
         }
     }
 
@@ -130,28 +91,17 @@ public class MapMaker implements IListener<String> {
         // CHANGE TILE TYPE EVENT
         if (payload.equals("change-tile-type-left") || payload.equals("change-tile-type-right")) {
             if (payload.equals("change-tile-type-left")) {
-                if (layer == 0) {
-                    tileID = gc.tileM.tiles.getNextComplete((tileID + 1) % gc.tileM.tiles.size()).getID();
-                }
-                else {
-                    tileID = gc.tileM.tiles.getNextTransparent((tileID + 1) % gc.tileM.tiles.size()).getID();
-                }
+                tileID = gc.tileM.tiles.getNextLayerTile((tileID + 1) % gc.tileM.tiles.size(), layer).getID();
             }
             if (payload.equals("change-tile-type-right")) {
                 tileID --;
                 if (tileID < 0){
                     tileID += gc.tileM.tiles.size();
                 }
-
-                if (layer == 0) {
-                    tileID = gc.tileM.tiles.getPreviousComplete(tileID).getID();
-                }
-                else {
-                    tileID = gc.tileM.tiles.getPreviousTransparent(tileID).getID();
-                }
+                tileID = gc.tileM.tiles.getPreviousLayerTile(tileID, layer).getID();
             }
 
-            uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).image);
+            uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).getImage());
         }
 
         // SAVE MAP EVENT
@@ -161,15 +111,16 @@ public class MapMaker implements IListener<String> {
 
         // CHANGE LAYER
         if (payload.equals("layer-left")){
-            layer = (layer + 1) % 2;
+            layer = (layer + 1) % gc.layerCount;
             uiButtonChangeLayer.setText("Layer : " + layer);
-            if (layer == 0){
-                tileID = gc.tileM.tiles.getNextComplete(tileID).getID();
-            }
-            else {
-                tileID = gc.tileM.tiles.getNextTransparent(tileID).getID();
-            }
-            uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).image);
+            tileID = gc.tileM.tiles.getNextLayerTile(tileID, layer).getID();
+
+            uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).getImage());
+        }
+
+        // ACTIVATE MAP MAKER
+        if (payload.equals("activate-left")){
+            setActive(!active);
         }
     }
 }

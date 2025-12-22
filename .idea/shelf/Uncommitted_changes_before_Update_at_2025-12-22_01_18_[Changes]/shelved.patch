@@ -1,0 +1,132 @@
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"AutoImportSettings\">\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\n  </component>\n  <component name=\"ChangeListManager\">\n    <list default=\"true\" id=\"fd9682dc-8dfc-4ab1-8544-86cc6a71fda4\" name=\"Changes\" comment=\"\">\n      <change afterPath=\"$PROJECT_DIR$/.gitignore\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/modules.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/vcs.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/JeuNerveux.iml\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/IClickable.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/IUIBox.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/IUIImage.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/IUIText.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UIText.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/entity/Entity.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/entity/Player.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/event/Event.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/event/IEvent.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/event/IListener.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/event/TestListener.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/handler/KeyHandler.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/handler/MouseHandler.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/handler/MouseMotionHandler.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/main/GameWindow.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/main/Main.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/tile/Tile.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/utils/LinkedList.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/utils/Node.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/net/rubicon/utils/TileLinkedList.java\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/maps/map01-t.txt\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/maps/map01.txt\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/maps/map02-t.txt\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/maps/map02.txt\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/earth.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/grass.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/path_cross.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/path_horizontal.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/path_vertical.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/sand.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/transparent.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/tree.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/wall.png\" afterDir=\"false\" />\n      <change afterPath=\"$PROJECT_DIR$/src/res/tiles/water.png\" afterDir=\"false\" />\n    </list>\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\n  </component>\n  <component name=\"FileTemplateManagerImpl\">\n    <option name=\"RECENT_TEMPLATES\">\n      <list>\n        <option value=\"Interface\" />\n        <option value=\"Class\" />\n      </list>\n    </option>\n  </component>\n  <component name=\"Git.Settings\">\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\n  </component>\n  <component name=\"ProjectColorInfo\">{\n  &quot;associatedIndex&quot;: 7\n}</component>\n  <component name=\"ProjectId\" id=\"36kZoQMWqyAyT0Az6Hy7HPs7u8z\" />\n  <component name=\"ProjectViewState\">\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\n    <option name=\"showLibraryContents\" value=\"true\" />\n  </component>\n  <component name=\"PropertiesComponent\"><![CDATA[{\n  \"keyToString\": {\n    \"Application.Drawing.executor\": \"Run\",\n    \"Application.Game.executor\": \"Run\",\n    \"Application.Main.executor\": \"Run\",\n    \"Application.main2.Main.executor\": \"Run\",\n    \"Application.net.rubicon.main.Main.executor\": \"Run\",\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\n    \"RunOnceActivity.git.unshallow\": \"true\",\n    \"git-widget-placeholder\": \"master\",\n    \"kotlin-language-version-configured\": \"true\",\n    \"last_opened_file_path\": \"/home/titouan/IdeaProjects/JeuNerveux/src/res/tiles\",\n    \"onboarding.tips.debug.path\": \"/home/titouan/IdeaProjects/JeuNerveux/src/Main.java\",\n    \"run.code.analysis.last.selected.profile\": \"pProject Default\"\n  }\n}]]></component>\n  <component name=\"RecentsManager\">\n    <key name=\"CopyFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/res/tiles\" />\n      <recent name=\"$PROJECT_DIR$/src/res/maps\" />\n    </key>\n    <key name=\"MoveFile.RECENT_KEYS\">\n      <recent name=\"$PROJECT_DIR$/src/res/maps\" />\n      <recent name=\"$PROJECT_DIR$/src/res/maps01.txt\" />\n      <recent name=\"$PROJECT_DIR$/src\" />\n      <recent name=\"$PROJECT_DIR$/res/player\" />\n      <recent name=\"$PROJECT_DIR$\" />\n    </key>\n    <key name=\"CopyClassDialog.RECENTS_KEY\">\n      <recent name=\"main2\" />\n    </key>\n  </component>\n  <component name=\"RunManager\" selected=\"Application.net.rubicon.main.Main\">\n    <configuration name=\"Drawing\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"Drawing\" />\n      <module name=\"JeuNerveux\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Game\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.Game\" />\n      <module name=\"JeuNerveux\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"rubicon.main.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"rubicon.main.Main\" />\n      <module name=\"JeuNerveux\" />\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"main.Main\" />\n      <module name=\"JeuNerveux\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"main.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <configuration name=\"net.rubicon.main.Main\" type=\"Application\" factoryName=\"Application\" temporary=\"true\" nameIsGenerated=\"true\">\n      <option name=\"MAIN_CLASS_NAME\" value=\"net.rubicon.main.Main\" />\n      <module name=\"JeuNerveux\" />\n      <extension name=\"coverage\">\n        <pattern>\n          <option name=\"PATTERN\" value=\"net.rubicon.handler.*\" />\n          <option name=\"ENABLED\" value=\"true\" />\n        </pattern>\n      </extension>\n      <method v=\"2\">\n        <option name=\"Make\" enabled=\"true\" />\n      </method>\n    </configuration>\n    <recent_temporary>\n      <list>\n        <item itemvalue=\"Application.net.rubicon.main.Main\" />\n        <item itemvalue=\"Application.Main\" />\n        <item itemvalue=\"Application.Game\" />\n        <item itemvalue=\"Application.Drawing\" />\n      </list>\n    </recent_temporary>\n  </component>\n  <component name=\"SharedIndexes\">\n    <attachedChunks>\n      <set>\n        <option value=\"bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138\" />\n      </set>\n    </attachedChunks>\n  </component>\n  <component name=\"TaskManager\">\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\n      <changelist id=\"fd9682dc-8dfc-4ab1-8544-86cc6a71fda4\" name=\"Changes\" comment=\"\" />\n      <created>1765552705518</created>\n      <option name=\"number\" value=\"Default\" />\n      <option name=\"presentableId\" value=\"Default\" />\n      <updated>1765552705518</updated>\n    </task>\n    <servers />\n  </component>\n  <component name=\"XDebuggerManager\">\n    <breakpoint-manager>\n      <breakpoints>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.lang.IllegalArgumentException\" package=\"java.lang\" />\n          <option name=\"timeStamp\" value=\"1\" />\n        </breakpoint>\n        <breakpoint enabled=\"true\" type=\"java-exception\">\n          <properties class=\"java.io.IOException\" package=\"java.io\" />\n          <option name=\"timeStamp\" value=\"2\" />\n        </breakpoint>\n      </breakpoints>\n    </breakpoint-manager>\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision bad3e7f28ae6686344a7ea028949b3520d39dfe8)
++++ b/.idea/workspace.xml	(date 1766366263684)
+@@ -4,60 +4,8 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="">
+-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/JeuNerveux.iml" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IClickable.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIBox.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIImage.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIText.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIText.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/IListener.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/handler/KeyHandler.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/handler/MouseHandler.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/handler/MouseMotionHandler.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameWindow.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/main/Main.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/tile/Tile.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/utils/LinkedList.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/utils/Node.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/utils/TileLinkedList.java" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/maps/map01-t.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/maps/map01.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/maps/map02-t.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/maps/map02.txt" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/earth.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/grass.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/path_cross.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/path_horizontal.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/path_vertical.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/sand.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/transparent.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/tree.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/wall.png" afterDir="false" />
+-      <change afterPath="$PROJECT_DIR$/src/res/tiles/water.png" afterDir="false" />
++    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.1.0&#10;feat: &#10;- mapmaker&#10;- payer&#10;- event&#10;- ui&#10;gp:&#10;Can move and make a map easily">
++      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -75,6 +23,18 @@
+   <component name="Git.Settings">
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
++  "lastFilter": {
++    "state": "OPEN",
++    "assignee": "Xenon54Xe"
++  }
++}]]></component>
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/Xenon54Xe/JeuNerveux.git",
++    "accountId": "835a66b7-09a1-4084-8eb3-ce10dd35313b"
++  }
++}]]></component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 7
+ }</component>
+@@ -194,7 +154,39 @@
+       <option name="presentableId" value="Default" />
+       <updated>1765552705518</updated>
+     </task>
++    <task id="LOCAL-00001" summary="v0.1.0&#10;feat: &#10;- mapmaker&#10;- payer&#10;- event&#10;- ui&#10;gp:&#10;Can move and make a map easily">
++      <option name="closed" value="true" />
++      <created>1766365412616</created>
++      <option name="number" value="00001" />
++      <option name="presentableId" value="LOCAL-00001" />
++      <option name="project" value="LOCAL" />
++      <updated>1766365412616</updated>
++    </task>
++    <task id="LOCAL-00002" summary="v0.1.0&#10;feat: &#10;- mapmaker&#10;- payer&#10;- event&#10;- ui&#10;gp:&#10;Can move and make a map easily">
++      <option name="closed" value="true" />
++      <created>1766365422208</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1766365422208</updated>
++    </task>
++    <option name="localTasksCounter" value="3" />
+     <servers />
++  </component>
++  <component name="Vcs.Log.Tabs.Properties">
++    <option name="TAB_STATES">
++      <map>
++        <entry key="MAIN">
++          <value>
++            <State />
++          </value>
++        </entry>
++      </map>
++    </option>
++  </component>
++  <component name="VcsManagerConfiguration">
++    <MESSAGE value="v0.1.0&#10;feat: &#10;- mapmaker&#10;- payer&#10;- event&#10;- ui&#10;gp:&#10;Can move and make a map easily" />
++    <option name="LAST_COMMIT_MESSAGE" value="v0.1.0&#10;feat: &#10;- mapmaker&#10;- payer&#10;- event&#10;- ui&#10;gp:&#10;Can move and make a map easily" />
+   </component>
+   <component name="XDebuggerManager">
+     <breakpoint-manager>

@@ -1,8 +1,16 @@
 package net.rubicon.entity;
 
+import net.rubicon.main.GameCanvas;
+import net.rubicon.utils.Vector2D;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.util.Objects;
 
 public abstract class Entity implements IEntity{
+
+    // UTILS
+    GameCanvas gc;
 
     // IMAGES
     private BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -11,28 +19,20 @@ public abstract class Entity implements IEntity{
     private int spriteNum = 1;
 
     // DATA
-    private double worldX, worldY;
+    Vector2D worldPosition = Vector2D.ZERO;
+    Vector2D moveVector = Vector2D.DOWN; // Must be normalized before used in movement
+    private String drawDirection;
     private int speed;
-    private String direction;
 
-    public Entity(){
+    // COLLISION
+    public Rectangle solidArea;
 
+    public Entity(GameCanvas gc){
+        this.gc = gc;
     }
 
-    public Entity(BufferedImage up1, BufferedImage up2, BufferedImage down1, BufferedImage down2,
-                  BufferedImage left1, BufferedImage left2, BufferedImage right1, BufferedImage right2){
-        this.up1 = up1;
-        this.up2 = up2;
-        this.down1 = down1;
-        this.down2 = down2;
-        this.left1 = left1;
-        this.left2 = left2;
-        this.right1 = right1;
-        this.right2 = right2;
 
-    }
-
-    @Override
+    // SPRITES
     public BufferedImage getSprite(String spriteName) {
         return switch (spriteName) {
             case "up1" -> up1;
@@ -47,32 +47,6 @@ public abstract class Entity implements IEntity{
         };
     }
 
-    @Override
-    public int getSpriteNum() {
-        return spriteNum;
-    }
-
-    @Override
-    public double getWorldX() {
-        return worldX;
-    }
-
-    @Override
-    public double getWorldY() {
-        return worldY;
-    }
-
-    @Override
-    public int getSpeed() {
-        return speed;
-    }
-
-    @Override
-    public String getDirection() {
-        return direction;
-    }
-
-    @Override
     public void setSprite(String spriteName, BufferedImage spriteImage) {
         switch (spriteName) {
             case "up1":
@@ -102,27 +76,10 @@ public abstract class Entity implements IEntity{
         }
     }
 
-    @Override
-    public void setWorldX(double worldX) {
-        this.worldX = worldX;
+    public int getSpriteNum() {
+        return spriteNum;
     }
 
-    @Override
-    public void setWorldY(double worldY) {
-        this.worldY = worldY;
-    }
-
-    @Override
-    public void setSpeed(int speed) {
-        this.speed = speed;
-    }
-
-    @Override
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    @Override
     public void updateShowedSprite() {
         spriteCounter++;
         if (spriteCounter > 6){
@@ -136,13 +93,71 @@ public abstract class Entity implements IEntity{
         }
     }
 
-    @Override
-    public void addWorldX(double step) {
-        worldX += step;
+
+    // DRAW DIRECTION
+    public String getDrawDirection() {
+        return drawDirection;
     }
 
-    @Override
-    public void addWorldY(double step) {
-        worldY += step;
+    public void setDrawDirection(String drawDirection) {
+        this.drawDirection = drawDirection;
+    }
+
+    public void updateDrawDirection(){
+        String direction = moveVector.getMainDirection();
+        if (!Objects.equals(direction, "None")){
+            drawDirection = direction;
+        }
+    }
+
+
+    // POSITION / SPEED
+    public Vector2D getWorldPosition(){
+        return worldPosition.copy();
+    }
+
+    public void setWorldPosition(Vector2D worldPosition){
+        this.worldPosition = worldPosition;
+    }
+
+    public double getWorldX() {
+        return worldPosition.getX();
+    }
+
+    public double getWorldY() {
+        return worldPosition.getY();
+    }
+
+    public int getTileX(){
+        return (int)(getWorldX() / gc.tileSize + 0.5);
+    }
+
+    public int getTileY(){
+        return (int)(getWorldY() / gc.tileSize + 1);
+    }
+
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+
+    // MOVE
+    public Vector2D getMoveVector(){
+        return moveVector.copy();
+    }
+
+    public void setMoveVector(Vector2D moveVector) {
+        this.moveVector = moveVector;
+    }
+
+    public void addMoveVector(Vector2D moveVector){
+        this.moveVector = this.moveVector.add(moveVector);
+    }
+
+    public void move(Vector2D vector2D) {
+        worldPosition = worldPosition.add(vector2D);
     }
 }

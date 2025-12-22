@@ -2,6 +2,7 @@ package net.rubicon.entity;
 
 import net.rubicon.main.GameCanvas;
 import net.rubicon.handler.KeyHandler;
+import net.rubicon.utils.Vector2D;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -11,9 +12,10 @@ import java.util.Objects;
 
 public class Player extends Entity{
 
-    private final GameCanvas gc;
+    // UTILS
     private final KeyHandler keyH;
 
+    // CLASS VARIABLES
     public final int screenX;
     public final int screenY;
 
@@ -21,22 +23,24 @@ public class Player extends Entity{
     private int baseSpeed;
 
     public Player(GameCanvas gc){
-        this.gc = gc;
+        super(gc);
+
         this.keyH = gc.keyH;
 
         screenX = gc.screenWidth / 2 - gc.tileSize / 2;
         screenY = gc.screenHeight / 2 - gc.tileSize / 2;
+
+        solidArea = new Rectangle(8, 16, 32, 32);
 
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues(){
-        setWorldX(gc.tileSize * 7);
-        setWorldY(gc.tileSize * 5);
+        setWorldPosition(new Vector2D(gc.tileSize * 7, gc.tileSize * 5));
         setSpeed(200);
 
-        setDirection("down");
+        setDrawDirection("down");
 
         sprintSpeed = getSpeed() * 3;
         baseSpeed = getSpeed();
@@ -61,41 +65,50 @@ public class Player extends Entity{
             e.printStackTrace();
         }
     }
-
+    
+    @Override
     public void update(double dt){
+        if (moveVector != Vector2D.ZERO) {
+            setMoveVector(Vector2D.ZERO);
+        }
+
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed){
             if (keyH.upPressed){
-                setDirection("up");
-                addWorldY(-getSpeed() * dt);
+                addMoveVector(Vector2D.UP);
             }
             if (keyH.downPressed){
-                setDirection("down");
-                addWorldY(getSpeed() * dt);
+                addMoveVector(Vector2D.DOWN);
             }
             if (keyH.leftPressed){
-                setDirection("left");
-                addWorldX(-getSpeed() * dt);
+                addMoveVector(Vector2D.LEFT);
             }
             if (keyH.rightPressed){
-                setDirection("right");
-                addWorldX(getSpeed() * dt);
+                addMoveVector(Vector2D.RIGHT);
             }
 
-            if (keyH.xPressed){
+            if (keyH.xPressed && getSpeed() != sprintSpeed){
                 setSpeed(sprintSpeed);
             }
             else if (getSpeed() != baseSpeed){
                 setSpeed(baseSpeed);
             }
 
+            gc.cChecker.checkTile(this);
+
+            updateDrawDirection();
+
+            // MOVE IF THERE IS NO COLLISIONS
+            move(moveVector.getNormalized().mul(getSpeed()).mul(dt));
+
             updateShowedSprite();
         }
     }
 
+    @Override
     public void draw(Graphics2D g2){
         BufferedImage image = null;
 
-        switch (getDirection()){
+        switch (getDrawDirection()){
             case "up":
                 if (getSpriteNum() == 1) {
                     image = getSprite("up1");

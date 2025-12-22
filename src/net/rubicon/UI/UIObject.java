@@ -15,37 +15,34 @@ public abstract class UIObject implements IUIObject{
         this.screenY = screenY;
     }
 
-    @Override
     public String getName() {
         return name;
     }
 
-    @Override
     public int getScreenX() {
         return screenX;
     }
 
-    @Override
     public int getScreenY() {
         return screenY;
     }
 
-    @Override
+    public boolean isShow() {
+        return show;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
     public void setScreenX(int screenX) {
         this.screenX = screenX;
     }
 
-    @Override
     public void setScreenY(int screenY) {
         this.screenY = screenY;
     }
 
-    @Override
     public void setShow(boolean show) {
         this.show = show;
     }

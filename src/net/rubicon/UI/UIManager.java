@@ -25,7 +25,7 @@ public class UIManager {
         arial_tile_size = new Font("Arial", Font.PLAIN, gc.tileSize / 2);
 
         // REGISTER UI OBJECTS
-        positionText = new UIText(Color.BLACK, "Position", 25, 50);
+        positionText = new UIText(Color.WHITE, "Position", 25, 50);
         addUIObject(positionText);
     }
 
@@ -49,7 +49,7 @@ public class UIManager {
         }
 
         // For changing ui
-        positionText.setText("X, Y = " + (int)(gc.player.getWorldX() / gc.tileSize + 0.5) + ", " + (int)(gc.player.getWorldY() / gc.tileSize + 1));
+        positionText.setText("X, Y = " + gc.player.getTileX() + ", " + gc.player.getTileY());
     }
 
     private void drawAllInArray(Graphics2D g2, LinkedList<UIObject> uiObjects){
