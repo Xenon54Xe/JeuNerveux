@@ -7,13 +7,15 @@ import net.rubicon.event.UIClickEvent;
 import net.rubicon.handler.KeyHandler;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
+import net.rubicon.tile.IMapManager;
 import net.rubicon.tile.MapMaker;
 import net.rubicon.tile.TileManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Arrays;
 
-public class GameCanvas extends Canvas implements Runnable {
+public class GameCanvas extends Canvas implements Runnable, IMapManager {
 
     // SCREEN SETTINGS
     private final int originalTileSize = 16;
@@ -26,10 +28,10 @@ public class GameCanvas extends Canvas implements Runnable {
     public final int screenHeight = tileSize * maxScreenRow;
 
     // WORLD SETTINGS
-    public final int maxWorldCol = 50;
-    public final int maxWorldRow = 50;
-    public final int worldHeight = maxWorldCol * tileSize;
-    public final int worldWidth = maxWorldRow * tileSize;
+    public final int maxWorldCol;
+    public final int maxWorldRow;
+    public final int worldHeight;
+    public final int worldWidth;
 
     // FPS
     private final int FPS = 60;
@@ -47,8 +49,13 @@ public class GameCanvas extends Canvas implements Runnable {
     public final MouseMotionHandler mouseMH = new MouseMotionHandler();
 
     // TILES
-    public final int layerCount = 3;
-    public final TileManager tileM = new TileManager(this, "map03");
+    public final int layerCount;
+    // MAP
+    public final String mapName;
+    public final String mapPath;
+    private final int[] mapDimensions;
+    public final TileManager tileM;
+
     // UI
     public final UIManager uiM = new UIManager(this);
 
@@ -59,7 +66,7 @@ public class GameCanvas extends Canvas implements Runnable {
     public CollisionChecker cChecker = new CollisionChecker(this);
 
     // UTILS
-    private final MapMaker mapMaker = new MapMaker(this);
+    private final MapMaker mapMaker;
 
     // THREAD
     private Thread gameThread;
@@ -77,6 +84,20 @@ public class GameCanvas extends Canvas implements Runnable {
         // Event init
         TestListener<String> testListener = new TestListener<>();
         uiClickEvent.addListener(testListener);
+
+        // MAP INIT
+        mapName = "map03";
+        mapPath = "/res/maps/" + mapName + ".txt";
+        mapDimensions = IMapManager.super.getMapDimensions(mapPath);
+        maxWorldCol = mapDimensions[0];
+        maxWorldRow = mapDimensions[1];
+        layerCount = mapDimensions[2];
+        tileM = new TileManager(this, mapName);
+        worldWidth = maxWorldCol * tileSize;
+        worldHeight = maxWorldRow * tileSize;
+
+        // MAPMAKER
+        mapMaker = new MapMaker(this);
 
         // END
         setFocusable(true);

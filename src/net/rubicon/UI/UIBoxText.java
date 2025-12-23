@@ -1,34 +1,28 @@
 package net.rubicon.UI;
 
 import net.rubicon.handler.MouseMotionHandler;
-import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
 
 public class UIBoxText extends UIBox implements IUIText{
+    /// If a big vertical bar appear, It's because height and width are not well instanced
 
     // CLASS VARIABLES
     private final Color textColor;
     private String text;
     private int stepX, stepY;
 
+    public UIBoxText(MouseMotionHandler mouseMH, Color backGroundColor, Color textColor, String name, String text, int screenX, int screenY, int stepX, int stepY) {
+        super(mouseMH, backGroundColor, name, screenX, screenY, 20, 100);
 
-    public UIBoxText(MouseMotionHandler mouseMH, Color backGroundColor, Color textColor, String name, String text, int screenX, int screenY, int width, int height) {
-        super(mouseMH, backGroundColor, name, screenX, screenY, width, height);
 
         this.textColor = textColor;
         this.text = text;
 
-        calcDimensions();
+        this.stepX = stepX;
+        this.stepY = stepY;
     }
 
-
-    private void calcDimensions(){
-        setHeight(50);
-        setWidth(50);
-    }
-
-    @Override
     public void setText(String text) {
         this.text = text;
     }
@@ -36,8 +30,12 @@ public class UIBoxText extends UIBox implements IUIText{
     @Override
     public boolean draw(Graphics2D g2) {
         if(super.draw(g2)){
+            int[] dimensions = calcBoxDimensions(g2, text, stepX, stepY);
+            setWidth(dimensions[0]);
+            setHeight(dimensions[1]);
+
             g2.setColor(textColor);
-            g2.drawString(text, getScreenX(), getScreenY() + getHeight());
+            g2.drawString(text, getScreenX() + stepX, getScreenY() + getHeight() - stepY);
             return true;
         }
         return false;

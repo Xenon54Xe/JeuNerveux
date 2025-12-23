@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class TileManager {
+public class TileManager implements IMapManager {
 
     // CLASS VARIABLES
     public final TileLinkedList tiles = new TileLinkedList();
@@ -75,52 +75,8 @@ public class TileManager {
         }
     }
 
-    public void loadMap(String filePath){
-        try {
-            InputStream is = getClass().getResourceAsStream(filePath);
-            assert is != null;
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-
-            int col = 0;
-            int row = 0;
-
-            while (col < gc.maxWorldCol && row < gc.maxWorldRow){
-
-                // GET THE LINE AND FORMAT IT
-                String line = br.readLine();
-                while (line.contains("  ")) {
-                    line = line.replace("  ", " ");
-                }
-                while (line.startsWith(" ")){
-                    line = line.substring(1);
-                }
-
-                // GET THE STRINGS FOR EVERY TILES
-                String[] lineLayerNumbers = line.split(" ");
-
-                while (col < gc.maxWorldCol){
-
-                    // GET THE NUMBERS FOR EVERY LAYER OF A TILE
-                    String[] tileLayerNumbers = lineLayerNumbers[col].split(":");
-                    for (int layer = 0; layer < tileLayerNumbers.length; layer++) {
-
-                        // LAYER VALUE
-                        int num = Integer.parseInt(tileLayerNumbers[layer]);
-                        tileMapNum[col][row][layer] = num;
-                    }
-
-                    col++;
-                }
-
-                if (col == gc.maxWorldCol){
-                    col = 0;
-                    row++;
-                }
-            }
-
-        }catch (IOException e){
-            e.printStackTrace();
-        }
+    public void loadMap(String filePath) {
+        IMapManager.super.loadMap(tileMapNum, filePath);
     }
 
     public void draw(Graphics2D g2){

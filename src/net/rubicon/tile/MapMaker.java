@@ -8,7 +8,7 @@ import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
 
-public class MapMaker implements IListener<String>, ISaveMap {
+public class MapMaker implements IListener<String>, IMapManager {
 
     // UTILS
     private final GameCanvas gc;
@@ -22,7 +22,7 @@ public class MapMaker implements IListener<String>, ISaveMap {
     private int layer = 0;
     private final UITextButton uiButtonChangeLayer;
 
-    private UIObject[] objectsToHide;
+    private final UIObject[] objectsToHide;
 
 
     public MapMaker(GameCanvas gc) {
@@ -34,19 +34,19 @@ public class MapMaker implements IListener<String>, ISaveMap {
 
         // BUTTON TILE TYPE
         int size = (int)(gc.tileSize * 0.8);
-        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, "Change tile type", "change-tile-type", gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
+        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, "change-tile-type", gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
         gc.uiM.addUIObject(uiButtonTileType);
 
         // BUTTON SAVE
-        UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, "save", "click to save", "save", gc.tileSize, gc.tileSize * 2, gc.tileSize * 3, gc.tileSize);
+        UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, "save", "click to save", gc.tileSize, gc.tileSize * 2, 10, 10);
         gc.uiM.addUIObject(uiTextButtonSave);
 
         // BUTTON CHANGE LAYER
-        uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, "layer", "Layer : 0", "layer", gc.tileSize, gc.tileSize * 4, gc.tileSize * 2, gc.tileSize);
+        uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, "layer", "Layer : 0", gc.tileSize, gc.tileSize * 4, 10, 10);
         gc.uiM.addUIObject(uiButtonChangeLayer);
 
         // ACTIVATE
-        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, "activate", "Activate map making", "activate", gc.tileSize * 10, gc.tileSize, gc.tileSize, gc.tileSize);
+        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, "activate", "Activate map making", gc.tileSize * 10, gc.tileSize, 10, 10);
         gc.uiM.addUIObject(uiTextButtonActivate);
 
         // REGISTERING OBJECTS TO HIDE
@@ -74,7 +74,7 @@ public class MapMaker implements IListener<String>, ISaveMap {
     }
 
     public void saveMap() {
-        ISaveMap.super.saveMap(gc.tileM.mapName, gc.tileM.tileMapNum);
+        IMapManager.super.saveMap(gc.tileM.tileMapNum, gc.tileM.mapName);
     }
 
     private void setActive(boolean active){

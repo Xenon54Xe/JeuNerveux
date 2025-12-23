@@ -4,7 +4,7 @@ import net.rubicon.handler.MouseMotionHandler;
 
 import java.awt.*;
 
-public class UIBox extends UIObject implements IUIBox{
+public class UIBox extends UIObject {
 
     // CLASS VARIABLES
     private int width, height;
@@ -23,34 +23,29 @@ public class UIBox extends UIObject implements IUIBox{
         this.mouseMH = mouseMH;
     }
 
-    @Override
     public int getWidth() {
         return width;
     }
 
-    @Override
     public int getHeight() {
         return height;
     }
 
-    @Override
     public void setBackGroundColor(Color backGroundCcolor) {
         this.backGroundColor = backGroundCcolor;
     }
 
-    @Override
     public void setWidth(int width) {
         this.width = width;
     }
 
-    @Override
     public void setHeight(int height) {
         this.height = height;
     }
 
     @Override
     public boolean mouseOver() {
-        if(! isShow()){
+        if(!isShow()){
             return false;
         }
 

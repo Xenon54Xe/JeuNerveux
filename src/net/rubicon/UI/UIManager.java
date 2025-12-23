@@ -7,16 +7,18 @@ import java.awt.*;
 
 public class UIManager {
 
-    private boolean mouseOverUI;
-
+    // UTILS
     private final GameCanvas gc;
     private final Font arial_tile_size;
+
+    // CLASS VARIABLES
+    private boolean mouseOverUI;
 
     // Elements
     private final LinkedList<UIObject> uiObjects = new LinkedList<>();
     private final LinkedList<UIObject> clickableUIObjects = new LinkedList<>();
 
-    // Others elements
+    // UI
     private final UIText positionText;
 
     public UIManager(GameCanvas gc){

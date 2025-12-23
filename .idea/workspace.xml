@@ -4,22 +4,32 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.2.0&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls">
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IClickable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IClickable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IUIBox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IUIImage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IUIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIText.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/CollisionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/ISaveMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/IMapManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map01-t.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map01.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map02-sav-sav.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map02-sav-t.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map02-sav.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map02-t.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map02.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map03-sav.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/res/maps/map03.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/maps/map03.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -195,7 +205,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766426883303</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker">
+      <option name="closed" value="true" />
+      <created>1766450667378</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1766450667379</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -211,7 +229,9 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="v0.2.0&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.0&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls" />
+    <MESSAGE value="v0.2.1&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls" />
+    <MESSAGE value="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

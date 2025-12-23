@@ -5,7 +5,7 @@ import net.rubicon.handler.MouseMotionHandler;
 
 import java.awt.*;
 
-public class UIBoxImage extends UIBox implements IUIImage{
+public class UIBoxImage extends UIBox{
 
     // CLASS VARIABLES
     private Image image;
@@ -25,13 +25,11 @@ public class UIBoxImage extends UIBox implements IUIImage{
         this.image = image;
     }
 
-    @Override
     public void setImageWidth(int imageWidth) {
         this.imageWidth = imageWidth;
         stepX = (getWidth() - imageWidth) / 2;
     }
 
-    @Override
     public void setImageHeight(int imageHeight) {
         this.imageHeight = imageHeight;
         stepY = (getHeight() - imageHeight) / 2;
