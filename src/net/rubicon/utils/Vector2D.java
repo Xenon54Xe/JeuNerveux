@@ -42,6 +42,10 @@ public class Vector2D {
         return tile;
     }
 
+    public static double getDistance(Vector2D one, Vector2D two){
+        return two.sub(one).getLength();
+    }
+
     public double getX() {
         return x;
     }
@@ -52,6 +56,10 @@ public class Vector2D {
 
     public double getLength(){
         return Math.sqrt(x * x + y * y);
+    }
+
+    public double getDistance(Vector2D other){
+        return Vector2D.getDistance(this, other);
     }
 
     public Vector2D getNormalized(){
@@ -115,6 +123,10 @@ public class Vector2D {
 
     public Vector2D add(Vector2D other){
         return new Vector2D(x + other.x, y + other.y);
+    }
+
+    public Vector2D sub(Vector2D other){
+        return new Vector2D(x - other.x, y - other.y);
     }
 
     public Vector2D mul(double other){

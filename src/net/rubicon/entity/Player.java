@@ -1,5 +1,6 @@
 package net.rubicon.entity;
 
+import net.rubicon.handler.MouseHandler;
 import net.rubicon.main.GameCanvas;
 import net.rubicon.handler.KeyHandler;
 import net.rubicon.utils.Vector2D;
@@ -10,62 +11,49 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Player extends Entity{
+public class Player extends LivingEntity implements IAttackEntity{
 
     // UTILS
     private final KeyHandler keyH;
+    private final MouseHandler mouseH;
 
-    // CLASS VARIABLES
-    public final int screenX;
-    public final int screenY;
+    // PLAYER
+    private final int sprintSpeed;
+    private final int baseSpeed;
 
-    private int sprintSpeed;
-    private int baseSpeed;
+    private final int reach;
+    private final int damage;
+    private int attackTimer = 0;
+    private BufferedImage attackImage;
 
-    public Player(GameCanvas gc){
-        super(gc);
+    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int reach, int damage){
+        super(gc, solidArea, name, speed, width, height, health);
 
-        this.keyH = gc.keyH;
+        keyH = gc.keyH;
+        mouseH = gc.mouseH;
 
-        screenX = gc.screenWidth / 2 - gc.tileSize / 2;
-        screenY = gc.screenHeight / 2 - gc.tileSize / 2;
+        sprintSpeed = speed * 3;
+        baseSpeed = speed;
 
-        solidArea = new Rectangle(8, 16, 32, 32);
+        this.reach = reach;
+        this.damage = damage;
 
-        setDefaultValues();
-        getPlayerImage();
-    }
-
-    public void setDefaultValues(){
+        // DEFAULT VALUES
         setWorldPosition(new Vector2D(gc.tileSize * 7, gc.tileSize * 5));
-        setSpeed(200);
 
-        setDrawDirection("down");
+        // PLAYER IMAGES
+        attackImage = getSpriteImage("/res/entities/player/boy_down_sword.png");
+        up1 = getSpriteImage("/res/entities/player/boy_up_1.png");
+        up2 = getSpriteImage("/res/entities/player/boy_up_2.png");
+        down1 = getSpriteImage("/res/entities/player/boy_down_1.png");
+        down2 = getSpriteImage("/res/entities/player/boy_down_2.png");
+        left1 = getSpriteImage("/res/entities/player/boy_left_1.png");
+        left2 = getSpriteImage("/res/entities/player/boy_left_2.png");
+        right1 = getSpriteImage("/res/entities/player/boy_right_1.png");
+        right2 = getSpriteImage("/res/entities/player/boy_right_2.png");
 
-        sprintSpeed = getSpeed() * 3;
-        baseSpeed = getSpeed();
     }
 
-    public void getPlayerImage(){
-
-        // GET PLAYER IMAGE
-        try {
-
-            setSprite("up1", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_up_1.png"))));
-            setSprite("up2", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_up_2.png"))));
-            setSprite("down1", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_down_1.png"))));
-            setSprite("down2", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_down_2.png"))));
-            setSprite("left1", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_left_1.png"))));
-            setSprite("left2", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_left_2.png"))));
-            setSprite("right1", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_right_1.png"))));
-            setSprite("right2", ImageIO.read(Objects.requireNonNull(getClass().getResourceAsStream("/res/player/boy_right_2.png"))));
-
-        }catch (IOException e){
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
-    }
-    
     @Override
     public void update(double dt){
         if (moveVector != Vector2D.ZERO) {
@@ -102,47 +90,66 @@ public class Player extends Entity{
 
             updateShowedSprite();
         }
+
+        if (attackTimer == 0 && mouseH.leftClickClicked){
+            attack();
+        }
     }
 
     @Override
-    public void draw(Graphics2D g2){
-        BufferedImage image = null;
+    public void draw(Graphics2D g2) {
+        if (isShow()) {
+            if (attackTimer > 0) {
+                // DRAW ATTACK IMAGE
+                g2.drawImage(attackImage, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
+                attackTimer--;
+            } else {
 
-        switch (getDrawDirection()){
-            case "up":
-                if (getSpriteNum() == 1) {
-                    image = getSprite("up1");
+                BufferedImage image = null;
+
+                switch (getDrawDirection()) {
+                    case "up":
+                        if (getSpriteNum() == 1) {
+                            image = getSprite("up1");
+                        }
+                        if (getSpriteNum() == 2) {
+                            image = getSprite("up2");
+                        }
+                        break;
+                    case "down":
+                        if (getSpriteNum() == 1) {
+                            image = getSprite("down1");
+                        }
+                        if (getSpriteNum() == 2) {
+                            image = getSprite("down2");
+                        }
+                        break;
+                    case "left":
+                        if (getSpriteNum() == 1) {
+                            image = getSprite("left1");
+                        }
+                        if (getSpriteNum() == 2) {
+                            image = getSprite("left2");
+                        }
+                        break;
+                    case "right":
+                        if (getSpriteNum() == 1) {
+                            image = getSprite("right1");
+                        }
+                        if (getSpriteNum() == 2) {
+                            image = getSprite("right2");
+                        }
+                        break;
                 }
-                if (getSpriteNum() == 2){
-                    image = getSprite("up2");
-                }
-                break;
-            case "down":
-                if (getSpriteNum() == 1){
-                    image = getSprite("down1");
-                }
-                if (getSpriteNum() == 2){
-                    image = getSprite("down2");
-                }
-                break;
-            case "left":
-                if (getSpriteNum() == 1) {
-                    image = getSprite("left1");
-                }
-                if (getSpriteNum() == 2){
-                    image = getSprite("left2");
-                }
-                break;
-            case "right":
-                if (getSpriteNum() == 1) {
-                    image = getSprite("right1");
-                }
-                if (getSpriteNum() == 2){
-                    image = getSprite("right2");
-                }
-                break;
+
+                g2.drawImage(image, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
+            }
         }
+    }
 
-        g2.drawImage(image, screenX, screenY, gc.tileSize, gc.tileSize, null);
+    @Override
+    public void attack() {
+        attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
+        attackTimer = 10;
     }
 }

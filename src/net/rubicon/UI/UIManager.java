@@ -51,7 +51,7 @@ public class UIManager {
         }
 
         // For changing ui
-        positionText.setText("X, Y = " + gc.player.getTileX() + ", " + gc.player.getTileY());
+        positionText.setText("X, Y = " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
     }
 
     private void drawAllInArray(Graphics2D g2, LinkedList<UIObject> uiObjects){

@@ -63,8 +63,9 @@ public class MapMaker implements IListener<String>, IMapManager {
         if (active){
             // Allow to draw tiles
             if (!gc.uiM.isMouseOverUI() && gc.mouseH.leftClickPressed){
-                int worldX = (int)((gc.mouseMH.getScreenX() + gc.player.getWorldX() - gc.screenWidth / 2d) / gc.tileSize + 0.5d);
-                int worldY = (int)((gc.mouseMH.getScreenY() + gc.player.getWorldY() - gc.screenHeight / 2d) / gc.tileSize + 0.5d);
+                int worldX = (int)((gc.mouseMH.getScreenX() + gc.entityM.tracked.getCameraWorldX()) / gc.tileSize);
+                int worldY = (int)((gc.mouseMH.getScreenY() + gc.entityM.tracked.getCameraWorldY()) / gc.tileSize);
+
                 if (worldX > gc.maxWorldCol - 1 || worldX < 0 || worldY > gc.maxWorldRow - 1 || worldY < 0){
                     return;
                 }

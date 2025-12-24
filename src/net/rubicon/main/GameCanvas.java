@@ -1,7 +1,7 @@
 package net.rubicon.main;
 
 import net.rubicon.UI.UIManager;
-import net.rubicon.entity.Player;
+import net.rubicon.entity.EntityManager;
 import net.rubicon.event.TestListener;
 import net.rubicon.event.UIClickEvent;
 import net.rubicon.handler.KeyHandler;
@@ -13,7 +13,6 @@ import net.rubicon.tile.TileManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
-import java.util.Arrays;
 
 public class GameCanvas extends Canvas implements Runnable, IMapManager {
 
@@ -57,10 +56,10 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     public final TileManager tileM;
 
     // UI
-    public final UIManager uiM = new UIManager(this);
+    public final UIManager uiM;
 
     // ENTITIES
-    public Player player = new Player(this);
+    public EntityManager entityM = new EntityManager(this);
 
     // COLLISION CHECKER
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -97,7 +96,9 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         worldHeight = maxWorldRow * tileSize;
 
         // MAPMAKER
+        uiM = new UIManager(this);
         mapMaker = new MapMaker(this);
+
 
         // END
         setFocusable(true);
@@ -140,7 +141,7 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     private void update(double dt) {
 
         // Everything that need update
-        player.update(dt);
+        entityM.update(dt);
         uiM.update();
         mapMaker.update();
 
@@ -160,7 +161,7 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         // TILES
         tileM.draw(g2);
         // ENTITIES
-        player.draw(g2);
+        entityM.draw(g2);
         // UI
         uiM.draw(g2);
 

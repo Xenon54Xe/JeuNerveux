@@ -22,10 +22,10 @@ public class CollisionChecker {
         }
 
         // GET POSITIONS OF SOLID BOX IN WORLD
-        int entityLeftWorldX = (int)(entity.getWorldX() + entity.solidArea.x);
-        int entityRightWorldX = (int)(entity.getWorldX() + entity.solidArea.x + entity.solidArea.width);
-        int entityTopWorldY = (int)(entity.getWorldY() + entity.solidArea.y);
-        int entityBottomWorldY = (int)(entity.getWorldY() + entity.solidArea.y + entity.solidArea.height);
+        int entityLeftWorldX = (int)(entity.getWorldX() - entity.getWidth() / 2.0 + entity.getSolidArea().x);
+        int entityRightWorldX = (int)(entity.getWorldX() - entity.getWidth() / 2.0 + entity.getSolidArea().x + entity.getSolidArea().width);
+        int entityTopWorldY = (int)(entity.getWorldY() - entity.getHeight() / 2.0 + entity.getSolidArea().y);
+        int entityBottomWorldY = (int)(entity.getWorldY() - entity.getHeight() / 2.0 + entity.getSolidArea().y + entity.getSolidArea().height);
 
         // GET TILE POSITIONS OF SOLID BOX
         int tileNum1;

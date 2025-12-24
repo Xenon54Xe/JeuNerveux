@@ -1,16 +1,11 @@
 package net.rubicon.tile;
 
 import net.rubicon.main.GameCanvas;
-import net.rubicon.utils.LinkedList;
 import net.rubicon.utils.TileLinkedList;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.Objects;
 
 public class TileManager implements IMapManager {
@@ -83,19 +78,23 @@ public class TileManager implements IMapManager {
         int worldCol = 0;
         int worldRow = 0;
 
+        double cameraWorldX = gc.entityM.tracked.getCameraWorldX();
+        double cameraWorldY = gc.entityM.tracked.getCameraWorldY();
+
         while (worldCol < gc.maxWorldCol && worldRow < gc.maxWorldRow){
 
             // GET WHERE TILE WILL BE DRAWN
             int worldX = worldCol * gc.tileSize;
             int worldY = worldRow * gc.tileSize;
-            int screenX = (int)(worldX - gc.player.getWorldX() + gc.player.screenX);
-            int screenY = (int)(worldY - gc.player.getWorldY() + gc.player.screenY);
+
+            int screenX = (int)(worldX - cameraWorldX);
+            int screenY = (int)(worldY - cameraWorldY);
 
             // DRAW IF TILE IN SCREEN
-            if (worldX > gc.player.getWorldX() - gc.player.screenX - gc.tileSize
-                    && worldX < gc.player.getWorldX() + gc.player.screenX + gc.tileSize
-                    && worldY > gc.player.getWorldY() - gc.player.screenY - gc.tileSize
-                    && worldY < gc.player.getWorldY() + gc.player.screenY + gc.tileSize){
+            if (worldX > cameraWorldX - gc.tileSize
+                    && worldX < cameraWorldX + gc.screenWidth + gc.tileSize
+                    && worldY > cameraWorldY - gc.tileSize
+                    && worldY < cameraWorldY + gc.screenHeight + gc.tileSize){
 
                 for (int layer = 0; layer < gc.layerCount; layer++) {
 
