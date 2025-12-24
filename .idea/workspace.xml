@@ -1,10 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="0.3.0">
+<project version="4">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health...">
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/EventComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/IEventComponent.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEventComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -211,7 +223,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766534995612</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health...">
+      <option name="closed" value="true" />
+      <created>1766535087617</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1766535087617</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

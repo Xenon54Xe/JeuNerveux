@@ -4,6 +4,7 @@ import net.rubicon.UI.UIManager;
 import net.rubicon.entity.EntityManager;
 import net.rubicon.event.TestListener;
 import net.rubicon.event.UIClickEvent;
+import net.rubicon.event.UIClickEventComponent;
 import net.rubicon.handler.KeyHandler;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
@@ -81,7 +82,7 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         addMouseListener(mouseH);
         addMouseMotionListener(mouseMH);
         // Event init
-        TestListener<String> testListener = new TestListener<>();
+        TestListener<UIClickEventComponent> testListener = new TestListener<>();
         uiClickEvent.addListener(testListener);
 
         // MAP INIT

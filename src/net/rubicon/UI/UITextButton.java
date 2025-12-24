@@ -1,6 +1,7 @@
 package net.rubicon.UI;
 
 import net.rubicon.event.UIClickEvent;
+import net.rubicon.event.UIClickEventComponent;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
 import net.rubicon.main.GameCanvas;
@@ -33,10 +34,10 @@ public class UITextButton extends UIBoxText implements IClickable{
     public void isClicked() {
         if (active) {
             if (mouseOver() && mouseH.leftClickClicked) {
-                uiClickEvent.trigger(getName() + "-left");
+                uiClickEvent.trigger(new UIClickEventComponent(this, UIClickEventComponent.LEFT_BUTTON));
             }
             if (mouseOver() && mouseH.rightClickClicked) {
-                uiClickEvent.trigger(getName() + "-right");
+                uiClickEvent.trigger(new UIClickEventComponent(this, UIClickEventComponent.RIGHT_BUTTON));
             }
         }
     }
