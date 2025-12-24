@@ -1,8 +1,8 @@
 package net.rubicon.UI;
 
-import java.awt.*;
+import net.rubicon.main.IPrintable;
 
-public abstract class UIObject implements IUIObject{
+public abstract class UIObject implements IUIObject, IPrintable {
 
     // CLASS VARIABLES
     private int screenX, screenY;
@@ -19,28 +19,28 @@ public abstract class UIObject implements IUIObject{
         return name;
     }
 
-    public int getScreenX() {
-        return screenX;
-    }
-
-    public int getScreenY() {
-        return screenY;
-    }
-
-    public boolean isShow() {
-        return show;
-    }
-
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getScreenX() {
+        return screenX;
     }
 
     public void setScreenX(int screenX) {
         this.screenX = screenX;
     }
 
+    public int getScreenY() {
+        return screenY;
+    }
+
     public void setScreenY(int screenY) {
         this.screenY = screenY;
+    }
+
+    public boolean isShow() {
+        return show;
     }
 
     public void setShow(boolean show) {
@@ -50,10 +50,5 @@ public abstract class UIObject implements IUIObject{
     @Override
     public String toString() {
         return name;
-    }
-
-    @Override
-    public boolean draw(Graphics2D g2) {
-        return show;
     }
 }

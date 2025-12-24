@@ -2,9 +2,8 @@ package net.rubicon.main;
 
 import net.rubicon.UI.UIManager;
 import net.rubicon.entity.EntityManager;
-import net.rubicon.event.TestListener;
-import net.rubicon.event.UIClickEvent;
-import net.rubicon.event.UIClickEventComponent;
+import net.rubicon.event.*;
+import net.rubicon.event.Event;
 import net.rubicon.handler.KeyHandler;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
@@ -42,7 +41,9 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     private double timeBetweenFPSFrames = 0;
 
     // EVENT
-    public final UIClickEvent uiClickEvent = new UIClickEvent();
+    public final Event<ECUIClick> eventUIClick = new Event<>();
+    public final Event<ECEntityDead> eventEntityDead = new Event<>();
+
     // HANDLERS
     public final KeyHandler keyH = new KeyHandler();
     public final MouseHandler mouseH = new MouseHandler();
@@ -82,8 +83,8 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         addMouseListener(mouseH);
         addMouseMotionListener(mouseMH);
         // Event init
-        TestListener<UIClickEventComponent> testListener = new TestListener<>();
-        uiClickEvent.addListener(testListener);
+        TestListener<ECEntityDead> testListener = new TestListener<>();
+        eventEntityDead.addListener(testListener);
 
         // MAP INIT
         mapName = "map03";

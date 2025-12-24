@@ -1,5 +1,6 @@
 package net.rubicon.entity;
 
+import net.rubicon.event.ECEntityDead;
 import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
@@ -26,7 +27,7 @@ public abstract class LivingEntity extends Entity{
     public void damage(int damage){
         health -= damage;
         if (health <= 0){
-            System.out.println(getName() + " is dead !!!");
+            gc.eventEntityDead.trigger(new ECEntityDead(this));
         }
     }
 }

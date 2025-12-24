@@ -12,9 +12,8 @@ public class UIBoxText extends UIBox implements IUIText{
     private String text;
     private int stepX, stepY;
 
-    public UIBoxText(MouseMotionHandler mouseMH, Color backGroundColor, Color textColor, String name, String text, int screenX, int screenY, int stepX, int stepY) {
-        super(mouseMH, backGroundColor, name, screenX, screenY, 20, 100);
-
+    public UIBoxText(MouseMotionHandler mouseMH, Color boxColor, Color textColor, String name, String text, int screenX, int screenY, int stepX, int stepY) {
+        super(mouseMH, boxColor, name, screenX, screenY, 20, 100);
 
         this.textColor = textColor;
         this.text = text;
@@ -28,16 +27,16 @@ public class UIBoxText extends UIBox implements IUIText{
     }
 
     @Override
-    public boolean draw(Graphics2D g2) {
-        if(super.draw(g2)){
+    public void draw(Graphics2D g2) {
+        super.draw(g2);
+
+        if(isShow()){
             int[] dimensions = calcBoxDimensions(g2, text, stepX, stepY);
             setWidth(dimensions[0]);
             setHeight(dimensions[1]);
 
             g2.setColor(textColor);
             g2.drawString(text, getScreenX() + stepX, getScreenY() + getHeight() - stepY);
-            return true;
         }
-        return false;
     }
 }

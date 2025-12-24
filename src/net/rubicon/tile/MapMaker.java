@@ -4,12 +4,12 @@ import net.rubicon.UI.UIImageButton;
 import net.rubicon.UI.UIObject;
 import net.rubicon.UI.UITextButton;
 import net.rubicon.event.IListener;
-import net.rubicon.event.UIClickEventComponent;
+import net.rubicon.event.ECUIClick;
 import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
 
-public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
+public class MapMaker implements IListener<ECUIClick>, IMapManager {
 
     // UTILS
     private final GameCanvas gc;
@@ -37,7 +37,7 @@ public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
         this.gc = gc;
 
         // EVENT LISTENER
-        gc.uiClickEvent.addListener(this);
+        gc.eventUIClick.addListener(this);
 
         // BUTTON TILE TYPE
         int size = (int)(gc.tileSize * 0.8);
@@ -94,7 +94,7 @@ public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
     }
 
     @Override
-    public void onTrigger(UIClickEventComponent eventComponent) {
+    public void onTrigger(ECUIClick eventComponent) {
 
         UIObject uiObject = eventComponent.uiObject;
         String buttonClicked = eventComponent.buttonClicked;
@@ -102,11 +102,11 @@ public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
         String message = uiObject.getName() + buttonClicked;
         
         // CHANGE TILE TYPE EVENT
-        if (message.equals(CHANGE_TILE_TYPE + UIClickEventComponent.LEFT_BUTTON) || message.equals(CHANGE_TILE_TYPE + UIClickEventComponent.RIGHT_BUTTON)) {
-            if (message.equals(CHANGE_TILE_TYPE + UIClickEventComponent.LEFT_BUTTON)) {
+        if (message.equals(CHANGE_TILE_TYPE + ECUIClick.LEFT_BUTTON) || message.equals(CHANGE_TILE_TYPE + ECUIClick.RIGHT_BUTTON)) {
+            if (message.equals(CHANGE_TILE_TYPE + ECUIClick.LEFT_BUTTON)) {
                 tileID = gc.tileM.tiles.getNextLayerTile((tileID + 1) % gc.tileM.tiles.size(), layer).getID();
             }
-            if (message.equals(CHANGE_TILE_TYPE + UIClickEventComponent.RIGHT_BUTTON)) {
+            if (message.equals(CHANGE_TILE_TYPE + ECUIClick.RIGHT_BUTTON)) {
                 tileID --;
                 if (tileID < 0){
                     tileID += gc.tileM.tiles.size();
@@ -118,12 +118,12 @@ public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
         }
 
         // SAVE MAP EVENT
-        if (message.equals(SAVE_MAP + UIClickEventComponent.LEFT_BUTTON)){
+        if (message.equals(SAVE_MAP + ECUIClick.LEFT_BUTTON)){
             saveMap();
         }
 
         // CHANGE LAYER
-        if (message.equals(CHANGE_LAYER + UIClickEventComponent.LEFT_BUTTON)){
+        if (message.equals(CHANGE_LAYER + ECUIClick.LEFT_BUTTON)){
             layer = (layer + 1) % gc.layerCount;
             uiButtonChangeLayer.setText("Layer : " + layer);
             tileID = gc.tileM.tiles.getNextLayerTile(tileID, layer).getID();
@@ -132,7 +132,7 @@ public class MapMaker implements IListener<UIClickEventComponent>, IMapManager {
         }
 
         // ACTIVATE MAP MAKER
-        if (message.equals(ACTIVATE_MAPMAKING + UIClickEventComponent.LEFT_BUTTON)){
+        if (message.equals(ACTIVATE_MAPMAKING + ECUIClick.LEFT_BUTTON)){
             setActive(!active);
         }
     }

@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
+<project version="0.4.0">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health...">
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/EventComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/IEventComponent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEventComponent.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.3.1&#10;feat:&#10;- improved event system">
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/UI/DrawVector.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/event/ECEntityDead.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/net/rubicon/main/IPrintable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/IUIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIBoxText.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIImageButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIText.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UITextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/EntityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/ITrackable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/ITrackable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Mouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/EventComponent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/IListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/UIClickEventComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/event/ECUIClick.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,25 +74,25 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.Drawing.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Game.executor&quot;: &quot;Run&quot;,
-    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.OldToNewMain.executor&quot;: &quot;Run&quot;,
-    &quot;Application.OldToNewMapMain.executor&quot;: &quot;Debug&quot;,
-    &quot;Application.main2.Main.executor&quot;: &quot;Run&quot;,
-    &quot;Application.net.rubicon.main.Main.executor&quot;: &quot;Run&quot;,
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/res/tiles&quot;,
-    &quot;onboarding.tips.debug.path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/Main.java&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Drawing.executor": "Run",
+    "Application.Game.executor": "Run",
+    "Application.Main.executor": "Run",
+    "Application.OldToNewMain.executor": "Run",
+    "Application.OldToNewMapMain.executor": "Debug",
+    "Application.main2.Main.executor": "Run",
+    "Application.net.rubicon.main.Main.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/home/titouan/IdeaProjects/JeuNerveux/src/res/tiles",
+    "onboarding.tips.debug.path": "/home/titouan/IdeaProjects/JeuNerveux/src/Main.java",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/res/tiles" />
@@ -231,7 +249,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766535087617</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="v0.3.1&#10;feat:&#10;- improved event system">
+      <option name="closed" value="true" />
+      <created>1766571797764</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1766571797764</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -251,7 +277,8 @@
     <MESSAGE value="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker" />
     <MESSAGE value="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces" />
     <MESSAGE value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
+    <MESSAGE value="v0.3.1&#10;feat:&#10;- improved event system" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.1&#10;feat:&#10;- improved event system" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

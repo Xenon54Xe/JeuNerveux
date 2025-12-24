@@ -1,6 +1,6 @@
 package net.rubicon.event;
 
-public interface IListener<E extends EventComponent> {
+public interface IListener<E extends IEventComponent> {
 
-    public void onTrigger(E eventComponent);
+    void onTrigger(E component);
 }

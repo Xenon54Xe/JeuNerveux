@@ -2,7 +2,7 @@ package net.rubicon.event;
 
 import java.util.LinkedList;
 
-public abstract class Event<E extends EventComponent> implements IEvent<E>{
+public class Event<E extends IEventComponent> implements IEvent<E>{
     // E = what will get the listener and what we send
 
     LinkedList<IListener<E>> listeners = new LinkedList<>();
@@ -16,9 +16,9 @@ public abstract class Event<E extends EventComponent> implements IEvent<E>{
     }
 
     @Override
-    public void trigger(E eventPayload) {
+    public void trigger(E component) {
         for (IListener<E> listener : listeners){
-            listener.onTrigger(eventPayload);
+            listener.onTrigger(component);
         }
     }
 }

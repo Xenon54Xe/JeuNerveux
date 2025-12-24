@@ -1,6 +1,6 @@
 package net.rubicon.event;
 
-public interface IEvent<E extends EventComponent> {
+public interface IEvent<E extends IEventComponent>{
 
-    void trigger(E object);
+    void trigger(E component);
 }

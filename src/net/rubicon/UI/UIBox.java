@@ -8,15 +8,15 @@ public class UIBox extends UIObject {
 
     // CLASS VARIABLES
     private int width, height;
-    private Color backGroundColor;
+    private Color boxColor;
 
     // UTILS
     private final MouseMotionHandler mouseMH;
 
-    public UIBox(MouseMotionHandler mouseMH, Color backGroundColor, String name, int screenX, int screenY, int width, int height){
+    public UIBox(MouseMotionHandler mouseMH, Color boxColor, String name, int screenX, int screenY, int width, int height){
         super(name, screenX, screenY);
 
-        this.backGroundColor = backGroundColor;
+        this.boxColor = boxColor;
         this.width = width;
         this.height = height;
 
@@ -31,8 +31,8 @@ public class UIBox extends UIObject {
         return height;
     }
 
-    public void setBackGroundColor(Color backGroundCcolor) {
-        this.backGroundColor = backGroundCcolor;
+    public void setBoxColor(Color boxColor) {
+        this.boxColor = boxColor;
     }
 
     public void setWidth(int width) {
@@ -56,12 +56,10 @@ public class UIBox extends UIObject {
     }
 
     @Override
-    public boolean draw(Graphics2D g2) {
-        if (super.draw(g2)){
-            g2.setColor(backGroundColor);
+    public void draw(Graphics2D g2) {
+        if (isShow()){
+            g2.setColor(boxColor);
             g2.fillRect(getScreenX(), getScreenY(), width, height); // x, y, width, height
-            return true;
         }
-        return false;
     }
 }

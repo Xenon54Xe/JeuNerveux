@@ -24,12 +24,10 @@ public class UIText extends UIObject implements IUIText {
     }
 
     @Override
-    public boolean draw(Graphics2D g2) {
-        if (super.draw(g2)) {
+    public void draw(Graphics2D g2) {
+        if (isShow()) {
             g2.setColor(textColor);
             g2.drawString(text, getScreenX(), getScreenY());
-            return true;
         }
-        return false;
     }
 }

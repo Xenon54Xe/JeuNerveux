@@ -1,7 +1,7 @@
 package net.rubicon.UI;
 
-import net.rubicon.event.UIClickEvent;
-import net.rubicon.event.UIClickEventComponent;
+import net.rubicon.event.ECUIClick;
+import net.rubicon.event.Event;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
 import net.rubicon.main.GameCanvas;
@@ -14,14 +14,14 @@ public class UITextButton extends UIBoxText implements IClickable{
     private boolean active = true;
 
     // UTILS
-    UIClickEvent uiClickEvent;
+    Event<ECUIClick> eventUIClick;
     MouseHandler mouseH;
     MouseMotionHandler mouseMH;
 
     public UITextButton(GameCanvas gc, Color backGroundColor, Color textColor, String payload, String text, int screenX, int screenY, int stepX, int stepY) {
         super(gc.mouseMH, backGroundColor, textColor, payload, text, screenX, screenY, stepX, stepY);
 
-        uiClickEvent = gc.uiClickEvent;
+        eventUIClick = gc.eventUIClick;
         mouseH = gc.mouseH;
         mouseMH = gc.mouseMH;
     }
@@ -34,10 +34,10 @@ public class UITextButton extends UIBoxText implements IClickable{
     public void isClicked() {
         if (active) {
             if (mouseOver() && mouseH.leftClickClicked) {
-                uiClickEvent.trigger(new UIClickEventComponent(this, UIClickEventComponent.LEFT_BUTTON));
+                eventUIClick.trigger(new ECUIClick(this, ECUIClick.LEFT_BUTTON));
             }
             if (mouseOver() && mouseH.rightClickClicked) {
-                uiClickEvent.trigger(new UIClickEventComponent(this, UIClickEventComponent.RIGHT_BUTTON));
+                eventUIClick.trigger(new ECUIClick(this, ECUIClick.RIGHT_BUTTON));
             }
         }
     }

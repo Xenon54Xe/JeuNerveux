@@ -9,10 +9,6 @@ public interface ITrackable {
 
     double getWorldY();
 
-    int getScreenX();
-
-    int getScreenY();
-
     int getCameraWorldX();
 
     int getCameraWorldY();
@@ -36,28 +32,6 @@ public interface ITrackable {
             return 0;
         }else {
             return worldHeight - screenHeight;
-        }
-    }
-
-    default double calcTrackedEntityScreenX(int screenWidth, int worldWidth) {
-        // Top left corner of the entity
-        if (getWorldX() >= screenWidth / 2.0 && getWorldX() <= worldWidth - screenWidth / 2.0){
-            return screenWidth / 2.0;
-        } else if (getWorldX() < screenWidth / 2.0) {
-            return getWorldX();
-        }else {
-            return screenWidth - worldWidth + getWorldX();
-        }
-    }
-
-    default double calcTrackedEntityScreenY(int screenHeight, int worldHeight){
-        // Top left corner of the entity
-        if (getWorldY() >= screenHeight / 2.0 && getWorldY() <= worldHeight - screenHeight / 2.0){
-            return screenHeight / 2.0;
-        } else if (getWorldY() < screenHeight / 2.0) {
-            return getWorldY();
-        }else {
-            return screenHeight - worldHeight + getWorldY();
         }
     }
 }

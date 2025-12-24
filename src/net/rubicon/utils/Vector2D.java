@@ -25,6 +25,13 @@ public class Vector2D {
         y = vector.y;
     }
 
+    public static Vector2D getRandomVectorNormalized(){
+        double x = Math.random();
+        double y = Math.random();
+
+        return new Vector2D(x, y).getNormalized();
+    }
+
     public static int getTileX(int tileSize, double worldX){
         return (int)(worldX / tileSize + 0.5d);
     }
@@ -158,5 +165,10 @@ public class Vector2D {
 
     public Vector2D copy() {
         return new Vector2D(this);
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + " " + y + ")";
     }
 }

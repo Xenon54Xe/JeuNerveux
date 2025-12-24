@@ -36,11 +36,11 @@ public class UIBoxImage extends UIBox{
     }
 
     @Override
-    public boolean draw(Graphics2D g2) {
-        if (super.draw(g2)){
+    public void draw(Graphics2D g2) {
+        super.draw(g2);
+
+        if (isShow()){
             g2.drawImage(image, getScreenX() + stepX, getScreenY() + stepY, imageWidth, imageHeight, null);
-            return true;
         }
-        return false;
     }
 }

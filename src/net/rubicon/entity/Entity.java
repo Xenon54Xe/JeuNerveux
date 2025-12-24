@@ -1,6 +1,7 @@
 package net.rubicon.entity;
 
 import net.rubicon.main.GameCanvas;
+import net.rubicon.main.IPrintable;
 import net.rubicon.utils.Vector2D;
 
 import javax.imageio.ImageIO;
@@ -9,13 +10,14 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Objects;
 
-public abstract class Entity implements IEntity, ITrackable{
+public abstract class Entity implements IEntity, IPrintable, ITrackable{
 
     // UTILS
     final GameCanvas gc;
 
     // CLASS VARIABLES
     private final String name;
+    private boolean active = true;
 
     // IMAGES
     public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
@@ -116,7 +118,7 @@ public abstract class Entity implements IEntity, ITrackable{
 
     // POSITION / SPEED
     public Vector2D getWorldPosition() {
-        return worldPosition;
+        return worldPosition.copy();
     }
 
     public void setWorldPosition(Vector2D worldPosition) {
@@ -131,12 +133,16 @@ public abstract class Entity implements IEntity, ITrackable{
         return worldPosition.getY();
     }
 
-    public int getScreenX(){
-        return (int)ITrackable.super.calcTrackedEntityScreenX(gc.screenWidth, gc.worldWidth);
+    public int getScreenX() {
+        return IPrintable.super.getScreenX(gc.entityM.tracked, (int)getWorldX());
     }
 
-    public int getScreenY(){
-        return (int)ITrackable.super.calcTrackedEntityScreenY(gc.screenHeight, gc.worldHeight);
+    public int getScreenY() {
+        return IPrintable.super.getScreenY(gc.entityM.tracked, (int)getWorldY());
+    }
+
+    public Vector2D getScreenPosition(){
+        return new Vector2D(getScreenX(), getScreenY());
     }
 
     public int getCameraWorldX(){
@@ -180,12 +186,8 @@ public abstract class Entity implements IEntity, ITrackable{
         this.moveVector = moveVector;
     }
 
-    public void addMoveVector(Vector2D moveVector){
-        this.moveVector = this.moveVector.add(moveVector);
-    }
-
-    public void move(Vector2D vector2D) {
-        worldPosition = worldPosition.add(vector2D);
+    public void addMoveVectorDirection(Vector2D vector2D){
+        this.moveVector = this.moveVector.add(vector2D);
     }
 
     public Rectangle getSolidArea() {
@@ -194,5 +196,64 @@ public abstract class Entity implements IEntity, ITrackable{
 
     public void setSolidArea(Rectangle solidArea) {
         this.solidArea = solidArea;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public void drawWalkingAnimation(Graphics2D g2){
+        BufferedImage image = null;
+
+        switch (getDrawDirection()) {
+            case "up":
+                if (getSpriteNum() == 1) {
+                    image = getSprite("up1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("up2");
+                }
+                break;
+            case "down":
+                if (getSpriteNum() == 1) {
+                    image = getSprite("down1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("down2");
+                }
+                break;
+            case "left":
+                if (getSpriteNum() == 1) {
+                    image = getSprite("left1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("left2");
+                }
+                break;
+            case "right":
+                if (getSpriteNum() == 1) {
+                    image = getSprite("right1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("right2");
+                }
+                break;
+        }
+
+        g2.drawImage(image, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
+
+    }
+
+    public void move(Vector2D vector2D) {
+        // Make the entity move using its moveVectorDirection
+        worldPosition = worldPosition.add(vector2D);
+    }
+
+    public void move(double dt){
+        move(moveVector.getNormalized().mul(getSpeed() * dt));
     }
 }
