@@ -1,41 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project version="4">
+<project version="0.3.0">
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces">
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/EntityManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/IAttackEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/ITrackable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/LivingEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Mouse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/res/entities/player/boy_down_sword.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/res/entities/player/boy_left_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/res/entities/player/boy_left_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/res/entities/player/boy_right_1.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/res/entities/player/boy_right_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/UI/UIManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/CollisionChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/MapMaker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/maps/map03.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_down_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_down_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/entities/player/boy_down_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_idle_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/entities/player/boy_idle_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_idle_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/entities/player/boy_idle_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_left_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_left_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_right_1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_right_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_up_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/entities/player/boy_up_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/player/boy_up_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/res/entities/player/boy_up_2.png" afterDir="false" />
-    </list>
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -226,7 +195,23 @@
       <option name="project" value="LOCAL" />
       <updated>1766455411283</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health...">
+      <option name="closed" value="true" />
+      <created>1766534986381</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1766534986381</updated>
+    </task>
+    <task id="LOCAL-00005" summary="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health...">
+      <option name="closed" value="true" />
+      <created>1766534995612</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1766534995612</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -245,7 +230,8 @@
     <MESSAGE value="v0.2.1&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls" />
     <MESSAGE value="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker" />
     <MESSAGE value="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces" />
+    <MESSAGE value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
