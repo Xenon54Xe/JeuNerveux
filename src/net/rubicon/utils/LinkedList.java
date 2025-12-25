@@ -1,6 +1,8 @@
 package net.rubicon.utils;
 
-public class LinkedList<E> {
+import java.util.List;
+
+public class LinkedList<E> implements IList<E>{
 
     private Node<E> root;
     private int size;
@@ -34,6 +36,39 @@ public class LinkedList<E> {
             root.next = newNode;
         }
         size++;
+    }
+
+    public boolean remove(){
+        // Remove the first element
+        if (size == 0){
+            return false;
+        }
+        if (size == 1){
+            root = null;
+            size = 0;
+            return true;
+        }
+        else {
+            root.next.prev = root.prev;
+            root.prev.next = root.next;
+            size--;
+            return true;
+        }
+    }
+
+    public boolean remove(E value){
+        if (size == 0){
+            return false;
+        }
+
+        for (int i = 0; i < size; i++){
+            if (root.value.equals(value)){
+                return remove();
+            }
+            shift(false);
+        }
+
+        return false;
     }
 
     public void shift(boolean reverse){

@@ -61,10 +61,12 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     public final UIManager uiM;
 
     // ENTITIES
-    public EntityManager entityM = new EntityManager(this);
+    public EntityManager entityM;
+
+    public ITrackable tracked;
 
     // COLLISION CHECKER
-    public CollisionChecker cChecker = new CollisionChecker(this);
+    public CollisionChecker cChecker;
 
     // UTILS
     private final MapMaker mapMaker;
@@ -84,7 +86,10 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         addMouseMotionListener(mouseMH);
         // Event init
         TestListener<ECEntityDead> testListener = new TestListener<>();
-        eventEntityDead.addListener(testListener);
+        //eventEntityDead.addListener(testListener);
+
+        // UI
+        uiM = new UIManager(this);
 
         // MAP INIT
         mapName = "map03";
@@ -98,9 +103,13 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         worldHeight = maxWorldRow * tileSize;
 
         // MAPMAKER
-        uiM = new UIManager(this);
         mapMaker = new MapMaker(this);
 
+        // COLLISION
+        cChecker = new CollisionChecker(this);
+
+        // ENTITIES
+        entityM = new EntityManager(this);
 
         // END
         setFocusable(true);
@@ -109,6 +118,10 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void setTracked(ITrackable tracked) {
+        this.tracked = tracked;
     }
 
     @Override

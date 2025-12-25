@@ -26,7 +26,23 @@ public interface IAttackEntity {
         }
 
         if (lowestDistance <= reach) {
-            nearestEntity.damage(damage);
+            nearestEntity.damage(damage, self);
+        }
+    }
+
+    default void attackFirstNearEnoughEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
+
+        for (LivingEntity entity : entities) {
+
+            if (entity == self){
+                continue;
+            }
+
+            double distance = self.getWorldPosition().getDistance(entity.getWorldPosition());
+            if (distance < reach) {
+                entity.damage(damage, self);
+                return;
+            }
         }
     }
 }

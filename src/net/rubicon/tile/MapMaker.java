@@ -70,8 +70,8 @@ public class MapMaker implements IListener<ECUIClick>, IMapManager {
         if (active){
             // Allow to draw tiles
             if (!gc.uiM.isMouseOverUI() && gc.mouseH.leftClickPressed){
-                int worldX = (gc.mouseMH.getScreenX() + gc.entityM.tracked.getCameraWorldX()) / gc.tileSize;
-                int worldY = (gc.mouseMH.getScreenY() + gc.entityM.tracked.getCameraWorldY()) / gc.tileSize;
+                int worldX = (gc.mouseMH.getScreenX() + gc.tracked.getCameraWorldX()) / gc.tileSize;
+                int worldY = (gc.mouseMH.getScreenY() + gc.tracked.getCameraWorldY()) / gc.tileSize;
 
                 if (worldX > gc.maxWorldCol - 1 || worldX < 0 || worldY > gc.maxWorldRow - 1 || worldY < 0){
                     return;
@@ -96,8 +96,8 @@ public class MapMaker implements IListener<ECUIClick>, IMapManager {
     @Override
     public void onTrigger(ECUIClick eventComponent) {
 
-        UIObject uiObject = eventComponent.uiObject;
-        String buttonClicked = eventComponent.buttonClicked;
+        UIObject uiObject = eventComponent.uiObject();
+        String buttonClicked = eventComponent.buttonClicked();
         
         String message = uiObject.getName() + buttonClicked;
         

@@ -1,7 +1,5 @@
 package net.rubicon.main;
 
-import net.rubicon.entity.ITrackable;
-
 import java.awt.*;
 
 public interface IPrintable {

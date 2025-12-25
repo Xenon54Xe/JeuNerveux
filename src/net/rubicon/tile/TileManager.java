@@ -6,6 +6,7 @@ import net.rubicon.utils.TileLinkedList;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class TileManager implements IMapManager {
@@ -14,6 +15,9 @@ public class TileManager implements IMapManager {
     public final TileLinkedList tiles = new TileLinkedList();
     public String mapName;
     public int[][][] tileMapNum;
+
+    // If the map is 50x50 the 50th tile will be col=0, row = 1...
+    public ArrayList<Integer> spawnableTiles = new ArrayList<>();
 
     // UTILS
     GameCanvas gc;
@@ -70,16 +74,42 @@ public class TileManager implements IMapManager {
         }
     }
 
+    private void findSpawnableTiles(){
+        int nbCol, nbRow, nbLayer;
+        nbCol = tileMapNum[0].length;
+        nbRow = tileMapNum.length;
+        nbLayer = tileMapNum[0][0].length;
+
+        spawnableTiles.clear();
+        for (int col = 0; col < nbCol; col++) {
+
+            for (int row = 0; row < nbRow; row++) {
+
+                boolean spawnable = true;
+                for (int layer = 0; layer < nbLayer; layer++) {
+
+                    if (tiles.getTile(tileMapNum[col][row][layer]).isCollision()){
+                        spawnable = false;
+                    }
+                }
+                if (spawnable){
+                    spawnableTiles.add(col + nbCol * row);
+                }
+            }
+        }
+    }
+
     public void loadMap(String filePath) {
         IMapManager.super.loadMap(tileMapNum, filePath);
+        findSpawnableTiles();
     }
 
     public void draw(Graphics2D g2){
         int worldCol = 0;
         int worldRow = 0;
 
-        double cameraWorldX = gc.entityM.tracked.getCameraWorldX();
-        double cameraWorldY = gc.entityM.tracked.getCameraWorldY();
+        double cameraWorldX = gc.tracked.getCameraWorldX();
+        double cameraWorldY = gc.tracked.getCameraWorldY();
 
         while (worldCol < gc.maxWorldCol && worldRow < gc.maxWorldRow){
 

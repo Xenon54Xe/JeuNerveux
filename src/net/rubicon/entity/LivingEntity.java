@@ -8,13 +8,16 @@ import java.awt.*;
 public abstract class LivingEntity extends Entity{
 
     private int health;
+    private int xp;
 
-    public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health) {
+    private boolean isDead;
+
+    public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp) {
         super(gc, solidArea, name, speed, width, height);
 
         this.health = health;
+        this.xp = xp;
     }
-
 
     public int getHealth() {
         return health;
@@ -24,10 +27,30 @@ public abstract class LivingEntity extends Entity{
         this.health = health;
     }
 
-    public void damage(int damage){
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public void addXp(int xp){
+        this.xp += xp;
+    }
+
+    public void damage(int damage, LivingEntity killer){
+        if (isDead){
+            return;
+        }
+
         health -= damage;
         if (health <= 0){
-            gc.eventEntityDead.trigger(new ECEntityDead(this));
+            if (killer != null) {
+                killer.addXp(getXp());
+            }
+            gc.eventEntityDead.trigger(new ECEntityDead(this, killer));
+            isDead = true;
         }
     }
 }

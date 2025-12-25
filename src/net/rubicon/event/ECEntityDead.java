@@ -2,12 +2,10 @@ package net.rubicon.event;
 
 import net.rubicon.entity.LivingEntity;
 
-public class ECEntityDead implements IEventComponent {
+public record ECEntityDead(LivingEntity deadEntity, LivingEntity killer) implements IEventComponent {
 
-    public LivingEntity deadEntity;
-
-    public ECEntityDead(LivingEntity deadEntity){
-        this.deadEntity = deadEntity;
+    public ECEntityDead(LivingEntity deadEntity) {
+        this(deadEntity, null);
     }
 
     @Override

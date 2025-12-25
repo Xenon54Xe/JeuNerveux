@@ -4,10 +4,10 @@ import java.awt.image.BufferedImage;
 
 public class Tile {
 
-    private BufferedImage image;
-    public boolean collision;
+    private final BufferedImage image;
+    private final boolean collision;
 
-    private int[] authorizedLayers;
+    private final int[] authorizedLayers;
 
     // Match with the numbers in the map
     private int ID;
@@ -15,7 +15,6 @@ public class Tile {
     public Tile(BufferedImage image, int... layers){
         this.image = image;
         collision = false;
-
         authorizedLayers = layers;
     }
 
@@ -28,6 +27,10 @@ public class Tile {
 
     public BufferedImage getImage() {
         return image;
+    }
+
+    public boolean isCollision() {
+        return collision;
     }
 
     public int getID() {

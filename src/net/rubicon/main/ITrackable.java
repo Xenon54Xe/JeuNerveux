@@ -1,4 +1,6 @@
-package net.rubicon.entity;
+package net.rubicon.main;
+
+import net.rubicon.utils.Vector2D;
 
 public interface ITrackable {
     /// Try to keep the tracked entity in the center of the screen, except when it is at the edge of the map
@@ -9,9 +11,17 @@ public interface ITrackable {
 
     double getWorldY();
 
+    default Vector2D getWorldPos(){
+        return new Vector2D(getWorldX(), getWorldY());
+    }
+
     int getCameraWorldX();
 
     int getCameraWorldY();
+
+    default Vector2D getCameraWorldPosition(){
+        return new Vector2D(getCameraWorldX(), getCameraWorldY());
+    }
 
     default double calcCameraWorldX(int screenWidth, int worldWidth){
         // Top left corner of the screen

@@ -23,8 +23,8 @@ public class Player extends LivingEntity implements IAttackEntity{
     private int attackTimer = 0;
     private BufferedImage attackImage;
 
-    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int reach, int damage){
-        super(gc, solidArea, name, speed, width, height, health);
+    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp, int reach, int damage){
+        super(gc, solidArea, name, speed, width, height, health, xp);
 
         keyH = gc.keyH;
         mouseH = gc.mouseH;
@@ -53,23 +53,26 @@ public class Player extends LivingEntity implements IAttackEntity{
     @Override
     public void update(double dt){
         if (isActive()) {
-            if (moveVector != Vector2D.ZERO) {
-                setMoveVector(Vector2D.ZERO);
+            if (moveDirectionVector != Vector2D.ZERO) {
+                setMoveDirectionVector(Vector2D.ZERO);
             }
 
             if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+
+                Vector2D newMoveVector = Vector2D.ZERO;
                 if (keyH.upPressed) {
-                    addMoveVectorDirection(Vector2D.UP);
+                    newMoveVector = newMoveVector.add(Vector2D.UP);
                 }
                 if (keyH.downPressed) {
-                    addMoveVectorDirection(Vector2D.DOWN);
+                    newMoveVector = newMoveVector.add(Vector2D.DOWN);
                 }
                 if (keyH.leftPressed) {
-                    addMoveVectorDirection(Vector2D.LEFT);
+                    newMoveVector = newMoveVector.add(Vector2D.LEFT);
                 }
                 if (keyH.rightPressed) {
-                    addMoveVectorDirection(Vector2D.RIGHT);
+                    newMoveVector = newMoveVector.add(Vector2D.RIGHT);
                 }
+                setMoveDirectionVector(newMoveVector.getNormalized());
 
                 if (keyH.xPressed && getSpeed() != sprintSpeed) {
                     setSpeed(sprintSpeed);

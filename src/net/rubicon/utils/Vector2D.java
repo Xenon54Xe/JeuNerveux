@@ -1,5 +1,7 @@
 package net.rubicon.utils;
 
+import net.rubicon.main.ITrackable;
+
 import java.util.ArrayList;
 
 public class Vector2D {
@@ -14,6 +16,13 @@ public class Vector2D {
     public static Vector2D DOWN = new Vector2D(0, 1);
     public static Vector2D LEFT = new Vector2D(-1, 0);
     public static Vector2D RIGHT = new Vector2D(1, 0);
+
+    public static String S_ZERO = "zero";
+    public static String S_UP = "up";
+    public static String S_DOWN = "down";
+    public static String S_LEFT = "left";
+    public static String S_RIGHT = "right";
+
 
     public Vector2D(double x, double y){
         this.x = x;
@@ -32,12 +41,16 @@ public class Vector2D {
         return new Vector2D(x, y).getNormalized();
     }
 
+    public static Vector2D getScreenPosition(Vector2D reference, Vector2D worldPos){
+        return worldPos.sub(reference);
+    }
+
     public static int getTileX(int tileSize, double worldX){
-        return (int)(worldX / tileSize + 0.5d);
+        return (int)(worldX / tileSize);
     }
 
     public static int getTileY(int tileSize, double worldY){
-        return (int)(worldY / tileSize + 0.5d);
+        return (int)(worldY / tileSize);
     }
 
     public static int[] getTile(int tileSize, Vector2D position){
@@ -77,23 +90,23 @@ public class Vector2D {
 
     public String getMainDirection(){
         if (x == 0 && y == 0){
-            return "None";
+            return S_ZERO;
         }
 
         if (Math.abs(x) > Math.abs(y)){
             if (x > 0){
-                return "right";
+                return S_RIGHT;
             }
             else {
-                return "left";
+                return S_LEFT;
             }
         }
         else {
             if (y > 0){
-                return "down";
+                return S_DOWN;
             }
             else {
-                return "up";
+                return S_UP;
             }
         }
     }
@@ -105,16 +118,16 @@ public class Vector2D {
 
         ArrayList<String> directions = new ArrayList<>();
         if (x > 0){
-            directions.add("right");
+            directions.add(S_RIGHT);
         }
         else if(x < 0){
-            directions.add("left");
+            directions.add(S_LEFT);
         }
 
         if (y > 0){
-            directions.add("down");
+            directions.add(S_DOWN);
         } else if (y < 0) {
-            directions.add("up");
+            directions.add(S_UP);
         }
 
         return directions;
@@ -147,6 +160,11 @@ public class Vector2D {
     public Vector2D mask(Vector2D other){
         // Return the coordinates multiplied by the coordinates of the mask
         return new Vector2D(x * other.x, y * other.y);
+    }
+
+    public Vector2D absMask(Vector2D other){
+        // Return the coordinates multiplied by the absolutes coordinates of the mask
+        return new Vector2D(x * Math.abs(other.x), y * Math.abs(other.y));
     }
 
     public Vector2D div(double other){

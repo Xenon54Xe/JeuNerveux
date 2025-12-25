@@ -20,6 +20,7 @@ public class UIManager {
 
     // UI
     private final UIText positionText;
+    private final UIText xpText;
 
     public UIManager(GameCanvas gc){
 
@@ -29,6 +30,9 @@ public class UIManager {
         // REGISTER UI OBJECTS
         positionText = new UIText(Color.WHITE, "Position", 25, 50);
         addUIObject(positionText);
+
+        xpText = new UIText(Color.WHITE, "XP", 25, 75);
+        addUIObject(xpText);
     }
 
     public boolean isMouseOverUI() {
@@ -52,6 +56,7 @@ public class UIManager {
 
         // For changing ui
         positionText.setText("X, Y = " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
+        xpText.setText(Integer.toString(gc.entityM.player.getXp()));
     }
 
     private void drawAllInArray(Graphics2D g2, LinkedList<UIObject> uiObjects){

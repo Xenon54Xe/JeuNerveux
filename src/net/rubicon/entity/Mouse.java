@@ -11,10 +11,17 @@ public class Mouse extends LivingEntity implements IAttackEntity{
     double amount = 0;
     int count = 0;
 
-    public Mouse(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health) {
-        super(gc, solidArea, name, speed, width, height, health);
+    // ATTACK
+    private int attackTimer = 0;
+    private final int reach;
+    private final int damage;
 
-        setMoveVector(Vector2D.getRandomVectorNormalized());
+    Vector2D moveVector = Vector2D.getRandomVectorNormalized();
+
+    public Mouse(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp, int reach, int damage) {
+        super(gc, solidArea, name, speed, width, height, health, xp);
+
+        setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
 
         up1 = getSpriteImage("/res/entities/mouse/mouse_left.png");
         up2 = getSpriteImage("/res/entities/mouse/mouse_right.png");
@@ -24,6 +31,9 @@ public class Mouse extends LivingEntity implements IAttackEntity{
         down2 = up2;
         right1 = up2;
         right2 = up2;
+
+        this.reach = reach;
+        this.damage = damage;
     }
 
     @Override
@@ -34,24 +44,21 @@ public class Mouse extends LivingEntity implements IAttackEntity{
             if (count <= 0){
                 count = 20;
 
-                amount = (Math.random() - 0.5) * 2 ;
+                amount = (Math.random() - 0.5) / 2 ;
 
-                Vector2D orthogonalVector = getMoveVector();
-                if (orthogonalVector != Vector2D.ZERO) {
-                    double x = orthogonalVector.getX();
-                    double y = orthogonalVector.getY();
-                    orthogonalVector = new Vector2D(y, -x).getNormalized();
+                Vector2D orthogonalVector = new Vector2D(moveVector.getY(), -moveVector.getX()).getNormalized();
+                moveVector = moveVector.add(orthogonalVector.mul(amount)).getNormalized();
 
-                    addMoveVectorDirection(orthogonalVector.mul(amount));
-                }else {
-                    setMoveVector(Vector2D.getRandomVectorNormalized());
-                }
+                setMoveDirectionVector(moveVector);
+
             }
             count--;
 
             gc.cChecker.checkTile(this);
 
             move(dt);
+
+            attack();
         }
     }
 
@@ -60,13 +67,17 @@ public class Mouse extends LivingEntity implements IAttackEntity{
         if (isShow()){
             drawWalkingAnimation(g2);
 
-            DrawVector vector = new DrawVector(getScreenPosition(), getMoveVector().mul(100), Color.BLUE);
+            DrawVector vector = new DrawVector(getScreenPosition(), moveVector.mul(100), Color.BLUE);
             vector.draw(g2);
         }
     }
 
     @Override
     public void attack() {
-
+        if(attackTimer <= 0) {
+            attackFirstNearEnoughEntity(this, gc.entityM.livingEntities, reach, damage);
+            attackTimer = 20;
+        }
+        attackTimer--;
     }
 }

@@ -1,6 +1,7 @@
 package net.rubicon.UI;
 
 import net.rubicon.main.IPrintable;
+import net.rubicon.utils.Vector2D;
 
 public abstract class UIObject implements IUIObject, IPrintable {
 
@@ -37,6 +38,11 @@ public abstract class UIObject implements IUIObject, IPrintable {
 
     public void setScreenY(int screenY) {
         this.screenY = screenY;
+    }
+
+    public void setScreenPosition(Vector2D position){
+        setScreenX((int)position.getX());
+        setScreenY((int)position.getY());
     }
 
     public boolean isShow() {
