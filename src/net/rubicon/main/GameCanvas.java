@@ -161,6 +161,7 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         mapMaker.update();
 
         // Allow to have a one frame click
+        keyH.update();
         mouseH.update();
     }
 

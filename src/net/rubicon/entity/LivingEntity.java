@@ -10,7 +10,7 @@ public abstract class LivingEntity extends Entity{
     private int health;
     private int xp;
 
-    private boolean isDead;
+    private boolean dead;
 
     public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp) {
         super(gc, solidArea, name, speed, width, height);
@@ -39,18 +39,20 @@ public abstract class LivingEntity extends Entity{
         this.xp += xp;
     }
 
-    public void damage(int damage, LivingEntity killer){
-        if (isDead){
-            return;
-        }
+    public boolean isDead() {
+        return dead;
+    }
 
+    public void damage(int damage, LivingEntity killer){
         health -= damage;
-        if (health <= 0){
+
+        if (!dead && health <= 0){
+            dead = true;
+
             if (killer != null) {
                 killer.addXp(getXp());
             }
             gc.eventEntityDead.trigger(new ECEntityDead(this, killer));
-            isDead = true;
         }
     }
 }

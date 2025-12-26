@@ -80,7 +80,7 @@ public class CollisionChecker {
         Vector2D boxPos2AfterMovement = boxPos2.add(moveVector.absMask(targetDirection).mul(entity.getSpeed() * gc.dt * 1.1));
         Vector2D orthogonal = new Vector2D(targetDirection.getY(), - targetDirection.getX()).getNormalized();
 
-        debugRays(boxPos1, boxPos2, targetDirection, boxPos1AfterMovement, boxPos2AfterMovement);
+        // debugRays(boxPos1, boxPos2, targetDirection, boxPos1AfterMovement, boxPos2AfterMovement);
 
         int[] tile1WorldPos = Vector2D.getTile(gc.tileSize, boxPos1AfterMovement);
         int[] tile2WorldPos = Vector2D.getTile(gc.tileSize, boxPos2AfterMovement);
@@ -92,7 +92,12 @@ public class CollisionChecker {
             Tile tile2 = gc.tileM.tiles.getTile(tileNum2);
 
             if (tile1.isCollision() || tile2.isCollision()){
-                entity.setMoveDirectionVector(moveVector.absMask(orthogonal).getNormalized());
+                if (entity.isAvoidWall()){
+                    entity.setMoveDirectionVector(moveVector.add(targetDirection.mul(-2)));
+                }
+                else {
+                    entity.setMoveDirectionVector(moveVector.absMask(orthogonal).getNormalized());
+                }
             }
         }
     }

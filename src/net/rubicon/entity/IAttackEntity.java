@@ -7,7 +7,13 @@ public interface IAttackEntity {
 
     void attack();
 
+    boolean isDead();
+
     default void attackNearestEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
+
+        if (isDead()){
+            return;
+        }
 
         double lowestDistance = Double.POSITIVE_INFINITY;
         LivingEntity nearestEntity = entities.getFirst();
@@ -31,6 +37,10 @@ public interface IAttackEntity {
     }
 
     default void attackFirstNearEnoughEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
+
+        if (isDead()){
+            return;
+        }
 
         for (LivingEntity entity : entities) {
 

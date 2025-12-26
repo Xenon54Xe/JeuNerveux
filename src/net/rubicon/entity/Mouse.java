@@ -16,8 +16,6 @@ public class Mouse extends LivingEntity implements IAttackEntity{
     private final int reach;
     private final int damage;
 
-    Vector2D moveVector = Vector2D.getRandomVectorNormalized();
-
     public Mouse(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp, int reach, int damage) {
         super(gc, solidArea, name, speed, width, height, health, xp);
 
@@ -34,6 +32,8 @@ public class Mouse extends LivingEntity implements IAttackEntity{
 
         this.reach = reach;
         this.damage = damage;
+
+        setAvoidWall(true);
     }
 
     @Override
@@ -46,10 +46,9 @@ public class Mouse extends LivingEntity implements IAttackEntity{
 
                 amount = (Math.random() - 0.5) / 2 ;
 
-                Vector2D orthogonalVector = new Vector2D(moveVector.getY(), -moveVector.getX()).getNormalized();
-                moveVector = moveVector.add(orthogonalVector.mul(amount)).getNormalized();
+                Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
 
-                setMoveDirectionVector(moveVector);
+                setMoveDirectionVector(getMoveDirectionVector().add(orthogonalVector.mul(amount)).getNormalized());
 
             }
             count--;
@@ -67,8 +66,10 @@ public class Mouse extends LivingEntity implements IAttackEntity{
         if (isShow()){
             drawWalkingAnimation(g2);
 
+            /*
             DrawVector vector = new DrawVector(getScreenPosition(), moveVector.mul(100), Color.BLUE);
             vector.draw(g2);
+             */
         }
     }
 

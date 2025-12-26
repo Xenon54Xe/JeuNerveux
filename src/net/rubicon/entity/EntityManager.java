@@ -23,14 +23,14 @@ public class EntityManager implements IListener<ECEntityDead> {
 
         // PLAYER
         Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
-        player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 100, 0, 2 * gc.tileSize, 20);
+        player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 10000, 0, 2 * gc.tileSize, 20);
         addEntity(player);
 
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
         // MICE
-        for (int i = 0; i < 1; i++) {
-            Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i, 50, gc.tileSize, gc.tileSize, 25, 1, gc.tileSize, 2);
-            mouse.setWorldPosition(new Vector2D(gc.tileSize * 11, gc.tileSize * 12));
+        for (int i = 0; i < 100; i++) {
+            Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 1, gc.tileSize, 2);
+            mouse.setTilePosition(5, 3);
             //mouse.setRandomPosition();
             addEntity(mouse);
         }
@@ -46,7 +46,11 @@ public class EntityManager implements IListener<ECEntityDead> {
         livingEntities.add(entity);
     }
 
-    public void removeEntity(LivingEntity entity){
+    private void removeEntity(LivingEntity entity){
+        livingEntities.remove(entity);
+    }
+
+    public void safeRemoveEntity(LivingEntity entity){
         // Add the entity to the list of entity to remove
         entitiesToRemove.add(entity);
     }
@@ -54,13 +58,17 @@ public class EntityManager implements IListener<ECEntityDead> {
     public void update(double dt){
         // Remove entities
         for (LivingEntity entity : entitiesToRemove){
-            livingEntities.remove(entity);
+            removeEntity(entity);
         }
         entitiesToRemove.clear();
 
         // Update entities
         for (LivingEntity entity : livingEntities){
             entity.update(dt);
+        }
+
+        if (gc.keyH.fClicked){
+            randomChangeTracked();
         }
     }
 
@@ -73,14 +81,18 @@ public class EntityManager implements IListener<ECEntityDead> {
     @Override
     public void onTrigger(ECEntityDead component) {
         LivingEntity deadEntity = component.deadEntity();
-        removeEntity(deadEntity);
+        safeRemoveEntity(deadEntity);
 
         if (deadEntity.equals(gc.tracked)){
-            for (LivingEntity entity : livingEntities){
-                if (!entitiesToRemove.contains(entity)){
-                    gc.tracked = entity;
-                    return;
-                }
+            randomChangeTracked();
+        }
+    }
+
+    private void randomChangeTracked() {
+        for (LivingEntity entity : livingEntities){
+            if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
+                gc.tracked = entity;
+                return;
             }
         }
     }

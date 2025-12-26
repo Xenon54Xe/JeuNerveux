@@ -37,6 +37,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     // COLLISION
     private Rectangle solidArea;
+    private boolean avoidWall;
 
     // CENTER OF ENTITY
     private final int width, height;
@@ -127,17 +128,14 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public void setRandomPosition(){
-        int randomIndex = (int)Math.round(Math.random() * gc.tileM.spawnableTiles.size());
+        int randomIndex = (int)Math.floor(Math.random() * gc.tileM.spawnableTiles.size());
+        int randomNumber = gc.tileM.spawnableTiles.get(randomIndex);
 
         int col, row;
-        col = randomIndex % gc.maxWorldCol;
-        row = randomIndex / gc.maxWorldRow;
-        boolean spawnable = gc.tileM.tiles.getTile(gc.tileM.tileMapNum[col][row][0]).isCollision();
-        if (spawnable) {
-            System.out.println(col + "   " + row + spawnable);
-        }
+        col = randomNumber % gc.maxWorldCol;
+        row = randomNumber / gc.maxWorldRow;
 
-        setWorldPosition(new Vector2D(col * gc.tileSize, row * gc.tileSize));
+        setTilePosition(col, row);
     }
 
     public double getWorldX() {
@@ -171,11 +169,17 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public int getTileX(){
+        // Position du centre
         return Vector2D.getTileX(gc.tileSize, getWorldX());
     }
 
     public int getTileY(){
+        // Position des pieds
         return Vector2D.getTileY(gc.tileSize, getWorldY() + gc.tileSize / 2.0);
+    }
+
+    public void setTilePosition(int col, int row){
+        setWorldPosition(new Vector2D(gc.tileSize * col + getWidth() / 2.0, gc.tileSize * row + getHeight() / 2.0));
     }
 
     public int getSpeed() {
@@ -218,6 +222,14 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public boolean isAvoidWall() {
+        return avoidWall;
+    }
+
+    public void setAvoidWall(boolean avoidWall) {
+        this.avoidWall = avoidWall;
     }
 
     public void drawWalkingAnimation(Graphics2D g2){

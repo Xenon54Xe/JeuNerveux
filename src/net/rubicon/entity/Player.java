@@ -20,6 +20,8 @@ public class Player extends LivingEntity implements IAttackEntity{
 
     private final int reach;
     private final int damage;
+
+    private int attackDelay = 0;
     private int attackTimer = 0;
     private BufferedImage attackImage;
 
@@ -36,7 +38,7 @@ public class Player extends LivingEntity implements IAttackEntity{
         this.damage = damage;
 
         // DEFAULT VALUES
-        setWorldPosition(new Vector2D(gc.tileSize * 7, gc.tileSize * 5));
+        setTilePosition(7, 5);
 
         // PLAYER IMAGES
         attackImage = getSpriteImage("/res/entities/player/boy_down_sword.png");
@@ -90,7 +92,7 @@ public class Player extends LivingEntity implements IAttackEntity{
                 updateShowedSprite();
             }
 
-            if (attackTimer == 0 && mouseH.leftClickClicked) {
+            if (attackTimer == 0 && mouseH.leftClickPressed) {
                 attack();
             }
         }
@@ -113,6 +115,6 @@ public class Player extends LivingEntity implements IAttackEntity{
     @Override
     public void attack() {
         attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
-        attackTimer = 10;
+        attackTimer = attackDelay;
     }
 }

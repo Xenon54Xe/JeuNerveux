@@ -8,6 +8,14 @@ public class KeyHandler implements KeyListener {
 
     public boolean xPressed;
 
+    public boolean fPressed;
+    public boolean fClicked;
+
+    public void update(){
+        if (fClicked){
+            fClicked = false;
+        }
+    }
 
     @Override
     public void keyTyped(KeyEvent keyEvent) {
@@ -36,6 +44,10 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_X && !xPressed){
             xPressed = true;
         }
+        if (code == KeyEvent.VK_F && ! fPressed){
+            fPressed = true;
+            fClicked = true;
+        }
     }
 
     @Override
@@ -58,6 +70,9 @@ public class KeyHandler implements KeyListener {
 
         if (code == KeyEvent.VK_X){
             xPressed = false;
+        }
+        if (code == KeyEvent.VK_F){
+            fPressed = false;
         }
     }
 }

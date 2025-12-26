@@ -81,9 +81,9 @@ public class TileManager implements IMapManager {
         nbLayer = tileMapNum[0][0].length;
 
         spawnableTiles.clear();
-        for (int col = 0; col < nbCol; col++) {
+        for (int row = 0; row < nbRow; row++) {
 
-            for (int row = 0; row < nbRow; row++) {
+            for (int col = 0; col < nbCol; col++) {
 
                 boolean spawnable = true;
                 for (int layer = 0; layer < nbLayer; layer++) {
@@ -93,7 +93,8 @@ public class TileManager implements IMapManager {
                     }
                 }
                 if (spawnable){
-                    spawnableTiles.add(col + nbCol * row);
+                    int number = col + nbCol * row;
+                    spawnableTiles.add(number);
                 }
             }
         }
