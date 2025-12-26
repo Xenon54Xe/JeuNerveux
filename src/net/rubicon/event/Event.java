@@ -2,22 +2,22 @@ package net.rubicon.event;
 
 import java.util.LinkedList;
 
-public class Event<E extends IEventComponent> implements IEvent<E>{
+public class Event implements IEvent{
     // E = what will get the listener and what we send
 
-    LinkedList<IListener<E>> listeners = new LinkedList<>();
+    LinkedList<IListener> listeners = new LinkedList<>();
 
-    public void addListener(IListener<E> listener) {
+    public void addListener(IListener listener) {
         listeners.add(listener);
     }
 
-    public boolean removeListener(IListener<E> listener) {
+    public boolean removeListener(IListener listener) {
         return listeners.remove(listener);
     }
 
     @Override
-    public void trigger(E component) {
-        for (IListener<E> listener : listeners){
+    public void trigger(IEventComponent component) {
+        for (IListener listener : listeners){
             listener.onTrigger(component);
         }
     }

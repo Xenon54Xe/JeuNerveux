@@ -21,7 +21,7 @@ public class Player extends LivingEntity implements IAttackEntity{
     private final int reach;
     private final int damage;
 
-    private int attackDelay = 0;
+    private int attackDelay = 10;
     private int attackTimer = 0;
     private BufferedImage attackImage;
 
@@ -55,7 +55,7 @@ public class Player extends LivingEntity implements IAttackEntity{
     @Override
     public void update(double dt){
         if (isActive()) {
-            if (moveDirectionVector != Vector2D.ZERO) {
+            if (getMoveDirectionVector() != Vector2D.ZERO) {
                 setMoveDirectionVector(Vector2D.ZERO);
             }
 
@@ -92,7 +92,7 @@ public class Player extends LivingEntity implements IAttackEntity{
                 updateShowedSprite();
             }
 
-            if (attackTimer == 0 && mouseH.leftClickPressed) {
+            if (attackTimer == 0 && mouseH.leftClickClicked && !gc.uiM.isMouseOverUI()) {
                 attack();
             }
         }

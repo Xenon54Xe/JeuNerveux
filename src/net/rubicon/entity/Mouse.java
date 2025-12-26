@@ -1,6 +1,5 @@
 package net.rubicon.entity;
 
-import net.rubicon.UI.DrawVector;
 import net.rubicon.main.GameCanvas;
 import net.rubicon.utils.Vector2D;
 

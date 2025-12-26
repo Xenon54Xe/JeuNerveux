@@ -1,4 +1,4 @@
-package net.rubicon.UI;
+package net.rubicon.ui;
 
 import net.rubicon.utils.Vector2D;
 

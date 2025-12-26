@@ -1,4 +1,4 @@
-package net.rubicon.UI;
+package net.rubicon.ui;
 
 import net.rubicon.main.GameCanvas;
 import net.rubicon.utils.LinkedList;

@@ -1,6 +1,6 @@
 package net.rubicon.entity;
 
-import net.rubicon.event.ECEntityDead;
+import net.rubicon.event.ComponentEntityDead;
 import net.rubicon.main.GameCanvas;
 
 import java.awt.*;
@@ -52,7 +52,7 @@ public abstract class LivingEntity extends Entity{
             if (killer != null) {
                 killer.addXp(getXp());
             }
-            gc.eventEntityDead.trigger(new ECEntityDead(this, killer));
+            gc.eventEntityDead.trigger(new ComponentEntityDead(this, killer));
         }
     }
 }

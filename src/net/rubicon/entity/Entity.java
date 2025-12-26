@@ -9,6 +9,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Entity implements IEntity, IPrintable, ITrackable {
@@ -28,7 +29,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     // DATA
     Vector2D worldPosition = Vector2D.ZERO;
-    Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
+    private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
     private int speed;
 
     // SHOW
@@ -127,13 +128,13 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
         this.worldPosition = worldPosition;
     }
 
-    public void setRandomPosition(){
-        int randomIndex = (int)Math.floor(Math.random() * gc.tileM.spawnableTiles.size());
-        int randomNumber = gc.tileM.spawnableTiles.get(randomIndex);
+    public void setRandomPosition(ArrayList<Integer> choiceTiles){
+        int randomIndex = (int)Math.floor(Math.random() * choiceTiles.size());
+        int randomNumber = choiceTiles.get(randomIndex);
 
         int col, row;
-        col = randomNumber % gc.maxWorldCol;
-        row = randomNumber / gc.maxWorldRow;
+        col = randomNumber % gc.tileM.getMaxWorldCol();
+        row = randomNumber / gc.tileM.getMaxWorldRow();
 
         setTilePosition(col, row);
     }
@@ -161,11 +162,11 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public int getCameraWorldX(){
-        return (int)ITrackable.super.calcCameraWorldX(gc.screenWidth, gc.worldWidth);
+        return (int)ITrackable.super.calcCameraWorldX(gc.screenWidth, gc.tileM.getWorldWidth());
     }
 
     public int getCameraWorldY(){
-        return (int)ITrackable.super.calcCameraWorldY(gc.screenHeight, gc.worldHeight);
+        return (int)ITrackable.super.calcCameraWorldY(gc.screenHeight, gc.tileM.getWorldHeight());
     }
 
     public int getTileX(){
@@ -204,7 +205,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public void setMoveDirectionVector(Vector2D moveDirectionVector) {
-        assert Math.abs(moveDirectionVector.getLength() - 1) < 0.00001;
+        assert Math.abs(moveDirectionVector.getLength() - 1) < 0.001 || moveDirectionVector.equals(Vector2D.ZERO);
         this.moveDirectionVector = moveDirectionVector;
     }
 

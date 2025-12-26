@@ -1,20 +1,20 @@
 package net.rubicon.main;
 
-import net.rubicon.UI.UIManager;
+import net.rubicon.tile.LoadMapManager;
+import net.rubicon.ui.UIManager;
 import net.rubicon.entity.EntityManager;
 import net.rubicon.event.*;
 import net.rubicon.event.Event;
 import net.rubicon.handler.KeyHandler;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
-import net.rubicon.tile.IMapManager;
-import net.rubicon.tile.MapMaker;
+import net.rubicon.tile.MapMakerManager;
 import net.rubicon.tile.TileManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class GameCanvas extends Canvas implements Runnable, IMapManager {
+public class GameCanvas extends Canvas implements Runnable {
 
     // SCREEN SETTINGS
     private final int originalTileSize = 16;
@@ -26,12 +26,6 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     public final int screenWidth = tileSize * maxScreenCol;
     public final int screenHeight = tileSize * maxScreenRow;
 
-    // WORLD SETTINGS
-    public final int maxWorldCol;
-    public final int maxWorldRow;
-    public final int worldHeight;
-    public final int worldWidth;
-
     // FPS
     private final int FPS = 60;
     private final double drawInterval = 1.0 / FPS;
@@ -41,21 +35,21 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
     private double timeBetweenFPSFrames = 0;
 
     // EVENT
-    public final Event<ECUIClick> eventUIClick = new Event<>();
-    public final Event<ECEntityDead> eventEntityDead = new Event<>();
+    public final Event eventUIClick = new Event();
+    public final Event eventEntityDead = new Event();
+    public final Event eventChangeMap = new Event();
 
     // HANDLERS
     public final KeyHandler keyH = new KeyHandler();
     public final MouseHandler mouseH = new MouseHandler();
     public final MouseMotionHandler mouseMH = new MouseMotionHandler();
 
-    // TILES
-    public final int layerCount;
     // MAP
-    public final String mapName;
-    public final String mapPath;
-    private final int[] mapDimensions;
     public final TileManager tileM;
+    private final MapMakerManager mapMakerManager;
+
+    // MAP LOADER
+    LoadMapManager loadMapM;
 
     // UI
     public final UIManager uiM;
@@ -67,9 +61,6 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
 
     // COLLISION CHECKER
     public CollisionChecker cChecker;
-
-    // UTILS
-    private final MapMaker mapMaker;
 
     // THREAD
     private Thread gameThread;
@@ -84,26 +75,30 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         addKeyListener(keyH);
         addMouseListener(mouseH);
         addMouseMotionListener(mouseMH);
+
         // Event init
-        TestListener<ECEntityDead> testListener = new TestListener<>();
-        //eventEntityDead.addListener(testListener);
+        TestListener testListener = new TestListener();
+        eventChangeMap.addListener(testListener);
+        eventUIClick.addListener(testListener);
+        eventEntityDead.addListener(testListener);
 
         // UI
         uiM = new UIManager(this);
 
+        // MAP LOADER
+        loadMapM = new LoadMapManager(this);
+
         // MAP INIT
-        mapName = "map03";
-        mapPath = "/res/maps/" + mapName + ".txt";
-        mapDimensions = IMapManager.super.getMapDimensions(mapPath);
-        maxWorldCol = mapDimensions[0];
-        maxWorldRow = mapDimensions[1];
-        layerCount = mapDimensions[2];
-        tileM = new TileManager(this, mapName);
-        worldWidth = maxWorldCol * tileSize;
-        worldHeight = maxWorldRow * tileSize;
+        tileM = new TileManager(this);
+        tileM.setMapName("map03.txt");
+        tileM.loadMap();
+
+//        String mapName = "map03.txt";
+//        tileM.setMapName(mapName);
+//        tileM.loadMap();
 
         // MAPMAKER
-        mapMaker = new MapMaker(this);
+        mapMakerManager = new MapMakerManager(this);
 
         // COLLISION
         cChecker = new CollisionChecker(this);
@@ -158,7 +153,7 @@ public class GameCanvas extends Canvas implements Runnable, IMapManager {
         // Everything that need update
         entityM.update(dt);
         uiM.update();
-        mapMaker.update();
+        mapMakerManager.update();
 
         // Allow to have a one frame click
         keyH.update();

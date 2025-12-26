@@ -2,9 +2,9 @@ package net.rubicon.event;
 
 import net.rubicon.entity.LivingEntity;
 
-public record ECEntityDead(LivingEntity deadEntity, LivingEntity killer) implements IEventComponent {
+public record ComponentEntityDead(LivingEntity deadEntity, LivingEntity killer) implements IEventComponent {
 
-    public ECEntityDead(LivingEntity deadEntity) {
+    public ComponentEntityDead(LivingEntity deadEntity) {
         this(deadEntity, null);
     }
 

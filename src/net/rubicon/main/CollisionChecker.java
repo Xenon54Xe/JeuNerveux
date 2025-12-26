@@ -1,6 +1,6 @@
 package net.rubicon.main;
 
-import net.rubicon.UI.DrawVector;
+import net.rubicon.ui.DrawVector;
 import net.rubicon.entity.Entity;
 import net.rubicon.tile.Tile;
 import net.rubicon.utils.Vector2D;
@@ -82,22 +82,40 @@ public class CollisionChecker {
 
         // debugRays(boxPos1, boxPos2, targetDirection, boxPos1AfterMovement, boxPos2AfterMovement);
 
-        int[] tile1WorldPos = Vector2D.getTile(gc.tileSize, boxPos1AfterMovement);
-        int[] tile2WorldPos = Vector2D.getTile(gc.tileSize, boxPos2AfterMovement);
+        int[] tile1TilePos = Vector2D.getTile(gc.tileSize, boxPos1AfterMovement);
+        int[] tile2TilePos = Vector2D.getTile(gc.tileSize, boxPos2AfterMovement);
 
-        for (int layer = 0; layer < gc.layerCount; layer++) {
-            int tileNum1 = gc.tileM.tileMapNum[tile1WorldPos[0]][tile1WorldPos[1]][layer];
-            int tileNum2 = gc.tileM.tileMapNum[tile2WorldPos[0]][tile2WorldPos[1]][layer];
-            Tile tile1 = gc.tileM.tiles.getTile(tileNum1);
-            Tile tile2 = gc.tileM.tiles.getTile(tileNum2);
 
-            if (tile1.isCollision() || tile2.isCollision()){
-                if (entity.isAvoidWall()){
-                    entity.setMoveDirectionVector(moveVector.add(targetDirection.mul(-2)));
+        boolean collision = false;
+        for (int layer = 0; layer < gc.tileM.getLayerCount(); layer++) {
+            // Test if on the edge of the world
+            if (tile1TilePos[0] < 0 || tile1TilePos[0] >= gc.tileM.getMaxWorldCol()
+                    || tile1TilePos[1] < 0 || tile1TilePos[1] >= gc.tileM.getMaxWorldRow()
+                    || tile2TilePos[0] < 0 || tile2TilePos[0] >= gc.tileM.getMaxWorldCol()
+                    || tile2TilePos[1] < 0 || tile2TilePos[1] >= gc.tileM.getMaxWorldRow() )
+            {
+                collision = true;
+            }
+            else {
+
+                // Test if the entity is heading toward a collision tile
+                int tileNum1 = gc.tileM.tileMapNum[tile1TilePos[0]][tile1TilePos[1]][layer];
+                int tileNum2 = gc.tileM.tileMapNum[tile2TilePos[0]][tile2TilePos[1]][layer];
+                Tile tile1 = gc.tileM.tiles.getTile(tileNum1);
+                Tile tile2 = gc.tileM.tiles.getTile(tileNum2);
+
+                if(tile1.isCollision() || tile2.isCollision()){
+                    collision = true;
                 }
-                else {
-                    entity.setMoveDirectionVector(moveVector.absMask(orthogonal).getNormalized());
-                }
+            }
+        }
+
+        if (collision){
+            if (entity.isAvoidWall()){
+                entity.setMoveDirectionVector(moveVector.add(targetDirection.mul(-2)).getNormalized());
+            }
+            else {
+                entity.setMoveDirectionVector(moveVector.absMask(orthogonal).getNormalized());
             }
         }
     }
@@ -148,12 +166,12 @@ public class CollisionChecker {
                 case "up":
                     entityTopRow = (int)((entityTopWorldY - entity.getSpeed() * gc.dt) / gc.tileSize);
 
-                    while (layer < gc.layerCount){
+                    while (layer < gc.tileM.getLayerCount()){
                         tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityTopRow][layer];
                         tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityTopRow][layer];
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.RIGHT));
-                            layer = gc.layerCount;
+                            layer = gc.tileM.getLayerCount();
                         }
                         layer++;
                     }
@@ -161,12 +179,12 @@ public class CollisionChecker {
                 case "down":
                     entityBottomRow = (int)((entityBottomWorldY + entity.getSpeed() * gc.dt) / gc.tileSize);
 
-                    while (layer < gc.layerCount){
+                    while (layer < gc.tileM.getLayerCount()){
                         tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityBottomRow][layer];
                         tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityBottomRow][layer];
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.RIGHT));
-                            layer = gc.layerCount;
+                            layer = gc.tileM.getLayerCount();
                         }
                         layer++;
                     }
@@ -174,12 +192,12 @@ public class CollisionChecker {
                 case "left":
                     entityLeftCol = (int)((entityLeftWorldX - entity.getSpeed() * gc.dt) / gc.tileSize);
 
-                    while (layer < gc.layerCount){
+                    while (layer < gc.tileM.getLayerCount()){
                         tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityTopRow][layer];
                         tileNum2 = gc.tileM.tileMapNum[entityLeftCol][entityBottomRow][layer];
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.DOWN));
-                            layer = gc.layerCount;
+                            layer = gc.tileM.getLayerCount();
                         }
                         layer++;
                     }
@@ -187,12 +205,12 @@ public class CollisionChecker {
                 case "right":
                     entityRightCol = (int)((entityRightWorldX + entity.getSpeed() * gc.dt) / gc.tileSize);
 
-                    while (layer < gc.layerCount){
+                    while (layer < gc.tileM.getLayerCount()){
                         tileNum1 = gc.tileM.tileMapNum[entityRightCol][entityTopRow][layer];
                         tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityBottomRow][layer];
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.DOWN));
-                            layer = gc.layerCount;
+                            layer = gc.tileM.getLayerCount();
                         }
                         layer++;
                     }

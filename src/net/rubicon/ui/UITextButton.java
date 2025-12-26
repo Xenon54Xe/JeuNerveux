@@ -1,6 +1,6 @@
-package net.rubicon.UI;
+package net.rubicon.ui;
 
-import net.rubicon.event.ECUIClick;
+import net.rubicon.event.ComponentUIClick;
 import net.rubicon.event.Event;
 import net.rubicon.handler.MouseHandler;
 import net.rubicon.handler.MouseMotionHandler;
@@ -14,7 +14,7 @@ public class UITextButton extends UIBoxText implements IClickable{
     private boolean active = true;
 
     // UTILS
-    Event<ECUIClick> eventUIClick;
+    Event eventUIClick;
     MouseHandler mouseH;
     MouseMotionHandler mouseMH;
 
@@ -32,12 +32,12 @@ public class UITextButton extends UIBoxText implements IClickable{
 
     @Override
     public void isClicked() {
-        if (active) {
+        if (active && isShow()) {
             if (mouseOver() && mouseH.leftClickClicked) {
-                eventUIClick.trigger(new ECUIClick(this, ECUIClick.LEFT_BUTTON));
+                eventUIClick.trigger(new ComponentUIClick(this, ComponentUIClick.LEFT_BUTTON));
             }
             if (mouseOver() && mouseH.rightClickClicked) {
-                eventUIClick.trigger(new ECUIClick(this, ECUIClick.RIGHT_BUTTON));
+                eventUIClick.trigger(new ComponentUIClick(this, ComponentUIClick.RIGHT_BUTTON));
             }
         }
     }

@@ -1,14 +1,12 @@
 package net.rubicon.entity;
 
-import net.rubicon.event.ECEntityDead;
-import net.rubicon.event.IListener;
+import net.rubicon.event.*;
 import net.rubicon.main.GameCanvas;
-import net.rubicon.utils.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class EntityManager implements IListener<ECEntityDead> {
+public class EntityManager implements IListener {
 
     final GameCanvas gc;
 
@@ -28,7 +26,7 @@ public class EntityManager implements IListener<ECEntityDead> {
 
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
         // MICE
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 0; i++) {
             Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 1, gc.tileSize, 2);
             mouse.setTilePosition(5, 3);
             //mouse.setRandomPosition();
@@ -40,6 +38,7 @@ public class EntityManager implements IListener<ECEntityDead> {
 
         // EVENT
         gc.eventEntityDead.addListener(this);
+        gc.eventChangeMap.addListener(this);
     }
 
     public void addEntity(LivingEntity entity){
@@ -79,12 +78,20 @@ public class EntityManager implements IListener<ECEntityDead> {
     }
 
     @Override
-    public void onTrigger(ECEntityDead component) {
-        LivingEntity deadEntity = component.deadEntity();
-        safeRemoveEntity(deadEntity);
+    public void onTrigger(IEventComponent component) {
+        if (component instanceof ComponentEntityDead edComponent) {
+            LivingEntity deadEntity = edComponent.deadEntity();
 
-        if (deadEntity.equals(gc.tracked)){
-            randomChangeTracked();
+            safeRemoveEntity(deadEntity);
+
+            if (deadEntity.equals(gc.tracked)) {
+                randomChangeTracked();
+            }
+        }
+        if (component instanceof ComponentChangeMap cmComponent){
+            for (Entity entity : livingEntities){
+                entity.setRandomPosition(cmComponent.spawnableTiles());
+            }
         }
     }
 

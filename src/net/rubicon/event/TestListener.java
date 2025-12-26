@@ -1,9 +1,9 @@
 package net.rubicon.event;
 
-public class TestListener<E extends IEventComponent> implements IListener<E>{
+public class TestListener implements IListener{
 
     @Override
-    public void onTrigger(E component) {
+    public void onTrigger(IEventComponent component) {
         System.out.println(component.getName());
     }
 }

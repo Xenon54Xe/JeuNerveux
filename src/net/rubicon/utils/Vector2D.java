@@ -46,11 +46,11 @@ public class Vector2D {
     }
 
     public static int getTileX(int tileSize, double worldX){
-        return (int)(worldX / tileSize);
+        return (int)Math.floor(worldX / tileSize);
     }
 
     public static int getTileY(int tileSize, double worldY){
-        return (int)(worldY / tileSize);
+        return (int)Math.floor(worldY / tileSize);
     }
 
     public static int[] getTile(int tileSize, Vector2D position){
@@ -188,5 +188,9 @@ public class Vector2D {
     @Override
     public String toString() {
         return "(" + x + " " + y + ")";
+    }
+
+    public boolean equals(Vector2D vector2D) {
+        return vector2D.x == x && vector2D.y == y;
     }
 }

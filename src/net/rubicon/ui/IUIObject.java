@@ -1,4 +1,4 @@
-package net.rubicon.UI;
+package net.rubicon.ui;
 
 
 public interface IUIObject {
