@@ -16,39 +16,35 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     // UTILS
     final GameCanvas gc;
-
-    // CLASS VARIABLES
-    private final String name;
-    private boolean active = true;
-
+    
     // IMAGES
-    public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     // IMAGES LOGIC
+    private String drawDirection = Vector2D.S_DOWN;
     private int spriteCounter = 0;
     private int spriteNum = 1;
 
-    // DATA
-    Vector2D worldPosition = Vector2D.ZERO;
-    private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
-    private int speed;
-
-    // SHOW
-    private String drawDirection = Vector2D.S_DOWN;
-    private boolean show = true;
-
-    // COLLISION
+    // CLASS VARIABLES
     private Rectangle solidArea;
-    private boolean avoidWall;
-
-    // CENTER OF ENTITY
+    private final String name;
+    private int speed;
     private final int width, height;
+    
+    // MOVEMENT
+    private Vector2D worldPosition = Vector2D.ZERO;
+    private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
+
+    // STATUS
+    private boolean show = true;
+    private boolean active = true;
+    private boolean avoidWall;
 
     public Entity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height){
         this.gc = gc;
+
         this.solidArea = solidArea;
         this.speed = speed;
         this.name = name;
-
         this.width = width;
         this.height = height;
     }
@@ -117,6 +113,10 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     public boolean isShow() {
         return show;
+    }
+
+    public boolean isVisible(){
+        return IPrintable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.screenWidth, gc.screenHeight, gc.tileSize);
     }
 
     // POSITION / SPEED
@@ -234,41 +234,44 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public void drawWalkingAnimation(Graphics2D g2){
-        BufferedImage image = null;
 
-        // CHOOSE THE NEXT IMAGE
-        String drawDirection = getDrawDirection();
-        if (drawDirection.equals(Vector2D.S_UP)){
-            if (getSpriteNum() == 1) {
-                image = getSprite("up1");
+        if (isVisible()) {
+            BufferedImage image = null;
+
+            // CHOOSE THE NEXT IMAGE
+            String drawDirection = getDrawDirection();
+            if (drawDirection.equals(Vector2D.S_UP)) {
+                if (getSpriteNum() == 1) {
+                    image = getSprite("up1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("up2");
+                }
+            } else if (drawDirection.equals(Vector2D.S_DOWN)) {
+                if (getSpriteNum() == 1) {
+                    image = getSprite("down1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("down2");
+                }
+            } else if (drawDirection.equals(Vector2D.S_LEFT)) {
+                if (getSpriteNum() == 1) {
+                    image = getSprite("left1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("left2");
+                }
+            } else if (drawDirection.equals(Vector2D.S_RIGHT)) {
+                if (getSpriteNum() == 1) {
+                    image = getSprite("right1");
+                }
+                if (getSpriteNum() == 2) {
+                    image = getSprite("right2");
+                }
             }
-            if (getSpriteNum() == 2) {
-                image = getSprite("up2");
-            }
-        }else if (drawDirection.equals(Vector2D.S_DOWN)){
-            if (getSpriteNum() == 1) {
-                image = getSprite("down1");
-            }
-            if (getSpriteNum() == 2) {
-                image = getSprite("down2");
-            }
-        } else if (drawDirection.equals(Vector2D.S_LEFT)) {
-            if (getSpriteNum() == 1) {
-                image = getSprite("left1");
-            }
-            if (getSpriteNum() == 2) {
-                image = getSprite("left2");
-            }
-        } else if (drawDirection.equals(Vector2D.S_RIGHT)) {
-            if (getSpriteNum() == 1) {
-                image = getSprite("right1");
-            }
-            if (getSpriteNum() == 2) {
-                image = getSprite("right2");
-            }
+
+            g2.drawImage(image, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, width, height, null);
         }
-
-        g2.drawImage(image, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, width, height, null);
     }
 
     public void move(Vector2D vector2D) {

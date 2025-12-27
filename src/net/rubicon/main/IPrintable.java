@@ -14,5 +14,13 @@ public interface IPrintable {
         return worldY - tracked.getCameraWorldY();
     }
 
+    default boolean isVisible(ITrackable tracked, int worldX, int worldY, int screenWidth, int screenHeight, int margin){
+        int screenX, screenY;
+        screenX = getScreenX(tracked, worldX);
+        screenY = getScreenY(tracked, worldY);
+
+        return screenX >= -margin && screenX <= screenWidth + margin && screenY >= -margin && screenY <= screenHeight + margin;
+    }
+
     void draw(Graphics2D g2);
 }

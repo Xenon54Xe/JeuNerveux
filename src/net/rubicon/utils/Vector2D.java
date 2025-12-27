@@ -41,10 +41,6 @@ public class Vector2D {
         return new Vector2D(x, y).getNormalized();
     }
 
-    public static Vector2D getScreenPosition(Vector2D reference, Vector2D worldPos){
-        return worldPos.sub(reference);
-    }
-
     public static int getTileX(int tileSize, double worldX){
         return (int)Math.floor(worldX / tileSize);
     }

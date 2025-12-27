@@ -11,10 +11,6 @@ public interface ITrackable {
 
     double getWorldY();
 
-    default Vector2D getWorldPos(){
-        return new Vector2D(getWorldX(), getWorldY());
-    }
-
     int getCameraWorldX();
 
     int getCameraWorldY();

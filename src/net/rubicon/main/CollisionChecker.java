@@ -122,14 +122,14 @@ public class CollisionChecker {
 
     private void debugRays(Vector2D boxPos1, Vector2D boxPos2, Vector2D targetDirection, Vector2D boxPos1AfterMovement, Vector2D boxPos2AfterMovement) {
         if (targetDirection.equals(Vector2D.UP) || targetDirection.equals(Vector2D.DOWN)) {
-            vPos1.setScreenPosition(Vector2D.getScreenPosition(gc.tracked.getCameraWorldPosition(), boxPos1));
+            vPos1.setScreenPosition(boxPos1.sub(gc.tracked.getCameraWorldPosition()));
             vPos1.setVector2D(boxPos1AfterMovement.sub(boxPos1).mul(100));
-            vPos2.setScreenPosition(Vector2D.getScreenPosition(gc.tracked.getCameraWorldPosition(), boxPos2));
+            vPos2.setScreenPosition(boxPos2.sub(gc.tracked.getCameraWorldPosition()));
             vPos2.setVector2D(boxPos2AfterMovement.sub(boxPos2).mul(100));
         } else if (targetDirection.equals(Vector2D.LEFT) || targetDirection.equals(Vector2D.RIGHT)) {
-            vPos3.setScreenPosition(Vector2D.getScreenPosition(gc.tracked.getCameraWorldPosition(), boxPos1));
+            vPos3.setScreenPosition(boxPos1.sub(gc.tracked.getCameraWorldPosition()));
             vPos3.setVector2D(boxPos1AfterMovement.sub(boxPos1).mul(100));
-            vPos4.setScreenPosition(Vector2D.getScreenPosition(gc.tracked.getCameraWorldPosition(), boxPos2));
+            vPos4.setScreenPosition(boxPos2.sub(gc.tracked.getCameraWorldPosition()));
             vPos4.setVector2D(boxPos2AfterMovement.sub(boxPos2).mul(100));
         }
     }

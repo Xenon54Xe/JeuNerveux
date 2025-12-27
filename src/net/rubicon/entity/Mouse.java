@@ -62,7 +62,7 @@ public class Mouse extends LivingEntity implements IAttackEntity{
 
     @Override
     public void draw(Graphics2D g2) {
-        if (isShow()){
+        if (isVisible() && isShow()){
             drawWalkingAnimation(g2);
 
             /*

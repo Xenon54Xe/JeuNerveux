@@ -100,7 +100,7 @@ public class Player extends LivingEntity implements IAttackEntity{
 
     @Override
     public void draw(Graphics2D g2) {
-        if (isShow()) {
+        if (isVisible() && isShow()) {
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE
                 g2.drawImage(attackImage, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
