@@ -1,0 +1,21 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+group = 'example'
+version = '0.6.0'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21) // adjust if needed
+    }
+}
+
+application {
+    mainClass = 'com.example.app.Main' // CHANGE to your real main class
+}
+
+repositories {
+    mavenCentral()
+}

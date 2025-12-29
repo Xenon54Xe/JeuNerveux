@@ -2,6 +2,14 @@
 
 <h2>Français</h2>
 
+<h3>Map</h3>
+
+<ol>
+<li>La largeur d'une map est repérée par son nombre de colonnes</li>
+<li>La hauteur d'une map est repérée par son nombre de lignes</li>
+<li>Le nombre de layer correspond au nombre d'images qu'on peut accumuler sur une tuile</li>
+</ol>
+
 <h3>Système de positionnement</h3>
 
 <ul>
