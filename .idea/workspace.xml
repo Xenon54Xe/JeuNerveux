@@ -4,96 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.5.1&#10;feat: &#10;- entities are not drawn when not visible by the camera">
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentCreateMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IClickable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUpdatable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.6.1&#10;feat: &#10;- gitignore">
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/IEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/ComponentChangeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentChangeMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/ComponentEntityDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentEntityDead.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/ComponentUIClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentUIClick.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IEventComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEventComponent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/handler/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/handler/MouseHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/MouseHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/handler/MouseMotionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/MouseMotionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/GameWindow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameWindow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/IPrintable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/IPrintable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/ITrackable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ITrackable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/main/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/LoadMapManager.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/MapMakerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/old/LoadOldMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/tile/old/OldToNewMapMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/DrawVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/DrawVector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/IClickable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/IUIObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/IUIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIBox.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIBoxImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxImage.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/ui/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/IList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/net/rubicon/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/mouse/mouse_left.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/mouse/mouse_left.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/mouse/mouse_right.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/mouse/mouse_right.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_down_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_down_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_down_sword.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_sword.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_idle_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_idle_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_idle_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_idle_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_left_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_left_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_left_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_left_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_right_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_right_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_right_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_right_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_up_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_up_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/entities/player/boy_up_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/entities/player/boy_up_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/maps/map03.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/maps/map03.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/maps/map031.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/earth.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/earth.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/grass.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/grass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/path_cross.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/path_cross.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/path_horizontal.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/path_horizontal.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/path_vertical.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/path_vertical.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/sand.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/sand.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/transparent.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/transparent.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/tree.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/tree.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/wall.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/wall.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/res/tiles/water.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/tiles/water.png" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,7 +107,7 @@
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.general"
+    "settings.editor.selected.configurable": "preferences.sourceCode"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -423,7 +340,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766856208162</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="v0.6.0&#10;feat: &#10;- complete refactor (introducing gradle)&#10;- LoadMapManager&#10;- WritableBox&#10;- can set ui in the center of their screen position&#10;- updatable&#10;- ComponentCreateMap">
+      <option name="closed" value="true" />
+      <created>1766967341477</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1766967341478</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -452,7 +377,9 @@
     <MESSAGE value="v0.4.2&#10;feat:&#10;- collision improved (mice try to avoid walls)&#10;- improved world positionnement with tile positionnement&#10;- added README.md&#10;bug:&#10;- dead entities will no longer attack one last time" />
     <MESSAGE value="v0.5.0&#10;feat:&#10;- LoadMapManager&#10;- event refactor (allow multi listening)&#10;- TileManager is now the main class to handle map managing (maxWorldCol, ...)&#10;- code refactor&#10;bug:&#10;- CollisionChecker no longer crash the game when exiting the border of the map&#10;- Vector2D.getTile give the exact tile, even near 0 int casting problems" />
     <MESSAGE value="v0.5.1&#10;feat: &#10;- entities are not drawn when not visible by the camera" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.5.1&#10;feat: &#10;- entities are not drawn when not visible by the camera" />
+    <MESSAGE value="v0.6.0&#10;feat: &#10;- complete refactor (introducing gradle)&#10;- LoadMapManager&#10;- WritableBox&#10;- can set ui in the center of their screen position&#10;- updatable&#10;- ComponentCreateMap" />
+    <MESSAGE value="v0.6.1&#10;feat: &#10;- gitignore" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.6.1&#10;feat: &#10;- gitignore" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -3,10 +3,7 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 .kotlin
-
-/build/
-/out/
-/.idea/
+.idea/
 *.iml
 
 ### Eclipse ###
@@ -33,3 +30,14 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+Thumbs.db
+
+# Gradle
+.gradle/
+build/
+
+# Logs
+*.log
+
+# Runtime data
+.myapp/
