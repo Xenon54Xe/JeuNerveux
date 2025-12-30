@@ -51,7 +51,7 @@ public class GameCanvas extends Canvas implements Runnable {
     private final MapMakerManager mapMakerManager;
 
     // MAP LOADER
-    LoadMapManager loadMapM;
+    public LoadMapManager loadMapM;
 
     // UI
     public final UIManager uiM;

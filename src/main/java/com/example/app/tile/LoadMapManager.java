@@ -30,8 +30,8 @@ public class LoadMapManager implements IListener {
     private boolean active;
     private final ArrayList<UIObject> whenActiveObjects = new ArrayList<>();
 
-    private String[] foundMaps;
-    private String selectedMap;
+    private String[] foundMapsName;
+    private String selectedMapName;
     private int index = 0;
 
     // MAIN UI
@@ -111,6 +111,14 @@ public class LoadMapManager implements IListener {
         return active;
     }
 
+    public void reloadAvailableMaps(){
+        try {
+            foundMapsName = FileUtils.listAllResources("maps").toArray(new String[0]);
+        } catch (IOException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void setActive(boolean active) {
         this.active = active;
 
@@ -120,14 +128,10 @@ public class LoadMapManager implements IListener {
 
         if (active) {
             // get every available map
-            try {
-                foundMaps = FileUtils.listResources("maps").toArray(new String[0]);
-            } catch (IOException | URISyntaxException e) {
-                throw new RuntimeException(e);
-            }
-            selectedMap = foundMaps[index];
+            reloadAvailableMaps();
+            selectedMapName = foundMapsName[index];
 
-            changeMapButton.setText("Current map : " + selectedMap);
+            changeMapButton.setText("Current map : " + selectedMapName);
         }
     }
 
@@ -140,15 +144,15 @@ public class LoadMapManager implements IListener {
             if (payload.equals(CHANGE_MAP) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
 
                 // CHANGE SELECTED MAP
-                index = (index + 1) % foundMaps.length;
-                selectedMap = foundMaps[index];
+                index = (index + 1) % foundMapsName.length;
+                selectedMapName = foundMapsName[index];
 
-                changeMapButton.setText("Current map : " + selectedMap);
+                changeMapButton.setText("Current map : " + selectedMapName);
             }
             if (payload.equals(VALIDATE) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
 
                 // LOAD MAP
-                gc.tileM.setMapName(selectedMap);
+                gc.tileM.setMapName(selectedMapName);
                 gc.tileM.loadMap();
             }
             if (payload.equals(ACTIVATE_MAP_LOADING) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)){
@@ -182,10 +186,11 @@ public class LoadMapManager implements IListener {
                     }
                 }
                 FileUtils.saveMap(tileMapNum, name);
+                reloadAvailableMaps();
 
                 // LOAD THE NEW MAP
                 gc.tileM.setMapName(name);
-                gc.tileM.setTileMapNum(tileMapNum);
+                gc.tileM.loadMap();
 
                 // EVENT
                 gc.eventCreateMap.trigger(new ComponentCreateMap(name, nbCol, nbRow, nbLayer));

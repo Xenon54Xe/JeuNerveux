@@ -71,25 +71,25 @@ public class TileManager {
         try {
             // Complete tiles
             // THE FIRST TILE MUST BE TRANSPARENT (SKIPPED WHEN DRAWN)
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/transparent.png"))),0, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "transparent.png"))),0, 1, 2));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/grass.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "grass.png"))), 0));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/wall.png"))), true, 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "wall.png"))), true, 0));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/earth.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "earth.png"))), 0));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/sand.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "sand.png"))), 0));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/water.png"))), true, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "water.png"))), true, 1, 2));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/path_cross.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_cross.png"))), 1));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/path_horizontal.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_horizontal.png"))), 1));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/path_vertical.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_vertical.png"))), 1));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles/tree.png"))), true, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "tree.png"))), true, 1, 2));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -119,7 +119,7 @@ public class TileManager {
     }
 
     public int[] getMapDimensions(){
-        return FileUtils.getMapDimensions("maps/" + mapName);
+        return FileUtils.getMapDimensions(mapName);
     }
 
     public void loadMap(){
@@ -136,7 +136,7 @@ public class TileManager {
         maxWorldHeight = maxWorldRow * gc.tileSize;
 
         // LOAD MAP
-        FileUtils.loadMap(tileMapNum, "maps/" + mapName);
+        FileUtils.loadMap(tileMapNum, mapName);
         findSpawnableTiles();
 
         gc.eventChangeMap.trigger(new ComponentChangeMap(mapName, spawnableTiles));

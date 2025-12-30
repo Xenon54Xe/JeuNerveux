@@ -41,15 +41,15 @@ public class Player extends LivingEntity implements IAttackEntity{
         setTilePosition(7, 5);
 
         // PLAYER IMAGES
-        attackImage = getSpriteImage("entities/player/boy_down_sword.png");
-        up1 = getSpriteImage("entities/player/boy_up_1.png");
-        up2 = getSpriteImage("entities/player/boy_up_2.png");
-        down1 = getSpriteImage("entities/player/boy_down_1.png");
-        down2 = getSpriteImage("entities/player/boy_down_2.png");
-        left1 = getSpriteImage("entities/player/boy_left_1.png");
-        left2 = getSpriteImage("entities/player/boy_left_2.png");
-        right1 = getSpriteImage("entities/player/boy_right_1.png");
-        right2 = getSpriteImage("entities/player/boy_right_2.png");
+        attackImage = getSpriteImage("entities/player", "boy_down_sword.png");
+        up1 = getSpriteImage("entities/player", "boy_up_1.png");
+        up2 = getSpriteImage("entities/player", "boy_up_2.png");
+        down1 = getSpriteImage("entities/player", "boy_down_1.png");
+        down2 = getSpriteImage("entities/player", "boy_down_2.png");
+        left1 = getSpriteImage("entities/player", "boy_left_1.png");
+        left2 = getSpriteImage("entities/player", "boy_left_2.png");
+        right1 = getSpriteImage("entities/player", "boy_right_1.png");
+        right2 = getSpriteImage("entities/player", "boy_right_2.png");
     }
 
     @Override

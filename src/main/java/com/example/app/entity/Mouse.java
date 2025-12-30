@@ -20,8 +20,8 @@ public class Mouse extends LivingEntity implements IAttackEntity{
 
         setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
 
-        up1 = getSpriteImage("entities/mouse/mouse_left.png");
-        up2 = getSpriteImage("entities/mouse/mouse_right.png");
+        up1 = getSpriteImage("entities/mouse", "mouse_left.png");
+        up2 = getSpriteImage("entities/mouse", "mouse_right.png");
         down1 = up1;
         left1 = up1;
         left2 = up1;

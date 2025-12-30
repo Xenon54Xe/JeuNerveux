@@ -69,9 +69,9 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
         };
     }
 
-    public BufferedImage getSpriteImage(String filePath){
+    public BufferedImage getSpriteImage(String directory, String fileName){
         try{
-            return ImageIO.read(Objects.requireNonNull(FileUtils.loadFile(filePath)));
+            return ImageIO.read(Objects.requireNonNull(FileUtils.loadFile(directory, fileName)));
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -94,7 +94,6 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
             spriteCounter = 0;
         }
     }
-
 
     // DRAW DIRECTION
     public String getDrawDirection() {

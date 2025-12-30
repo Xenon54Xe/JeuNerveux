@@ -5,12 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.6.1&#10;feat: &#10;- gitignore">
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/test.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +95,7 @@
     "Application.Main.executor": "Run",
     "Application.OldToNewMain.executor": "Run",
     "Application.OldToNewMapMain.executor": "Debug",
+    "Application.UtilsTester.executor": "Run",
     "Application.com.example.app.Main.executor": "Run",
     "Application.main.java.main.Main.executor": "Run",
     "Application.main.main.Main.executor": "Run",
@@ -116,24 +123,17 @@
       <recent name="$PROJECT_DIR$/src/res/tiles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources/maps" />
       <recent name="$PROJECT_DIR$/src/main/java/main" />
       <recent name="$PROJECT_DIR$/src/main/java" />
       <recent name="$PROJECT_DIR$/src" />
-      <recent name="$PROJECT_DIR$/src/res/maps" />
-      <recent name="$PROJECT_DIR$/src/res/maps01.txt" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="main2" />
     </key>
   </component>
   <component name="RunManager" selected="Application.com.example.app.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="rubicon.main.Main" />
-      <module name="JeuNerveux" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Main" />
       <module name="JeuNerveux" />
@@ -153,6 +153,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="net.rubicon.tile.old.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UtilsTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.app.utils.UtilsTester" />
+      <module name="JeuNerveux" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.app.utils.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -210,19 +224,19 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.UtilsTester" />
       <item itemvalue="Application.com.example.app.Main" />
       <item itemvalue="Application.main.java.main.Main" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.net.rubicon.main.Main" />
       <item itemvalue="Application.OldToNewMapMain" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.com.example.app.Main" />
+        <item itemvalue="Application.UtilsTester" />
         <item itemvalue="Application.main.java.main.Main" />
         <item itemvalue="Application.net.rubicon.main.Main" />
         <item itemvalue="Application.OldToNewMapMain" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -348,7 +362,15 @@
       <option name="project" value="LOCAL" />
       <updated>1766967341478</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="v0.6.1&#10;feat: &#10;- gitignore">
+      <option name="closed" value="true" />
+      <created>1766967829462</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1766967829462</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

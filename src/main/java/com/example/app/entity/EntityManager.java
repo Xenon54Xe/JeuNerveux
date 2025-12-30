@@ -29,7 +29,7 @@ public class EntityManager implements IListener {
 
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
         // MICE
-        for (int i = 0; i < 0; i++) {
+        for (int i = 0; i < 100; i++) {
             Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 1, gc.tileSize, 2);
             //mouse.setTilePosition(5, 3);
             mouse.setRandomPosition(gc.tileM.spawnableTiles);

@@ -17,16 +17,35 @@ import java.util.stream.Stream;
 
 public class FileUtils {
 
-    public static String USER_PATH = ".myapp/jeuNerveux";
+    public static String GAME_PATH = ".myapp/jeuNerveux/";
 
-    public static InputStream loadFile(String path) throws IOException {
+    public static Path getUserGameDir() throws IOException {
+        Path dir = Paths.get(
+                System.getProperty("user.home"),
+                GAME_PATH
+        );
+        Files.createDirectories(dir);
+        return dir;
+    }
+
+    public static Path getUserGameDir(String directory) throws IOException {
+        Path dirPath = Paths.get(
+                System.getProperty("user.home"),
+                GAME_PATH + directory
+        );
+        Files.createDirectories(dirPath);
+        return dirPath;
+    }
+
+    public static InputStream loadFile(String directory, String fileName) throws IOException {
         // 1 Try filesystem first (runtime-created files)
-        Path filePath = Paths.get(path);
+        Path filePath = getUserGameDir(directory).resolve(fileName);
         if (Files.exists(filePath)) {
             return Files.newInputStream(filePath);
         }
 
         // 2 Try classpath (packaged main.java.main.resources)
+        String path = directory + "/" + fileName;
         InputStream is = Thread.currentThread()
                 .getContextClassLoader()
                 .getResourceAsStream(path.startsWith("/") ? path.substring(1) : path);
@@ -38,27 +57,30 @@ public class FileUtils {
         throw new FileNotFoundException("File not found: " + path);
     }
 
-    public static Path getAppDir() throws IOException {
-        Path dir = Paths.get(
-                System.getProperty("user.home"),
-                USER_PATH
-        );
-        Files.createDirectories(dir);
-        return dir;
+    public static InputStream loadFile(String fileName) throws IOException {
+        return loadFile("", fileName);
     }
 
-    public static Path writeNewFile(String name, List<String> lines) throws IOException {
-        Path file = getAppDir().resolve(name);
+    public static Path writeNewFile(String fileName, List<String> lines) throws IOException {
+        Path file = getUserGameDir().resolve(fileName);
         Files.write(file, lines);
         return file;
     }
 
-    public static List<String> listResources(String resourceDir) throws IOException, URISyntaxException {
+    public static Path writeNewFile(String directory, String fileName, List<String> lines) throws IOException {
+        Path file = getUserGameDir(directory).resolve(fileName);
+        Files.write(file, lines);
+        return file;
+    }
+
+    public static List<String> listResources(String directory) throws IOException, URISyntaxException {
         ClassLoader cl = Thread.currentThread().getContextClassLoader();
-        URL url = cl.getResource(resourceDir);
+
+        assert !directory.isEmpty();
+        URL url = cl.getResource(directory);
 
         if (url == null) {
-            throw new IllegalArgumentException("Resource dir not found: " + resourceDir);
+            throw new IllegalArgumentException("Resource dir not found: " + directory);
         }
 
         String protocol = url.getProtocol();
@@ -97,8 +119,8 @@ public class FileUtils {
         throw new UnsupportedOperationException("Unsupported protocol: " + protocol);
     }
 
-    public static List<String> listUserFiles() throws IOException {
-        Path userHome = Paths.get(System.getProperty("user.home"), USER_PATH);
+    public static List<String> listUserFiles(String directory) throws IOException {
+        Path userHome = Paths.get(System.getProperty("user.home"), GAME_PATH + directory);
 
         try (Stream<Path> paths = Files.list(userHome)) {
             return paths
@@ -107,7 +129,20 @@ public class FileUtils {
         }
     }
 
-    public static void saveMap(int[][][] tileMapNum, String fileName){
+    public static List<String> listUserFiles() throws IOException {
+        return listUserFiles("");
+    }
+
+    public static List<String> listAllResources(String directory) throws IOException, URISyntaxException {
+        List<String> userResources = listUserFiles(directory);
+        List<String> baseResources = listResources(directory);
+
+        userResources.addAll(baseResources);
+
+        return userResources;
+    }
+
+    public static void saveMap(int[][][] tileMapNum, String mapName){
         int maxCol = tileMapNum.length;
         int maxRow = tileMapNum[0].length;
         int layerCount = tileMapNum[0][0].length;
@@ -134,15 +169,15 @@ public class FileUtils {
         }
 
         try {
-            writeNewFile(fileName, lines);
+            writeNewFile("maps", mapName, lines);
         }catch (IOException e){
             e.printStackTrace();
         }
     }
 
-    public static int[] getMapDimensions(String filePath){
+    public static int[] getMapDimensions(String mapName){
         // COL, ROW, LAYER
-        try (InputStream is = loadFile(filePath)) {
+        try (InputStream is = loadFile("maps", mapName)) {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             String line = br.readLine();
@@ -178,8 +213,8 @@ public class FileUtils {
         return null;
     }
 
-    public static void loadMap(int[][][] tileMapNum, String filePath){
-        try (InputStream is = loadFile(filePath)) {
+    public static void loadMap(int[][][] tileMapNum, String mapName){
+        try (InputStream is = loadFile("maps", mapName)) {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
             int maxWorldCol = tileMapNum.length;

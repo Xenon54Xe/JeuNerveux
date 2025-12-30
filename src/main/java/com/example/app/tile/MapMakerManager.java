@@ -84,6 +84,7 @@ public class MapMakerManager implements IListener {
 
     public void saveMap() {
         FileUtils.saveMap(gc.tileM.tileMapNum, gc.tileM.getMapName() + "-sav.txt");
+        gc.loadMapM.reloadAvailableMaps();
     }
 
     private void setActive(boolean active){
