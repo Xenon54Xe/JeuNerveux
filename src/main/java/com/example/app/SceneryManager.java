@@ -42,11 +42,16 @@ public class SceneryManager implements IListener {
     private void makeUI(){
         // MAP1
         uiFrameMap1.setShape(1, 2);
+        uiFrameMap1.setDrawReference(UIObject.DRAW_TOP_LEFT_CORNER);
         uiFrameMap1.setDrawEvenly();
+        uiFrameMap1.setScreenX(0);
+        uiFrameMap1.setScreenY(0);
+        uiFrameMap1.setWidth(gc.tileSize);
+        uiFrameMap1.setHeight(gc.tileSize * 2);
         playerPosition = new UIText(Color.WHITE, "Position : ", gc.tileSize, gc.tileSize);
         playerXP = new UIText(Color.WHITE, "XP : ", gc.tileSize, gc.tileSize * 2);
-        uiFrameMap1.addUIObject(playerPosition, 0, 0);
-        uiFrameMap1.addUIObject(playerXP, 0, 1);
+        uiFrameMap1.addUIObject(playerPosition, UIObject.DRAW_TOP_LEFT_CORNER,0, 0);
+        uiFrameMap1.addUIObject(playerXP, UIObject.DRAW_TOP_LEFT_CORNER,0, 1);
     }
 
     public void changeScenery(String scenery){

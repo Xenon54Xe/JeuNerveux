@@ -1,6 +1,7 @@
 package com.example.app.ui;
 
 import com.example.app.GameCanvas;
+import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -82,38 +83,32 @@ public class UIFrame extends UIObject {
     }
 
     public void expand(){
-        if (isDrawCentered()) {
-            if (parentFrame == null) {
-                setScreenX(gc.screenWidth / 2);
-                setScreenY(gc.screenHeight / 2);
-                setWidth(gc.screenWidth);
-                setHeight(gc.screenHeight);
-            } else {
-                setScreenX(parentFrame.getDrawCenterScreenX());
-                setScreenY(parentFrame.getDrawCenterScreenY());
-                setWidth(parentFrame.getWidth());
-                setHeight(parentFrame.getHeight());
+        if(parentFrame == null){
+            switch (getDrawReference()) {
+                case DRAW_CENTER -> setScreenPosition(gc.screenWidth / 2, gc.screenHeight / 2);
+                case DRAW_TOP_LEFT_CORNER -> setScreenPosition(Vector2D.ZERO);
+                case DRAW_BOTTOM_LEFT_CORNER -> setScreenPosition(0, gc.screenHeight);
+                case DRAW_TOP_RIGHT_CORNER -> setScreenPosition(gc.screenWidth, 0);
+                case DRAW_BOTTOM_RIGHT_CORNER -> setScreenPosition(gc.screenWidth, gc.screenHeight);
             }
+            setSize(gc.screenWidth, gc.screenHeight);
         }
         else {
-            if (parentFrame == null) {
-                setScreenX(0);
-                setScreenY(0);
-                setWidth(gc.screenWidth);
-                setHeight(gc.screenHeight);
-            } else {
-                setScreenX(parentFrame.getDrawScreenX());
-                setScreenY(parentFrame.getDrawScreenY());
-                setWidth(parentFrame.getWidth());
-                setHeight(parentFrame.getHeight());
+            switch (getDrawReference()){
+                case DRAW_CENTER -> setScreenPosition(parentFrame.getDrawCenterScreenX(), parentFrame.getDrawCenterScreenY());
+                case DRAW_TOP_LEFT_CORNER -> setScreenPosition(parentFrame.getDrawTopLeftScreenX(), parentFrame.getDrawTopLeftScreenY());
+                case DRAW_BOTTOM_LEFT_CORNER -> setScreenPosition(parentFrame.getDrawBottomLeftScreenX(), parentFrame.getDrawBottomLeftScreenY());
+                case DRAW_TOP_RIGHT_CORNER -> setScreenPosition(parentFrame.getDrawTopRightScreenX(), parentFrame.getDrawTopRightScreenY());
+                case DRAW_BOTTOM_RIGHT_CORNER -> setScreenPosition(parentFrame.getDrawBottomRightScreenX(), parentFrame.getDrawBottomRightScreenY());
             }
+            setSize(parentFrame.getWidth(), parentFrame.getHeight());
         }
     }
 
-    public void addUIObject(UIObject object, int col, int row){
+    public void addUIObject(UIObject object, String drawReference, int col, int row){
         assert col < maxCol;
         assert row < maxRow;
-        object.setDrawCentered(true);
+        object.setDrawReference(drawReference);
         FrameCase newFrameCase = new FrameCase(object, col, row);
         frameCases.add(newFrameCase);
         gc.uiM.addUIObject(object);
@@ -135,8 +130,8 @@ public class UIFrame extends UIObject {
                         int col = frameCase.getCol();
                         int row = frameCase.getRow();
 
-                        object.setScreenX(getDrawScreenX() + curStepX * (col + 1));
-                        object.setScreenY(getDrawScreenY() + curStepY * (row + 1));
+                        object.setScreenX(getDrawTopLeftScreenX() + curStepX * (col + 1));
+                        object.setScreenY(getDrawTopLeftScreenY() + curStepY * (row + 1));
                     }
                 } else {
                     assert false : "Wrong draw option";

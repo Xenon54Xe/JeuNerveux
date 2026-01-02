@@ -36,7 +36,7 @@ public class UIBoxText extends UIBox implements IUIText{
             setHeight(dimensions[1]);
 
             g2.setColor(textColor);
-            g2.drawString(text, getDrawScreenX() + stepX, getDrawScreenY() + getHeight() - stepY);
+            g2.drawString(text, getDrawTopLeftScreenX() + stepX, getDrawTopLeftScreenY() + getHeight() - stepY);
         }
     }
 }

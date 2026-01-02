@@ -46,66 +46,62 @@ public class LoadMapManager implements IListener {
 
         // LOAD MAP
         uiFrameLoadMap = new UIFrame(gc, "Load Menu");
+        uiFrameLoadMap.setDrawReference(UIObject.DRAW_BOTTOM_LEFT_CORNER);
         uiFrameLoadMap.setShape(1, 2);
         uiFrameLoadMap.setDrawEvenly();
-        uiFrameLoadMap.setScreenX(gc.tileSize * 3);
-        uiFrameLoadMap.setScreenY(0);
-        uiFrameLoadMap.setWidth(gc.tileSize * 2);
+        uiFrameLoadMap.setScreenX(0);
+        uiFrameLoadMap.setScreenY(gc.screenHeight);
+        uiFrameLoadMap.setWidth(gc.tileSize);
         uiFrameLoadMap.setHeight(gc.tileSize * 3);
         // UI
         changeMapButton = new UITextButton(gc, Color.WHITE, Color.BLACK, CHANGE_MAP, "Current map :", gc.tileSize, (int)(gc.screenHeight * 0.8), 10, 10);
         UITextButton validateButton = new UITextButton(gc, Color.WHITE, Color.BLACK, VALIDATE, "Load", gc.tileSize, (int)(gc.screenHeight * 0.8) + gc.tileSize, 10, 10);
         // Register load map
-        uiFrameLoadMap.addUIObject(changeMapButton, 0, 0);
-        uiFrameLoadMap.addUIObject(validateButton, 0, 1);
+        uiFrameLoadMap.addUIObject(changeMapButton, UIObject.DRAW_BOTTOM_LEFT_CORNER, 0, 0);
+        uiFrameLoadMap.addUIObject(validateButton, UIObject.DRAW_BOTTOM_LEFT_CORNER, 0, 1);
 
 
         // NEW MAP
         uiFrameCreateEmptyMap = new UIFrame(gc, "Create empty map");
+        uiFrameCreateEmptyMap.setDrawReference(UIObject.DRAW_CENTER);
         uiFrameCreateEmptyMap.setShape(1, 6);
         uiFrameCreateEmptyMap.setDrawEvenly();
         uiFrameCreateEmptyMap.expand();
         // TITLE
         UIText newMapTitle = new UIText(Color.white, "New Map", gc.screenWidth / 2, gc.tileSize);
         newMapTitle.setText("New Map");
-        newMapTitle.setDrawCentered(true);
         // MAP NAME
         mapNameWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Name",
                 gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize * 2,
                 gc.tileSize * 2, 10, 10, 10);
-        mapNameWB.setDrawCentered(true);
         // MAP WIDTH (TILE)
         mapWidthWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Width",
                 gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize,
                 gc.tileSize * 2, 10, 10, 10);
-        mapWidthWB.setDrawCentered(true);
         // MAP HEIGHT (TILE)
         mapHeightWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Height",
                 gc.screenWidth / 2, gc.screenHeight / 2,
                 gc.tileSize * 2, 10, 10, 10);
-        mapHeightWB.setDrawCentered(true);
         // MAP LAYER (TILE)
         mapLayerWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Layer",
                 gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize,
                 gc.tileSize * 3, 10, 10, 10);
-        mapLayerWB.setDrawCentered(true);
         // CREATE MAP
         UITextButton createMapButton = new UITextButton(gc, Color.BLACK, Color.WHITE, CREATE_MAP, "Create",
                 gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize * 2, 10, 10);
-        createMapButton.setDrawCentered(true);
         // Register create empty map
-        uiFrameCreateEmptyMap.addUIObject(newMapTitle, 0, 0);
-        uiFrameCreateEmptyMap.addUIObject(mapNameWB, 0, 1);
-        uiFrameCreateEmptyMap.addUIObject(mapWidthWB, 0, 2);
-        uiFrameCreateEmptyMap.addUIObject(mapHeightWB, 0, 3);
-        uiFrameCreateEmptyMap.addUIObject(mapLayerWB, 0, 4);
-        uiFrameCreateEmptyMap.addUIObject(createMapButton, 0, 5);
+        uiFrameCreateEmptyMap.addUIObject(newMapTitle, UIObject.DRAW_CENTER, 0, 0);
+        uiFrameCreateEmptyMap.addUIObject(mapNameWB, UIObject.DRAW_CENTER, 0, 1);
+        uiFrameCreateEmptyMap.addUIObject(mapWidthWB, UIObject.DRAW_CENTER, 0, 2);
+        uiFrameCreateEmptyMap.addUIObject(mapHeightWB, UIObject.DRAW_CENTER, 0, 3);
+        uiFrameCreateEmptyMap.addUIObject(mapLayerWB, UIObject.DRAW_CENTER, 0, 4);
+        uiFrameCreateEmptyMap.addUIObject(createMapButton, UIObject.DRAW_CENTER, 0, 5);
 
         // EVENT
         gc.eventUIClick.addListener(this);
 
         // END
-        setActive(false);
+        setShow(false);
     }
 
     public void reloadAvailableMaps(){
@@ -116,10 +112,12 @@ public class LoadMapManager implements IListener {
         }
     }
 
-    public void setActive(boolean active) {
-        uiFrameLoadMap.setShow(active);
+    public void setShow(boolean show) {
+        System.out.println("show load manager !!!");
+        uiFrameLoadMap.setShow(show);
+        uiFrameCreateEmptyMap.setShow(show);
 
-        if (active) {
+        if (show) {
             // get every available map
             reloadAvailableMaps();
             selectedMapName = foundMapsName[index];

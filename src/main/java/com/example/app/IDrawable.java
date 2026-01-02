@@ -16,9 +16,9 @@ public interface IDrawable {
 
     int getHeight();
 
-    int getDrawScreenX();
+    int getDrawTopLeftScreenX();
 
-    int getDrawScreenY();
+    int getDrawTopLeftScreenY();
 
     void draw(Graphics2D g2);
 
@@ -27,10 +27,10 @@ public interface IDrawable {
             return false;
         }
 
-        return mouseMH.getScreenX() > getDrawScreenX()
-                && mouseMH.getScreenX() < getDrawScreenX() + getWidth()
-                && mouseMH.getScreenY() > getDrawScreenY()
-                && mouseMH.getScreenY() < getDrawScreenY() + getHeight();
+        return mouseMH.getScreenX() > getDrawTopLeftScreenX()
+                && mouseMH.getScreenX() < getDrawTopLeftScreenX() + getWidth()
+                && mouseMH.getScreenY() > getDrawTopLeftScreenY()
+                && mouseMH.getScreenY() < getDrawTopLeftScreenY() + getHeight();
     }
 
     default int getScreenX(ITrackable tracked, int worldX){

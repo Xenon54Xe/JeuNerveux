@@ -38,14 +38,14 @@ public class WritableBox extends UIBox implements IUIText, IClickable, IUpdatabl
 
     @Override
     public void update(){
-        if (active) {
+        if (active && isShow()) {
             int lastKeyCode = gc.keyH.getLastKeyCode();
 
             if (lastKeyCode != -1) {
                 if (!text.isEmpty() && lastKeyCode == KeyHandler.ERASE) {
                     // Erase one character
                     text = text.substring(0, text.length() - 1);
-                } else {
+                } else if (lastKeyCode != KeyHandler.ERASE){
                     text += (char) lastKeyCode;
                 }
             }
@@ -93,7 +93,7 @@ public class WritableBox extends UIBox implements IUIText, IClickable, IUpdatabl
             setWidth(Math.max(dimensions[0], getWidth()));
             setHeight(dimensions[1]);
 
-            g2.drawString(textToDraw, getDrawScreenX() + stepX, getDrawScreenY() + getHeight() - stepY);
+            g2.drawString(textToDraw, getDrawTopLeftScreenX() + stepX, getDrawTopLeftScreenY() + getHeight() - stepY);
         }
     }
 }

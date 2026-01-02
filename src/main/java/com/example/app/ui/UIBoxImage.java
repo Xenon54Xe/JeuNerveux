@@ -39,7 +39,7 @@ public class UIBoxImage extends UIBox{
         super.draw(g2);
 
         if (isShow()){
-            g2.drawImage(image, getDrawScreenX() + stepX, getDrawScreenY() + stepY, imageWidth, imageHeight, null);
+            g2.drawImage(image, getDrawTopLeftScreenX() + stepX, getDrawTopLeftScreenY() + stepY, imageWidth, imageHeight, null);
         }
     }
 }

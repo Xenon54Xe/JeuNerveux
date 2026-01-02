@@ -10,8 +10,15 @@ public abstract class UIObject implements IDrawable {
     
     // DRAW LOGIC
     private boolean show = false;
-    private boolean drawCentered = false;
     private int width, height;
+
+    // DRAW REFERENCE
+    public static final String DRAW_TOP_LEFT_CORNER = "top-left";
+    public static final String DRAW_TOP_RIGHT_CORNER = "tpo-right";
+    public static final String DRAW_BOTTOM_LEFT_CORNER = "bottom_left";
+    public static final String DRAW_BOTTOM_RIGHT_CORNER = "bottom_right";
+    public static final String DRAW_CENTER = "center";
+    private String drawReference = DRAW_CENTER;
 
     public UIObject(String name, int screenX, int screenY){
         this.name = name;
@@ -43,6 +50,11 @@ public abstract class UIObject implements IDrawable {
         this.height = height;
     }
 
+    public void setSize(int width, int height){
+        setWidth(width);
+        setHeight(height);
+    }
+
     public boolean isShow() {
         return show;
     }
@@ -56,12 +68,17 @@ public abstract class UIObject implements IDrawable {
         setShow(!show);
     }
 
-    public boolean isDrawCentered() {
-        return drawCentered;
+    public String getDrawReference() {
+        return drawReference;
     }
 
-    public void setDrawCentered(boolean drawCentered) {
-        this.drawCentered = drawCentered;
+    public void setDrawReference(String drawReference) {
+        assert drawReference.equals(DRAW_CENTER)
+                || drawReference.equals(DRAW_TOP_LEFT_CORNER)
+                || drawReference.equals(DRAW_BOTTOM_LEFT_CORNER)
+                || drawReference.equals(DRAW_TOP_RIGHT_CORNER)
+                | drawReference.equals(DRAW_BOTTOM_RIGHT_CORNER);
+        this.drawReference = drawReference;
     }
 
     public int getScreenX() {
@@ -84,39 +101,79 @@ public abstract class UIObject implements IDrawable {
         this.screenY = screenY;
     }
 
-    public int getDrawScreenX(){
-        if (drawCentered) {
-            return getScreenX() - width / 2;
+    public int getDrawTopLeftScreenX(){
+        switch (drawReference) {
+            case DRAW_CENTER -> {
+                return getScreenX() - width / 2;
+            }
+            case DRAW_TOP_LEFT_CORNER, DRAW_BOTTOM_LEFT_CORNER -> {
+                return getScreenX();
+            }
+            case DRAW_TOP_RIGHT_CORNER, DRAW_BOTTOM_RIGHT_CORNER -> {
+                return getScreenX() - width;
+            }
+            default -> {
+                return -1;
+            }
         }
-        return getScreenX();
     }
 
-    public int getDrawScreenY(){
-        if (drawCentered) {
-            return getScreenY() - height / 2;
+    public int getDrawTopLeftScreenY(){
+        switch (drawReference) {
+            case DRAW_CENTER -> {
+                return getScreenY() - height / 2;
+            }
+            case DRAW_TOP_LEFT_CORNER, DRAW_TOP_RIGHT_CORNER -> {
+                return getScreenY();
+            }
+            case DRAW_BOTTOM_LEFT_CORNER, DRAW_BOTTOM_RIGHT_CORNER -> {
+                return getScreenY() - height;
+            }
+            default -> {
+                return -1;
+            }
         }
-        return getScreenY();
+    }
+
+    public int getDrawBottomLeftScreenX(){
+        return getDrawTopLeftScreenX();
+    }
+
+    public int getDrawBottomLeftScreenY(){
+        return getDrawTopLeftScreenY() + height;
+    }
+
+    public int getDrawTopRightScreenX(){
+        return getDrawTopLeftScreenX() + width;
+    }
+
+    public int getDrawTopRightScreenY(){
+        return getDrawTopLeftScreenY();
+    }
+
+    public int getDrawBottomRightScreenX(){
+        return getDrawTopLeftScreenX() + width;
+    }
+
+    public int getDrawBottomRightScreenY(){
+        return getDrawTopLeftScreenY() + height;
     }
 
     public int getDrawCenterScreenX(){
-        if (drawCentered){
-            return getScreenX();
-        }else {
-            return getScreenX() + width / 2;
-        }
+        return getDrawTopLeftScreenX() + width / 2;
     }
 
     public int getDrawCenterScreenY(){
-        if (drawCentered){
-            return getScreenY();
-        }else {
-            return getScreenY() + height / 2;
-        }
+        return getDrawTopLeftScreenY() + height / 2;
     }
 
-    public void setScreenPosition(Vector2D position){
-        setScreenX((int)position.getX());
-        setScreenY((int)position.getY());
+    public void setScreenPosition(Vector2D vector2D){
+        setScreenPosition((int)Math.round(vector2D.getX()), (int)Math.round(vector2D.getY()));
+    }
+
+    public void setScreenPosition(int screenX, int screenY){
+        setScreenX(screenX);
+        setScreenY(screenY);
     }
 
     @Override

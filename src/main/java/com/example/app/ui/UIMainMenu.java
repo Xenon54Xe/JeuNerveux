@@ -33,27 +33,23 @@ public class UIMainMenu implements IListener {
         // TITLE
         UIText title = new UIText(Color.WHITE, "Main Menu",
                 gc.screenWidth / 2, gc.tileSize);
-        title.setDrawCentered(true);
         // MAP MAKING
         UITextButton activateMapMaking = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 MapMakerManager.ACTIVATE_MAPMAKING, "Activate map making",
                 gc.screenWidth / 2, gc.tileSize * 2, 10, 10);
-        activateMapMaking.setDrawCentered(true);
         // MAP LOADING
         UITextButton activateMapLoading = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 LoadMapManager.ACTIVATE_MAP_LOADING, "Activate map loading",
                 gc.screenWidth / 2, gc.tileSize * 3, 10, 10);
-        activateMapLoading.setDrawCentered(true);
         // START ADVENTURE
         UITextButton startAdventure = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 START_ADVENTURE, "Start adventure",
                 gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
-        startAdventure.setDrawCentered(true);
         // Register
-        mainMenu.addUIObject(title, 0, 0);
-        mainMenu.addUIObject(activateMapMaking, 0, 1);
-        mainMenu.addUIObject(activateMapLoading, 0, 2);
-        mainMenu.addUIObject(startAdventure, 0, 3);
+        mainMenu.addUIObject(title, UIObject.DRAW_CENTER, 0, 0);
+        mainMenu.addUIObject(activateMapMaking, UIObject.DRAW_CENTER, 0, 1);
+        mainMenu.addUIObject(activateMapLoading, UIObject.DRAW_CENTER, 0, 2);
+        mainMenu.addUIObject(startAdventure, UIObject.DRAW_CENTER, 0, 3);
 
         // EVENT
         gc.eventUIClick.addListener(this);
@@ -66,7 +62,7 @@ public class UIMainMenu implements IListener {
     }
 
     private void hideAll(){
-        gc.loadMapM.setActive(false);
+        gc.loadMapM.setShow(false);
         gc.mapMakerM.setActive(false);
     }
 
@@ -87,7 +83,7 @@ public class UIMainMenu implements IListener {
 
                     setShow(false);
                     if (payload.equals(LoadMapManager.ACTIVATE_MAP_LOADING)){
-                        gc.loadMapM.setActive(true);
+                        gc.loadMapM.setShow(true);
                     }
                     else if (payload.equals(MapMakerManager.ACTIVATE_MAPMAKING)){
                         gc.mapMakerM.setActive(true);

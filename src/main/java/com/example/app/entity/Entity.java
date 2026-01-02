@@ -3,7 +3,6 @@ package com.example.app.entity;
 import com.example.app.GameCanvas;
 import com.example.app.ITrackable;
 import com.example.app.IDrawable;
-import com.example.app.handler.MouseMotionHandler;
 import com.example.app.ui.IUpdatable;
 import com.example.app.utils.FileUtils;
 import com.example.app.utils.Vector2D;
@@ -174,12 +173,12 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
     }
 
     @Override
-    public int getDrawScreenX() {
+    public int getDrawTopLeftScreenX() {
         return getScreenX() - getWidth() / 2;
     }
 
     @Override
-    public int getDrawScreenY() {
+    public int getDrawTopLeftScreenY() {
         return getScreenY() - getHeight() / 2;
     }
 
@@ -300,7 +299,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
                 }
             }
 
-            g2.drawImage(image, getDrawScreenX(), getDrawScreenY(), width, height, null);
+            g2.drawImage(image, getDrawTopLeftScreenX(), getDrawTopLeftScreenY(), width, height, null);
         }
     }
 

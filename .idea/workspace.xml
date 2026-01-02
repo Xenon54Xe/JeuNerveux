@@ -4,35 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.6.2&#10;feat: &#10;- reload available maps every time one is created&#10;- refactor and testing of FileUtils">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/FrameCase.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/maps/TitleScenery" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.7.0&#10;feat:&#10;- enhanced ui with UIFrame&#10;- code refactor&#10;- README.md refactor">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/IPrintable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntity.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/DrawVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/DrawVector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IClickable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IClickable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIObject.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxImage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxImage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/maps/map03.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/maps/Map1Scenery" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,7 +372,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767058739573</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="v0.7.0&#10;feat:&#10;- enhanced ui with UIFrame&#10;- code refactor&#10;- README.md refactor">
+      <option name="closed" value="true" />
+      <created>1767317391894</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1767317391895</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -416,7 +412,8 @@
     <MESSAGE value="v0.6.0&#10;feat: &#10;- complete refactor (introducing gradle)&#10;- LoadMapManager&#10;- WritableBox&#10;- can set ui in the center of their screen position&#10;- updatable&#10;- ComponentCreateMap" />
     <MESSAGE value="v0.6.1&#10;feat: &#10;- gitignore" />
     <MESSAGE value="v0.6.2&#10;feat: &#10;- reload available maps every time one is created&#10;- refactor and testing of FileUtils" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.6.2&#10;feat: &#10;- reload available maps every time one is created&#10;- refactor and testing of FileUtils" />
+    <MESSAGE value="v0.7.0&#10;feat:&#10;- enhanced ui with UIFrame&#10;- code refactor&#10;- README.md refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.7.0&#10;feat:&#10;- enhanced ui with UIFrame&#10;- code refactor&#10;- README.md refactor" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

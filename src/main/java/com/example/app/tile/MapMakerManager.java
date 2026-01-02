@@ -44,11 +44,12 @@ public class MapMakerManager implements IListener {
 //        gc.uiM.addUIObject(uiTextButtonActivate);
         // UI
         uiFrame = new UIFrame(gc, "Draw the map");
+        uiFrame.setDrawReference(UIObject.DRAW_TOP_LEFT_CORNER);
         uiFrame.setShape(1, 3);
         uiFrame.setDrawEvenly();
-        uiFrame.setScreenX(gc.tileSize * 2);
+        uiFrame.setScreenX(0);
         uiFrame.setScreenY(0);
-        uiFrame.setWidth(gc.tileSize * 2);
+        uiFrame.setWidth(gc.tileSize);
         uiFrame.setHeight(gc.tileSize * 4);
 
         // BUTTON TILE TYPE
@@ -59,9 +60,9 @@ public class MapMakerManager implements IListener {
         // BUTTON CHANGE LAYER
         uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, CHANGE_LAYER, "Layer : 0", gc.tileSize, gc.tileSize * 4, 10, 10);
         // Register
-        uiFrame.addUIObject(uiButtonTileType, 0, 1);
-        uiFrame.addUIObject(uiTextButtonSave, 0, 0);
-        uiFrame.addUIObject(uiButtonChangeLayer, 0, 2);
+        uiFrame.addUIObject(uiButtonTileType, UIObject.DRAW_TOP_LEFT_CORNER, 0, 1);
+        uiFrame.addUIObject(uiTextButtonSave, UIObject.DRAW_TOP_LEFT_CORNER, 0, 0);
+        uiFrame.addUIObject(uiButtonChangeLayer, UIObject.DRAW_TOP_LEFT_CORNER, 0, 2);
 
         // MAKING THEM HIDDEN OR NOT
         setActive(false);

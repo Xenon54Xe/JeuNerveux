@@ -27,6 +27,6 @@ public class DrawVector extends UIObject {
     @Override
     public void draw(Graphics2D g2) {
         g2.setColor(vectorColor);
-        g2.drawLine(getDrawScreenX(), getDrawScreenY(), getDrawScreenX() + (int)vector2D.getX(), getDrawScreenY() + (int)vector2D.getY());
+        g2.drawLine(getDrawTopLeftScreenX(), getDrawTopLeftScreenY(), getDrawTopLeftScreenX() + (int)vector2D.getX(), getDrawTopLeftScreenY() + (int)vector2D.getY());
     }
 }
