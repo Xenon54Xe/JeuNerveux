@@ -1,16 +1,15 @@
 package com.example.app.ui;
 
-import com.example.app.IPrintable;
+import com.example.app.IDrawable;
 import com.example.app.utils.Vector2D;
 
-public abstract class UIObject implements IUIObject, IPrintable {
-
+public abstract class UIObject implements IDrawable {
     // CLASS VARIABLES
     private int screenX, screenY;
     private String name;
     
     // DRAW LOGIC
-    private boolean show = true;
+    private boolean show = false;
     private boolean drawCentered = false;
     private int width, height;
 
@@ -50,6 +49,11 @@ public abstract class UIObject implements IUIObject, IPrintable {
 
     public void setShow(boolean show) {
         this.show = show;
+    }
+
+    @Override
+    public void toggleShow() {
+        setShow(!show);
     }
 
     public boolean isDrawCentered() {
@@ -94,6 +98,22 @@ public abstract class UIObject implements IUIObject, IPrintable {
         return getScreenY();
     }
 
+    public int getDrawCenterScreenX(){
+        if (drawCentered){
+            return getScreenX();
+        }else {
+            return getScreenX() + width / 2;
+        }
+    }
+
+    public int getDrawCenterScreenY(){
+        if (drawCentered){
+            return getScreenY();
+        }else {
+            return getScreenY() + height / 2;
+        }
+    }
+
     public void setScreenPosition(Vector2D position){
         setScreenX((int)position.getX());
         setScreenY((int)position.getY());
@@ -102,5 +122,9 @@ public abstract class UIObject implements IUIObject, IPrintable {
     @Override
     public String toString() {
         return name;
+    }
+
+    public boolean mouseOver() {
+        return false;
     }
 }

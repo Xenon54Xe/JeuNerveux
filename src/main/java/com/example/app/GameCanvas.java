@@ -9,6 +9,7 @@ import com.example.app.handler.MouseMotionHandler;
 import com.example.app.tile.LoadMapManager;
 import com.example.app.tile.MapMakerManager;
 import com.example.app.tile.TileManager;
+import com.example.app.ui.UIMainMenu;
 import com.example.app.ui.UIManager;
 
 import java.awt.*;
@@ -48,21 +49,24 @@ public class GameCanvas extends Canvas implements Runnable {
 
     // MAP
     public final TileManager tileM;
-    private final MapMakerManager mapMakerManager;
+    public final MapMakerManager mapMakerM;
 
     // MAP LOADER
-    public LoadMapManager loadMapM;
+    public final LoadMapManager loadMapM;
+
+    // SceneryManager
+    public final SceneryManager sceneryM;
 
     // UI
     public final UIManager uiM;
+    private final UIMainMenu uiMainMenu;
 
     // ENTITIES
-    public EntityManager entityM;
-
+    public final EntityManager entityM;
     public ITrackable tracked;
 
     // COLLISION CHECKER
-    public CollisionChecker cChecker;
+    public final CollisionChecker cChecker;
 
     // THREAD
     private Thread gameThread;
@@ -87,21 +91,16 @@ public class GameCanvas extends Canvas implements Runnable {
 
         // UI
         uiM = new UIManager(this);
+        uiMainMenu = new UIMainMenu(this);
 
         // MAP LOADER
         loadMapM = new LoadMapManager(this);
 
         // MAP INIT
         tileM = new TileManager(this);
-        tileM.setMapName("map03.txt");
-        tileM.loadMap();
-
-//        String mapName = "map03.txt";
-//        tileM.setMapName(mapName);
-//        tileM.loadMap();
 
         // MAPMAKER
-        mapMakerManager = new MapMakerManager(this);
+        mapMakerM = new MapMakerManager(this);
 
         // COLLISION
         cChecker = new CollisionChecker(this);
@@ -109,7 +108,12 @@ public class GameCanvas extends Canvas implements Runnable {
         // ENTITIES
         entityM = new EntityManager(this);
 
+        // SceneryManager
+        sceneryM = new SceneryManager(this);
+        sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
+
         // END
+        uiMainMenu.setShow(true);
         setFocusable(true);
     }
 
@@ -136,7 +140,7 @@ public class GameCanvas extends Canvas implements Runnable {
             dt = (System.nanoTime() - lastTime) / 1_000_000_000.0;
 
             if (dt >= drawInterval) {
-                update(dt);
+                update();
                 render(bs);
                 lastTime = System.nanoTime();
 
@@ -151,11 +155,13 @@ public class GameCanvas extends Canvas implements Runnable {
         }
     }
 
-    private void update(double dt) {
+    private void update() {
         // Everything that need update
-        entityM.update(dt);
+        entityM.update();
         uiM.update();
-        mapMakerManager.update();
+        mapMakerM.update();
+        uiMainMenu.update();
+        sceneryM.update();
 
         // Allow to have a one frame click
         // UPDATE AFTER EVERY THING !!!!

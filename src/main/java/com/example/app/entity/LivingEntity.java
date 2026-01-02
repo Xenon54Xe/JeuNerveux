@@ -12,8 +12,8 @@ public abstract class LivingEntity extends Entity{
 
     private boolean dead;
 
-    public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp) {
-        super(gc, solidArea, name, speed, width, height);
+    public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp) {
+        super(gc, solidArea, name, speed, width, height, waitTimeBeforeAnimation);
 
         this.health = health;
         this.xp = xp;

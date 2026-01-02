@@ -4,6 +4,7 @@ import com.example.app.GameCanvas;
 import com.example.app.event.ComponentChangeMap;
 import com.example.app.utils.FileUtils;
 import com.example.app.utils.TileLinkedList;
+import com.example.app.utils.Vector2D;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -156,13 +157,26 @@ public class TileManager {
     public void draw(Graphics2D g2){
         assert tileMapNum != null;
 
-        int worldCol = 0;
-        int worldRow = 0;
-
         double cameraWorldX = gc.tracked.getCameraWorldX();
         double cameraWorldY = gc.tracked.getCameraWorldY();
 
-        while (worldCol < maxWorldCol && worldRow < maxWorldRow){
+        int startWorldCol, endWorldCol, startWorldRow, endWorldRow;
+        startWorldCol = Math.max(
+                0,
+                Vector2D.getTileX(gc.tileSize, cameraWorldX));
+        endWorldCol = Math.min(
+                maxWorldCol,
+                Vector2D.getTileX(gc.tileSize, cameraWorldX + gc.screenWidth + gc.tileSize));
+        startWorldRow = Math.max(
+                0,
+                Vector2D.getTileY(gc.tileSize, cameraWorldY));
+        endWorldRow = Math.min(
+                maxWorldRow,
+                Vector2D.getTileY(gc.tileSize, cameraWorldY + gc.screenHeight + gc.tileSize));
+
+        int worldCol = startWorldCol;
+        int worldRow = startWorldRow;
+        while (worldCol < endWorldCol && worldRow < endWorldRow){
 
             // GET WHERE TILE WILL BE DRAWN
             int worldX = worldCol * gc.tileSize;
@@ -171,24 +185,18 @@ public class TileManager {
             int screenX = (int)(worldX - cameraWorldX);
             int screenY = (int)(worldY - cameraWorldY);
 
-            // DRAW IF TILE IN SCREEN
-            if (worldX > cameraWorldX - gc.tileSize
-                    && worldX < cameraWorldX + gc.screenWidth + gc.tileSize
-                    && worldY > cameraWorldY - gc.tileSize
-                    && worldY < cameraWorldY + gc.screenHeight + gc.tileSize){
+            // DRAW
+            for (int layer = 0; layer < layerCount; layer++) {
 
-                for (int layer = 0; layer < layerCount; layer++) {
-
-                    // GET TILE ID
-                    int tileID = tileMapNum[worldCol][worldRow][layer];
-                    if (tileID != 0) {
-                        g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.tileSize, gc.tileSize, null);
-                    }
+                // GET TILE ID
+                int tileID = tileMapNum[worldCol][worldRow][layer];
+                if (tileID != 0) {
+                    g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.tileSize, gc.tileSize, null);
                 }
             }
 
             worldCol++;
-            if (worldCol == maxWorldCol){
+            if (worldCol == endWorldCol){
 
                 worldCol = 0;
                 worldRow++;

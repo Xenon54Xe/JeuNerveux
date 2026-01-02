@@ -5,110 +5,107 @@ import com.example.app.event.ComponentCreateMap;
 import com.example.app.event.ComponentUIClick;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
-import com.example.app.ui.UIObject;
-import com.example.app.ui.UIText;
-import com.example.app.ui.UITextButton;
-import com.example.app.ui.WritableBox;
+import com.example.app.ui.*;
 import com.example.app.utils.FileUtils;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
 
 public class LoadMapManager implements IListener {
 
     final GameCanvas gc;
 
     // PAYLOADS
+    public static String ACTIVATE_MAP_LOADING = "activate-map-loading";
     public static String CHANGE_MAP = "change-map";
     public static String VALIDATE = "validate-map";
-    public static String ACTIVATE_MAP_LOADING = "activate-map-loading";
     public static String CREATE_MAP = "create-map";
-
-    // CLASS VARIABLES
-    private boolean active;
-    private final ArrayList<UIObject> whenActiveObjects = new ArrayList<>();
 
     private String[] foundMapsName;
     private String selectedMapName;
     private int index = 0;
 
-    // MAIN UI
-    UITextButton changeMapButton;
-
+    // UI MENU
+    UIFrame uiFrameLoadMap;
+    UIFrame uiFrameCreateEmptyMap;
     // CREATE MAP UI
-    WritableBox mapNameWB;
-    WritableBox mapWidthWB;
-    WritableBox mapHeightWB;
-    WritableBox mapLayerWB;
+    private final UITextButton changeMapButton;
+    private final WritableBox mapNameWB;
+    private final WritableBox mapWidthWB;
+    private final WritableBox mapHeightWB;
+    private final WritableBox mapLayerWB;
 
     public LoadMapManager(GameCanvas gc){
         this.gc = gc;
 
-        // MAIN UI
-        UITextButton activateLoadMap = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAP_LOADING, "Activate map loading", gc.tileSize * 10, gc.tileSize * 2, 10, 10);
-        gc.uiM.addUIObject(activateLoadMap);
+//        // MAIN UI
+//        UITextButton activateLoadMap = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAP_LOADING, "Activate map loading", gc.tileSize * 10, gc.tileSize * 2, 10, 10);
+//        gc.uiM.addUIObject(activateLoadMap);
+        // UI MENU
 
         // LOAD MAP
+        uiFrameLoadMap = new UIFrame(gc, "Load Menu");
+        uiFrameLoadMap.setShape(1, 2);
+        uiFrameLoadMap.setDrawEvenly();
+        uiFrameLoadMap.setScreenX(gc.tileSize * 3);
+        uiFrameLoadMap.setScreenY(0);
+        uiFrameLoadMap.setWidth(gc.tileSize * 2);
+        uiFrameLoadMap.setHeight(gc.tileSize * 3);
+        // UI
         changeMapButton = new UITextButton(gc, Color.WHITE, Color.BLACK, CHANGE_MAP, "Current map :", gc.tileSize, (int)(gc.screenHeight * 0.8), 10, 10);
-        gc.uiM.addUIObject(changeMapButton);
         UITextButton validateButton = new UITextButton(gc, Color.WHITE, Color.BLACK, VALIDATE, "Load", gc.tileSize, (int)(gc.screenHeight * 0.8) + gc.tileSize, 10, 10);
-        gc.uiM.addUIObject(validateButton);
-        whenActiveObjects.add(changeMapButton);
-        whenActiveObjects.add(validateButton);
+        // Register load map
+        uiFrameLoadMap.addUIObject(changeMapButton, 0, 0);
+        uiFrameLoadMap.addUIObject(validateButton, 0, 1);
+
 
         // NEW MAP
+        uiFrameCreateEmptyMap = new UIFrame(gc, "Create empty map");
+        uiFrameCreateEmptyMap.setShape(1, 6);
+        uiFrameCreateEmptyMap.setDrawEvenly();
+        uiFrameCreateEmptyMap.expand();
         // TITLE
         UIText newMapTitle = new UIText(Color.white, "New Map", gc.screenWidth / 2, gc.tileSize);
         newMapTitle.setText("New Map");
         newMapTitle.setDrawCentered(true);
-        gc.uiM.addUIObject(newMapTitle);
-        whenActiveObjects.add(newMapTitle);
         // MAP NAME
         mapNameWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Name",
                 gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize * 2,
                 gc.tileSize * 2, 10, 10, 10);
         mapNameWB.setDrawCentered(true);
-        gc.uiM.addUIObject(mapNameWB);
-        whenActiveObjects.add(mapNameWB);
         // MAP WIDTH (TILE)
         mapWidthWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Width",
                 gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize,
                 gc.tileSize * 2, 10, 10, 10);
         mapWidthWB.setDrawCentered(true);
-        gc.uiM.addUIObject(mapWidthWB);
-        whenActiveObjects.add(mapWidthWB);
         // MAP HEIGHT (TILE)
         mapHeightWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Height",
                 gc.screenWidth / 2, gc.screenHeight / 2,
                 gc.tileSize * 2, 10, 10, 10);
         mapHeightWB.setDrawCentered(true);
-        gc.uiM.addUIObject(mapHeightWB);
-        whenActiveObjects.add(mapHeightWB);
         // MAP LAYER (TILE)
         mapLayerWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Layer",
                 gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize,
                 gc.tileSize * 3, 10, 10, 10);
         mapLayerWB.setDrawCentered(true);
-        gc.uiM.addUIObject(mapLayerWB);
-        whenActiveObjects.add(mapLayerWB);
         // CREATE MAP
         UITextButton createMapButton = new UITextButton(gc, Color.BLACK, Color.WHITE, CREATE_MAP, "Create",
                 gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize * 2, 10, 10);
         createMapButton.setDrawCentered(true);
-        gc.uiM.addUIObject(createMapButton);
-        whenActiveObjects.add(createMapButton);
+        // Register create empty map
+        uiFrameCreateEmptyMap.addUIObject(newMapTitle, 0, 0);
+        uiFrameCreateEmptyMap.addUIObject(mapNameWB, 0, 1);
+        uiFrameCreateEmptyMap.addUIObject(mapWidthWB, 0, 2);
+        uiFrameCreateEmptyMap.addUIObject(mapHeightWB, 0, 3);
+        uiFrameCreateEmptyMap.addUIObject(mapLayerWB, 0, 4);
+        uiFrameCreateEmptyMap.addUIObject(createMapButton, 0, 5);
 
         // EVENT
         gc.eventUIClick.addListener(this);
 
         // END
         setActive(false);
-    }
-
-    public boolean isActive() {
-        return active;
     }
 
     public void reloadAvailableMaps(){
@@ -120,11 +117,7 @@ public class LoadMapManager implements IListener {
     }
 
     public void setActive(boolean active) {
-        this.active = active;
-
-        for (UIObject object : whenActiveObjects){
-            object.setShow(active);
-        }
+        uiFrameLoadMap.setShow(active);
 
         if (active) {
             // get every available map
@@ -155,9 +148,9 @@ public class LoadMapManager implements IListener {
                 gc.tileM.setMapName(selectedMapName);
                 gc.tileM.loadMap();
             }
-            if (payload.equals(ACTIVATE_MAP_LOADING) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)){
-                setActive(!active);
-            }
+//            if (payload.equals(ACTIVATE_MAP_LOADING) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)){
+//                setActive(!uiMenu.isActive());
+//            }
 
             if(payload.equals(CREATE_MAP) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)){
                 String name = mapNameWB.getText();

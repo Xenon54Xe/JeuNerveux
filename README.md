@@ -30,10 +30,29 @@
 <li>Seul les objets dans le champ de vision de la caméra sont réellement affichés</li>
 </ul>
 
+<h3>UI</h3>
+
+<ul>
+<li>Un UI est positionné grâce à son centre absolu et sa taille</li>
+<li>Si on met à <b>drawCentered=true</b> alors son centre d'affichage et son centre absolu correspondent</li>
+<li>Sinon le centre absolu correspond avec le coin supérieur gauche de l'affichage</li>
+</ul>
+
+<h3>Frame</h3>
+
+<ul>
+<li>Une frame contient d'autres <b>UIObjects</b></li>
+<li>Elle permet d'organiser harmonieusement les UIObjects en calculant les positions des UIObjects en fonction 
+de leur taille, de leur nombre et d'où on veut les positionner</li>
+<li>Une frame <b>drawCentered=true</b> affiche ses UIObjects autour de son centre absolu</li>
+<li>Une frame <b>drawCentered=false</b> affiche ses UIObjects en x et y supérieurs au centre absolu</li>
+<li>Une frame affiche toujours ses UIObjects en <b>drawCentered=true</b></li>
+</ul>
+
 <h3>Simulation</h3>
 
 <ul>
-<li>Tous les objets nécéssitant une update sont mis à jour toutes les frames même si ils ne sont pas affichés</li>
+<li>Tous les objets nécessitant une update sont mis à jour toutes les frames même si ils ne sont pas affichés</li>
 </ul>
 
 <h3>Future</h3>

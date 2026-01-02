@@ -1,8 +1,8 @@
 package com.example.app.ui;
 
-public interface IClickable {
+import com.example.app.IDrawable;
 
-    boolean mouseOver();
+public interface IClickable extends IDrawable {
 
     void isClicked();
 }

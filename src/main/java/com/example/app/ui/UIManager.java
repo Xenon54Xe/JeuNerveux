@@ -19,21 +19,9 @@ public class UIManager {
     private final LinkedList<UIObject> clickableUIObjects = new LinkedList<>();
     private final LinkedList<UIObject> updatableUIObjects = new LinkedList<>();
 
-    // UI
-    private final UIText positionText;
-    private final UIText xpText;
-
     public UIManager(GameCanvas gc){
-
         this.gc = gc;
         arial_tile_size = new Font("Arial", Font.PLAIN, gc.tileSize / 2);
-
-        // REGISTER UI OBJECTS
-        positionText = new UIText(Color.WHITE, "Position", 25, 50);
-        addUIObject(positionText);
-
-        xpText = new UIText(Color.WHITE, "XP", 25, 75);
-        addUIObject(xpText);
     }
 
     public boolean isMouseOverUI() {
@@ -67,13 +55,9 @@ public class UIManager {
             IUpdatable updatable = (IUpdatable) updatableUIObjects.getFirstValueNShift();
             updatable.update();
         }
-
-        // For changing com.example.app.ui
-        positionText.setText("X, Y = " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
-        xpText.setText(Integer.toString(gc.entityM.player.getXp()));
     }
 
-    private void drawAllInArray(Graphics2D g2, LinkedList<UIObject> uiObjects){
+    private void drawAllUI(Graphics2D g2, LinkedList<UIObject> uiObjects){
         for (int i = 0; i < uiObjects.size(); i++) {
             UIObject uiObject = uiObjects.getFirstValueNShift();
             uiObject.draw(g2);
@@ -89,8 +73,8 @@ public class UIManager {
         g2.setColor(Color.WHITE);
 
         mouseOverUI = false;
-        drawAllInArray(g2, uiObjects); // Test also if mouse over com.example.app.ui
-        drawAllInArray(g2, clickableUIObjects);
-        drawAllInArray(g2, updatableUIObjects);
+        drawAllUI(g2, uiObjects); // Test also if mouse over com.example.app.ui
+        drawAllUI(g2, clickableUIObjects);
+        drawAllUI(g2, updatableUIObjects);
     }
 }

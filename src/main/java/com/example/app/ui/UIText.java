@@ -5,13 +5,14 @@ import java.awt.*;
 public class UIText extends UIObject implements IUIText {
 
     // CLASS VARIABLES
-    private String text = "";
+    private String text;
     private final Color textColor;
 
-    public UIText(Color textColor, String name, int screenX, int screenY){
-        super(name, screenX, screenY);
+    public UIText(Color textColor, String text, int screenX, int screenY){
+        super(text, screenX, screenY);
 
         this.textColor = textColor;
+        this.text = text;
     }
 
     public void setText(String text) {

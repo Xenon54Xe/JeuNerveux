@@ -5,34 +5,32 @@ import com.example.app.event.ComponentUIClick;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
 import com.example.app.ui.UIImageButton;
+import com.example.app.ui.UIFrame;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UITextButton;
 import com.example.app.utils.FileUtils;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class MapMakerManager implements IListener {
 
     // UTILS
     private final GameCanvas gc;
 
-    // CLASS VARIABLES
-    private boolean active;
-
     // UI NAMES
-    public static final String ACTIVATE_MAPMAKING = "activate";
-    public static final String CHANGE_TILE_TYPE = "com.example.app.tile-type";
-    public static final String CHANGE_LAYER = "nbLayer";
-    public static final String SAVE_MAP = "save";
-    
+    public static final String ACTIVATE_MAPMAKING = "activate-map-making";
+    public static final String CHANGE_TILE_TYPE = "change-tile-type";
+    public static final String CHANGE_LAYER = "change-nbLayer";
+    public static final String SAVE_MAP = "save-map";
+
+    // UI MENU
+    private final UIFrame uiFrame;
+
     // UI
     private int tileID = 1;
     private final UIImageButton uiButtonTileType;
     private int layer = 0;
     private final UITextButton uiButtonChangeLayer;
-
-    private final ArrayList<UIObject> objectsToHide = new ArrayList<>();
 
     public MapMakerManager(GameCanvas gc) {
         // INIT
@@ -41,34 +39,36 @@ public class MapMakerManager implements IListener {
         // EVENT LISTENER
         gc.eventUIClick.addListener(this);
 
+//        // ACTIVATE BUTTON (always shown)
+//        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAPMAKING, "Activate map making", gc.tileSize * 10, gc.tileSize, 10, 10);
+//        gc.uiM.addUIObject(uiTextButtonActivate);
+        // UI
+        uiFrame = new UIFrame(gc, "Draw the map");
+        uiFrame.setShape(1, 3);
+        uiFrame.setDrawEvenly();
+        uiFrame.setScreenX(gc.tileSize * 2);
+        uiFrame.setScreenY(0);
+        uiFrame.setWidth(gc.tileSize * 2);
+        uiFrame.setHeight(gc.tileSize * 4);
+
         // BUTTON TILE TYPE
         int size = (int)(gc.tileSize * 0.8);
         uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, CHANGE_TILE_TYPE, gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
-        gc.uiM.addUIObject(uiButtonTileType);
-
         // BUTTON SAVE
         UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, SAVE_MAP, "click to save", gc.tileSize, gc.tileSize * 2, 10, 10);
-        gc.uiM.addUIObject(uiTextButtonSave);
-
         // BUTTON CHANGE LAYER
         uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, CHANGE_LAYER, "Layer : 0", gc.tileSize, gc.tileSize * 4, 10, 10);
-        gc.uiM.addUIObject(uiButtonChangeLayer);
-
-        // ACTIVATE
-        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAPMAKING, "Activate map making", gc.tileSize * 10, gc.tileSize, 10, 10);
-        gc.uiM.addUIObject(uiTextButtonActivate);
-
-        // REGISTERING OBJECTS TO HIDE
-        objectsToHide.add(uiButtonTileType);
-        objectsToHide.add(uiTextButtonSave);
-        objectsToHide.add(uiButtonChangeLayer);
+        // Register
+        uiFrame.addUIObject(uiButtonTileType, 0, 1);
+        uiFrame.addUIObject(uiTextButtonSave, 0, 0);
+        uiFrame.addUIObject(uiButtonChangeLayer, 0, 2);
 
         // MAKING THEM HIDDEN OR NOT
         setActive(false);
     }
 
     public void update(){
-        if (active){
+        if (uiFrame.isShow()){
             // Allow to draw tiles
             if (!gc.uiM.isMouseOverUI() && gc.mouseH.leftClickPressed){
                 int worldX = (gc.mouseMH.getScreenX() + gc.tracked.getCameraWorldX()) / gc.tileSize;
@@ -87,12 +87,8 @@ public class MapMakerManager implements IListener {
         gc.loadMapM.reloadAvailableMaps();
     }
 
-    private void setActive(boolean active){
-        this.active = active;
-
-        for (UIObject object : objectsToHide){
-            object.setShow(active);
-        }
+    public void setActive(boolean active){
+        uiFrame.setShow(active);
     }
 
     @Override
@@ -131,10 +127,10 @@ public class MapMakerManager implements IListener {
                 uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).getImage());
             }
 
-            // ACTIVATE MAP MAKER
-            if (message.equals(ACTIVATE_MAPMAKING + ComponentUIClick.LEFT_BUTTON)) {
-                setActive(!active);
-            }
+//            // ACTIVATE MAP MAKER
+//            if (message.equals(ACTIVATE_MAPMAKING + ComponentUIClick.LEFT_BUTTON)) {
+//                setActive(!uiMenu.isActive());
+//            }
         }
     }
 }

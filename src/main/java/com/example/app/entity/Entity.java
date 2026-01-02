@@ -1,8 +1,10 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
-import com.example.app.IPrintable;
 import com.example.app.ITrackable;
+import com.example.app.IDrawable;
+import com.example.app.handler.MouseMotionHandler;
+import com.example.app.ui.IUpdatable;
 import com.example.app.utils.FileUtils;
 import com.example.app.utils.Vector2D;
 
@@ -13,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Entity implements IEntity, IPrintable, ITrackable {
+public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
 
     // UTILS
     final GameCanvas gc;
@@ -24,6 +26,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     private String drawDirection = Vector2D.S_DOWN;
     private int spriteCounter = 0;
     private int spriteNum = 1;
+    private final int waitTimeBeforeAnimation;
 
     // CLASS VARIABLES
     private Rectangle solidArea;
@@ -40,7 +43,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     private boolean active = true;
     private boolean avoidWall;
 
-    public Entity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height){
+    public Entity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int waitTimeBeforeAnimation){
         this.gc = gc;
 
         this.solidArea = solidArea;
@@ -48,6 +51,9 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
         this.name = name;
         this.width = width;
         this.height = height;
+
+        this.waitTimeBeforeAnimation = waitTimeBeforeAnimation;
+        spriteCounter = (int) (Math.random() * waitTimeBeforeAnimation);
     }
 
     public String getName() {
@@ -84,7 +90,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
 
     public void updateShowedSprite() {
         spriteCounter++;
-        if (spriteCounter > 6){
+        if (spriteCounter > waitTimeBeforeAnimation){
             if (spriteNum == 1){
                 spriteNum = 2;
             }
@@ -115,8 +121,18 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
         return show;
     }
 
+    @Override
+    public void setShow(boolean show) {
+        this.show = show;
+    }
+
+    @Override
+    public void toggleShow() {
+        setShow(!show);
+    }
+
     public boolean isVisible(){
-        return IPrintable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.screenWidth, gc.screenHeight, gc.tileSize);
+        return IDrawable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.screenWidth, gc.screenHeight, gc.tileSize);
     }
 
     // POSITION / SPEED
@@ -150,11 +166,21 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
     }
 
     public int getScreenX() {
-        return IPrintable.super.getScreenX(gc.tracked, (int)getWorldX());
+        return IDrawable.super.getScreenX(gc.tracked, (int)getWorldX());
     }
 
     public int getScreenY() {
-        return IPrintable.super.getScreenY(gc.tracked, (int)getWorldY());
+        return IDrawable.super.getScreenY(gc.tracked, (int)getWorldY());
+    }
+
+    @Override
+    public int getDrawScreenX() {
+        return getScreenX() - getWidth() / 2;
+    }
+
+    @Override
+    public int getDrawScreenY() {
+        return getScreenY() - getHeight() / 2;
     }
 
     public Vector2D getScreenPosition(){
@@ -217,6 +243,10 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
         this.solidArea = solidArea;
     }
 
+    public boolean mouseOver() {
+        return IDrawable.super.mouseOver(gc.mouseMH);
+    }
+
     public boolean isActive() {
         return active;
     }
@@ -270,7 +300,7 @@ public abstract class Entity implements IEntity, IPrintable, ITrackable {
                 }
             }
 
-            g2.drawImage(image, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, width, height, null);
+            g2.drawImage(image, getDrawScreenX(), getDrawScreenY(), width, height, null);
         }
     }
 

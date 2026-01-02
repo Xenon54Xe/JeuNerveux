@@ -29,9 +29,4 @@ public class DrawVector extends UIObject {
         g2.setColor(vectorColor);
         g2.drawLine(getDrawScreenX(), getDrawScreenY(), getDrawScreenX() + (int)vector2D.getX(), getDrawScreenY() + (int)vector2D.getY());
     }
-
-    @Override
-    public boolean mouseOver() {
-        return false;
-    }
 }

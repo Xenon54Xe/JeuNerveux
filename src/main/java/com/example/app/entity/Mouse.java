@@ -15,8 +15,8 @@ public class Mouse extends LivingEntity implements IAttackEntity{
     private final int reach;
     private final int damage;
 
-    public Mouse(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp, int reach, int damage) {
-        super(gc, solidArea, name, speed, width, height, health, xp);
+    public Mouse(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage) {
+        super(gc, solidArea, name, speed, width, height, health, waitTimeBeforeAnimation, xp);
 
         setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
 
@@ -36,7 +36,7 @@ public class Mouse extends LivingEntity implements IAttackEntity{
     }
 
     @Override
-    public void update(double dt) {
+    public void update() {
         if (isActive()){
 
             // MOUSE BEHAVIOR
@@ -48,13 +48,14 @@ public class Mouse extends LivingEntity implements IAttackEntity{
                 Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
 
                 setMoveDirectionVector(getMoveDirectionVector().add(orthogonalVector.mul(amount)).getNormalized());
-
+                updateDrawDirection();
             }
             count--;
 
             gc.cChecker.checkTile(this);
 
-            move(dt);
+            move(gc.dt);
+            updateShowedSprite();
 
             attack();
         }

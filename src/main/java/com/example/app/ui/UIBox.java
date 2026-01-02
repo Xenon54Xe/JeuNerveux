@@ -26,16 +26,8 @@ public class UIBox extends UIObject {
         this.boxColor = boxColor;
     }
 
-    @Override
     public boolean mouseOver() {
-        if(!isShow()){
-            return false;
-        }
-
-        return mouseMH.getScreenX() > getDrawScreenX()
-                && mouseMH.getScreenX() < getDrawScreenX() + getWidth()
-                && mouseMH.getScreenY() > getDrawScreenY()
-                && mouseMH.getScreenY() < getDrawScreenY() + getHeight();
+        return super.mouseOver(mouseMH);
     }
 
     @Override

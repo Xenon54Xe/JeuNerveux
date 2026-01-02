@@ -6,7 +6,8 @@ import java.awt.event.KeyListener;
 public class KeyHandler implements KeyListener {
 
     // STATIC
-    public static int ERASE = 8;
+    public final static int ERASE = 8;
+    public final static int ESCAPE = 27;
 
     // Last key
     private boolean typedLastFrame = false;

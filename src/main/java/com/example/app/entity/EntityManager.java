@@ -22,26 +22,13 @@ public class EntityManager implements IListener {
     public EntityManager(GameCanvas gc){
         this.gc = gc;
 
-        // PLAYER
-        Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
-        player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 10000, 0, 2 * gc.tileSize, 20);
-        addEntity(player);
-
-        Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
-        // MICE
-        for (int i = 0; i < 100; i++) {
-            Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 1, gc.tileSize, 2);
-            //mouse.setTilePosition(5, 3);
-            mouse.setRandomPosition(gc.tileM.spawnableTiles);
-            addEntity(mouse);
-        }
-
-        // TRACKED
-        gc.setTracked(player);
-
         // EVENT
         gc.eventEntityDead.addListener(this);
         gc.eventChangeMap.addListener(this);
+    }
+
+    public void setPlayer(LivingEntity player) {
+        this.player = player;
     }
 
     public void addEntity(LivingEntity entity){
@@ -57,7 +44,24 @@ public class EntityManager implements IListener {
         entitiesToRemove.add(entity);
     }
 
-    public void update(double dt){
+    public void safeRemoveAllEntities(){
+        for (LivingEntity entity : livingEntities){
+            if (!entitiesToRemove.contains(entity)){
+                entitiesToRemove.add(entity);
+            }
+        }
+    }
+
+    public void randomChangeTracked() {
+        for (LivingEntity entity : livingEntities){
+            if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
+                gc.tracked = entity;
+                return;
+            }
+        }
+    }
+
+    public void update(){
         // Remove entities
         for (LivingEntity entity : entitiesToRemove){
             removeEntity(entity);
@@ -66,7 +70,7 @@ public class EntityManager implements IListener {
 
         // Update entities
         for (LivingEntity entity : livingEntities){
-            entity.update(dt);
+            entity.update();
         }
 
         if (gc.keyH.fClicked){
@@ -94,15 +98,6 @@ public class EntityManager implements IListener {
         if (component instanceof ComponentChangeMap cmComponent){
             for (Entity entity : livingEntities){
                 entity.setRandomPosition(cmComponent.spawnableTiles());
-            }
-        }
-    }
-
-    private void randomChangeTracked() {
-        for (LivingEntity entity : livingEntities){
-            if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
-                gc.tracked = entity;
-                return;
             }
         }
     }

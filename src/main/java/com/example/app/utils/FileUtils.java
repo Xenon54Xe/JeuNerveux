@@ -39,12 +39,14 @@ public class FileUtils {
 
     public static InputStream loadFile(String directory, String fileName) throws IOException {
         // 1 Try filesystem first (runtime-created files)
+        // The root folder is user/.myApp/jeuNerveux
         Path filePath = getUserGameDir(directory).resolve(fileName);
         if (Files.exists(filePath)) {
             return Files.newInputStream(filePath);
         }
 
         // 2 Try classpath (packaged main.java.main.resources)
+        // The root folder is resources
         String path = directory + "/" + fileName;
         InputStream is = Thread.currentThread()
                 .getContextClassLoader()

@@ -25,8 +25,8 @@ public class Player extends LivingEntity implements IAttackEntity{
     private int attackTimer = 0;
     private BufferedImage attackImage;
 
-    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int xp, int reach, int damage){
-        super(gc, solidArea, name, speed, width, height, health, xp);
+    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
+        super(gc, solidArea, name, speed, width, height, health, waitTimeBeforeAnimation, xp);
 
         keyH = gc.keyH;
         mouseH = gc.mouseH;
@@ -53,7 +53,7 @@ public class Player extends LivingEntity implements IAttackEntity{
     }
 
     @Override
-    public void update(double dt){
+    public void update(){
         if (isActive()) {
             if (getMoveDirectionVector() != Vector2D.ZERO) {
                 setMoveDirectionVector(Vector2D.ZERO);
@@ -87,7 +87,7 @@ public class Player extends LivingEntity implements IAttackEntity{
                 updateDrawDirection();
 
                 // MOVE IF THERE IS NO COLLISIONS (MOVE VECTOR != ZERO)
-                move(dt);
+                move(gc.dt);
 
                 updateShowedSprite();
             }
