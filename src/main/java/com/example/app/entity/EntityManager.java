@@ -3,7 +3,7 @@ package com.example.app.entity;
 import com.example.app.GameCanvas;
 import com.example.app.event.ComponentChangeMap;
 import com.example.app.event.ComponentEntityDead;
-2import com.example.app.event.Event;
+import com.example.app.event.Event;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
 
