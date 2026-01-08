@@ -16,24 +16,55 @@ public class UIFrame extends UIObject {
     // CLASS VARIABLES
     private final ArrayList<FrameCase> frameCases = new ArrayList<>();
     private int maxCol, maxRow; // To place ui
-    private int maxWidth, maxHeight; // Cumulated size of ui
 
     // DRAW OPTIONS
     public final static String DRAW_EVENLY = "draw-evenly";
     public final static String DRAW_STEP_BETWEEN_CENTER = "draw-step-center";
     public final static String DRAW_STEP_BETWEEN_EDGES = "draw-step-edges";
     private String drawOption = DRAW_EVENLY;
-    private final int updatePositionDelay = 20;
+    private final int updatePositionDelay = 60;
     private int updatePositionTimer = 0;
 
     // DRAW CHARACTERISTICS
     private int stepX, stepY;
+    private int maxWidth, maxHeight;
+    private int cumulatedWidth, cumulatedHeight; // max cumulated ui size
 
-    public UIFrame(GameCanvas gc, String name) {
+    public UIFrame(GameCanvas gc, String name, String drawReference) {
         super(name, 0, 0);
 
         this.gc = gc;
 
+        setDrawReference(drawReference);
+
+        setDrawEvenly();
+        gc.uiM.addUIObject(this);
+    }
+
+    public UIFrame(GameCanvas gc, String name, String drawReference, int col, int row) {
+        super(name, 0, 0);
+
+        this.gc = gc;
+
+        setDrawReference(drawReference);
+        setShape(col, row);
+
+        setDrawEvenly();
+        gc.uiM.addUIObject(this);
+    }
+
+    public UIFrame(GameCanvas gc, String name, String drawReference,
+                   int screenX, int screenY, int width, int height, int col, int row) {
+        super(name, screenX, screenY);
+
+        this.gc = gc;
+
+        setWidth(width);
+        setHeight(height);
+        setDrawReference(drawReference);
+        setShape(col, row);
+
+        setDrawEvenly();
         gc.uiM.addUIObject(this);
     }
 
@@ -48,6 +79,15 @@ public class UIFrame extends UIObject {
     public void setShape(int col, int row){
         this.maxCol = col;
         this.maxRow = row;
+    }
+
+    @Override
+    public void setDrawReference(String drawReference) {
+        for (FrameCase frameCase : frameCases){
+            frameCase.getObject().setDrawReference(drawReference);
+        }
+
+        super.setDrawReference(drawReference);
     }
 
     private void setDrawOption(String drawOption) {
@@ -73,6 +113,24 @@ public class UIFrame extends UIObject {
         this.stepY = stepY;
     }
 
+    public void updateSize(){
+        // Get max width & height
+        maxWidth = 0;
+        maxHeight = 0;
+        for (FrameCase frameCase : frameCases) {
+            UIObject object = frameCase.getObject();
+            if (object.getWidth() > maxWidth) {
+                maxWidth = object.getWidth();
+            }
+            if (object.getHeight() > maxHeight) {
+                maxHeight = object.getHeight();
+            }
+        }
+
+        cumulatedWidth = maxWidth * maxCol;
+        cumulatedHeight = maxHeight * maxRow;
+    }
+
     @Override
     public void setShow(boolean show) {
         super.setShow(show);
@@ -83,6 +141,7 @@ public class UIFrame extends UIObject {
     }
 
     public void expand(){
+        // Set the drawReference before calling this
         if(parentFrame == null){
             switch (getDrawReference()) {
                 case DRAW_CENTER -> setScreenPosition(gc.screenWidth / 2, gc.screenHeight / 2);
@@ -105,10 +164,10 @@ public class UIFrame extends UIObject {
         }
     }
 
-    public void addUIObject(UIObject object, String drawReference, int col, int row){
+    public void addUIObject(UIObject object, int col, int row){
         assert col < maxCol;
         assert row < maxRow;
-        object.setDrawReference(drawReference);
+        object.setDrawReference(getDrawReference());
         FrameCase newFrameCase = new FrameCase(object, col, row);
         frameCases.add(newFrameCase);
         gc.uiM.addUIObject(object);
@@ -118,23 +177,79 @@ public class UIFrame extends UIObject {
     public void draw(Graphics2D g2) {
         // Used to update positions
         if (isShow()){
+
             // SET POSITIONS
+            updatePositionTimer--;
             if (updatePositionTimer <= 0) {
+                updateSize();
+
                 updatePositionTimer = updatePositionDelay;
-                if (drawOption.equals(DRAW_EVENLY)) {
-                    int curStepX = getWidth() / (maxCol + 1);
-                    int curStepY = getHeight() / (maxRow + 1);
+                switch (drawOption) {
+                    case DRAW_EVENLY -> {
 
-                    for (FrameCase frameCase : frameCases) {
-                        UIObject object = frameCase.getObject();
-                        int col = frameCase.getCol();
-                        int row = frameCase.getRow();
+                        int curStepX = getWidth() / (maxCol + 1);
+                        int curStepY = getHeight() / (maxRow + 1);
 
-                        object.setScreenX(getDrawTopLeftScreenX() + curStepX * (col + 1));
-                        object.setScreenY(getDrawTopLeftScreenY() + curStepY * (row + 1));
+                        for (FrameCase frameCase : frameCases) {
+                            UIObject object = frameCase.getObject();
+                            int col = frameCase.getCol();
+                            int row = frameCase.getRow();
+
+                            object.setScreenX(getDrawTopLeftScreenX() + curStepX * (col + 1));
+                            object.setScreenY(getDrawTopLeftScreenY() + curStepY * (row + 1));
+                        }
                     }
-                } else {
-                    assert false : "Wrong draw option";
+                    case DRAW_STEP_BETWEEN_CENTER -> {
+
+                        int startScreenX = getDrawReferenceScreenX();
+                        int startScreenY = getDrawReferenceScreenY();
+                        if (getDrawReference().equals(DRAW_CENTER)){
+                            startScreenX -= cumulatedWidth / 2;
+                            startScreenY -= cumulatedHeight / 2;
+                        }
+
+                        int[] mul = getDrawReferenceMultiplier();
+                        int widthMul = mul[0];
+                        int heightMul = mul[1];
+
+                        for (FrameCase frameCase : frameCases) {
+                            UIObject object = frameCase.getObject();
+                            int col = frameCase.getCol();
+                            int row = frameCase.getRow();
+
+                            object.setScreenX(startScreenX + col * stepX * widthMul);
+                            object.setScreenY(startScreenY + row * stepY * heightMul);
+                        }
+                    }
+                    case DRAW_STEP_BETWEEN_EDGES -> {
+
+                        int startScreenX = getDrawReferenceScreenX();
+                        int startScreenY = getDrawReferenceScreenY();
+                        if (getDrawReference().equals(DRAW_CENTER)){
+                            startScreenX -= cumulatedWidth / 2;
+                            startScreenY -= cumulatedHeight / 2;
+                        }
+
+                        System.out.println("/////////////////");
+                        System.out.println(maxWidth + "  " + maxHeight);
+
+                        int[] mul = getDrawReferenceMultiplier();
+                        int widthMul = mul[0];
+                        int heightMul = mul[1];
+
+                        for (FrameCase frameCase : frameCases) {
+                            UIObject object = frameCase.getObject();
+                            int col = frameCase.getCol();
+                            int row = frameCase.getRow();
+
+                            object.setScreenX(startScreenX + col * widthMul * (stepX + maxWidth));
+                            object.setScreenY(startScreenY + row * heightMul * (stepY + maxHeight));
+                        }
+                    }
+                    default -> {
+
+                        assert false : "Wrong draw option";
+                    }
                 }
             }
         }

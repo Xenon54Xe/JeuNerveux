@@ -3,6 +3,7 @@ package com.example.app;
 import com.example.app.entity.Mouse;
 import com.example.app.entity.Player;
 import com.example.app.event.ComponentUIClick;
+import com.example.app.event.Event;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
 import com.example.app.ui.UIFrame;
@@ -15,11 +16,12 @@ public class SceneryManager implements IListener {
 
     final GameCanvas gc;
 
-    private String lastChoosedScenery;
-
     public static final String TITLE_SCENERY = "TitleScenery";
-
     public static final String MAP1_SCENERY = "Map1Scenery";
+    public static final String CLEAN_SCENERY = "clean-scenery";
+
+    // CLASS VARIABLES
+    private String lastChoosedScenery;
     private final UIFrame uiFrameMap1;
 
     // UI TO UPDATE
@@ -29,34 +31,29 @@ public class SceneryManager implements IListener {
     public SceneryManager(GameCanvas gc){
         this.gc = gc;
 
-        // EVENT
-        gc.eventUIClick.addListener(this);
-
         // UI MENUS
-        uiFrameMap1 = new UIFrame(gc, "Scenery Map1");
+        uiFrameMap1 = new UIFrame(gc, "Scenery Map1", UIObject.DRAW_TOP_LEFT_CORNER,
+                0, 0, gc.tileSize, gc.tileSize * 2, 1, 2);
+        uiFrameMap1.setDrawEvenly();
 
         // UI
         makeUI();
+
+        // EVENT
+        register(gc.eventUIClick);
     }
 
     private void makeUI(){
         // MAP1
-        uiFrameMap1.setShape(1, 2);
-        uiFrameMap1.setDrawReference(UIObject.DRAW_TOP_LEFT_CORNER);
-        uiFrameMap1.setDrawEvenly();
-        uiFrameMap1.setScreenX(0);
-        uiFrameMap1.setScreenY(0);
-        uiFrameMap1.setWidth(gc.tileSize);
-        uiFrameMap1.setHeight(gc.tileSize * 2);
         playerPosition = new UIText(Color.WHITE, "Position : ", gc.tileSize, gc.tileSize);
         playerXP = new UIText(Color.WHITE, "XP : ", gc.tileSize, gc.tileSize * 2);
-        uiFrameMap1.addUIObject(playerPosition, UIObject.DRAW_TOP_LEFT_CORNER,0, 0);
-        uiFrameMap1.addUIObject(playerXP, UIObject.DRAW_TOP_LEFT_CORNER,0, 1);
+        uiFrameMap1.addUIObject(playerPosition, 0, 0);
+        uiFrameMap1.addUIObject(playerXP, 0, 1);
     }
 
     public void changeScenery(String scenery){
 
-        if (scenery.equals(TITLE_SCENERY) || scenery.equals(MAP1_SCENERY)) {
+        if (scenery.equals(TITLE_SCENERY) || scenery.equals(MAP1_SCENERY) || scenery.equals(CLEAN_SCENERY)) {
 
             lastChoosedScenery = scenery;
 
@@ -65,8 +62,11 @@ public class SceneryManager implements IListener {
 
             if (scenery.equals(TITLE_SCENERY)) {
                 titleScenery();
-            } else {
+            } else if (scenery.equals(MAP1_SCENERY)){
                 map1Scenery();
+            }
+            else {
+                cleanScenery();
             }
         }
     }
@@ -120,6 +120,18 @@ public class SceneryManager implements IListener {
         uiFrameMap1.setShow(true);
     }
 
+    private void cleanScenery(){
+        // PLAYER
+        Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
+        Player player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 10000, 6, 0, 2 * gc.tileSize, 20);
+        player.setRandomPosition(gc.tileM.spawnableTiles);
+        gc.entityM.addEntity(player);
+        gc.entityM.setPlayer(player);
+
+        // TRACKED
+        gc.setTracked(player);
+    }
+
     public void update(){
 
         if (lastChoosedScenery.equals(MAP1_SCENERY)) {
@@ -137,5 +149,10 @@ public class SceneryManager implements IListener {
                 changeScenery(payload);
             }
         }
+    }
+
+    @Override
+    public void register(Event event) {
+        event.addListener(this);
     }
 }

@@ -6,4 +6,9 @@ public class TestListener implements IListener{
     public void onTrigger(IEventComponent component) {
         System.out.println(component.getName());
     }
+
+    @Override
+    public void register(Event event) {
+        event.addListener(this);
+    }
 }

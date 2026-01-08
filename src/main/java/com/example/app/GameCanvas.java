@@ -7,9 +7,10 @@ import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
 import com.example.app.handler.MouseMotionHandler;
 import com.example.app.tile.LoadMapManager;
-import com.example.app.tile.MapMakerManager;
+import com.example.app.tile.MapCreateManager;
+import com.example.app.tile.MapDrawerManager;
 import com.example.app.tile.TileManager;
-import com.example.app.ui.UIMainMenu;
+import com.example.app.ui.UIMainMenuManager;
 import com.example.app.ui.UIManager;
 
 import java.awt.*;
@@ -49,17 +50,20 @@ public class GameCanvas extends Canvas implements Runnable {
 
     // MAP
     public final TileManager tileM;
-    public final MapMakerManager mapMakerM;
+    public final MapDrawerManager mapDrawerM;
 
     // MAP LOADER
     public final LoadMapManager loadMapM;
+    
+    // MAP CREATER
+    public final MapCreateManager mapCreateM;
 
     // SceneryManager
     public final SceneryManager sceneryM;
 
     // UI
     public final UIManager uiM;
-    private final UIMainMenu uiMainMenu;
+    private final UIMainMenuManager uiMainMenuM;
 
     // ENTITIES
     public final EntityManager entityM;
@@ -91,16 +95,19 @@ public class GameCanvas extends Canvas implements Runnable {
 
         // UI
         uiM = new UIManager(this);
-        uiMainMenu = new UIMainMenu(this);
+        uiMainMenuM = new UIMainMenuManager(this);
 
         // MAP LOADER
         loadMapM = new LoadMapManager(this);
+        
+        // MAP CREATE
+        mapCreateM = new MapCreateManager(this);
 
         // MAP INIT
         tileM = new TileManager(this);
 
         // MAPMAKER
-        mapMakerM = new MapMakerManager(this);
+        mapDrawerM = new MapDrawerManager(this);
 
         // COLLISION
         cChecker = new CollisionChecker(this);
@@ -113,7 +120,7 @@ public class GameCanvas extends Canvas implements Runnable {
         sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
 
         // END
-        uiMainMenu.setShow(true);
+        uiMainMenuM.setShow(true);
         setFocusable(true);
     }
 
@@ -159,8 +166,8 @@ public class GameCanvas extends Canvas implements Runnable {
         // Everything that need update
         entityM.update();
         uiM.update();
-        mapMakerM.update();
-        uiMainMenu.update();
+        mapDrawerM.update();
+        uiMainMenuM.update();
         sceneryM.update();
 
         // Allow to have a one frame click

@@ -3,6 +3,7 @@ package com.example.app.entity;
 import com.example.app.GameCanvas;
 import com.example.app.event.ComponentChangeMap;
 import com.example.app.event.ComponentEntityDead;
+2import com.example.app.event.Event;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
 
@@ -23,8 +24,8 @@ public class EntityManager implements IListener {
         this.gc = gc;
 
         // EVENT
-        gc.eventEntityDead.addListener(this);
-        gc.eventChangeMap.addListener(this);
+        register(gc.eventChangeMap);
+        register(gc.eventEntityDead);
     }
 
     public void setPlayer(LivingEntity player) {
@@ -100,5 +101,10 @@ public class EntityManager implements IListener {
                 entity.setRandomPosition(cmComponent.spawnableTiles());
             }
         }
+    }
+
+    @Override
+    public void register(Event event) {
+        event.addListener(this);
     }
 }

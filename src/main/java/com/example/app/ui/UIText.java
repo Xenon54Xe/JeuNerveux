@@ -32,7 +32,7 @@ public class UIText extends UIObject implements IUIText {
             setHeight(dimensions[1]);
 
             g2.setColor(textColor);
-            g2.drawString(text, getDrawTopLeftScreenX(), getDrawTopLeftScreenY());
+            g2.drawString(text, getDrawTopLeftScreenX(), getDrawTopLeftScreenY() + getHeight());
         }
     }
 }

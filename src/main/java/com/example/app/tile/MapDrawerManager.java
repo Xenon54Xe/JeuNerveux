@@ -2,17 +2,15 @@ package com.example.app.tile;
 
 import com.example.app.GameCanvas;
 import com.example.app.event.ComponentUIClick;
+import com.example.app.event.Event;
 import com.example.app.event.IEventComponent;
 import com.example.app.event.IListener;
-import com.example.app.ui.UIImageButton;
-import com.example.app.ui.UIFrame;
-import com.example.app.ui.UIObject;
-import com.example.app.ui.UITextButton;
+import com.example.app.ui.*;
 import com.example.app.utils.FileUtils;
 
 import java.awt.*;
 
-public class MapMakerManager implements IListener {
+public class MapDrawerManager implements IListener {
 
     // UTILS
     private final GameCanvas gc;
@@ -32,25 +30,21 @@ public class MapMakerManager implements IListener {
     private int layer = 0;
     private final UITextButton uiButtonChangeLayer;
 
-    public MapMakerManager(GameCanvas gc) {
+    public MapDrawerManager(GameCanvas gc) {
         // INIT
         this.gc = gc;
 
         // EVENT LISTENER
-        gc.eventUIClick.addListener(this);
+        register(gc.eventUIClick);
 
 //        // ACTIVATE BUTTON (always shown)
 //        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAPMAKING, "Activate map making", gc.tileSize * 10, gc.tileSize, 10, 10);
 //        gc.uiM.addUIObject(uiTextButtonActivate);
         // UI
-        uiFrame = new UIFrame(gc, "Draw the map");
-        uiFrame.setDrawReference(UIObject.DRAW_TOP_LEFT_CORNER);
-        uiFrame.setShape(1, 3);
-        uiFrame.setDrawEvenly();
-        uiFrame.setScreenX(0);
-        uiFrame.setScreenY(0);
-        uiFrame.setWidth(gc.tileSize);
-        uiFrame.setHeight(gc.tileSize * 4);
+        uiFrame = new UIFrame(gc, "Draw the map",
+                UIObject.DRAW_TOP_LEFT_CORNER, 1, 3);
+        uiFrame.setDrawStepBetweenEdges(10, 10);
+        uiFrame.expand();
 
         // BUTTON TILE TYPE
         int size = (int)(gc.tileSize * 0.8);
@@ -60,12 +54,12 @@ public class MapMakerManager implements IListener {
         // BUTTON CHANGE LAYER
         uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, CHANGE_LAYER, "Layer : 0", gc.tileSize, gc.tileSize * 4, 10, 10);
         // Register
-        uiFrame.addUIObject(uiButtonTileType, UIObject.DRAW_TOP_LEFT_CORNER, 0, 1);
-        uiFrame.addUIObject(uiTextButtonSave, UIObject.DRAW_TOP_LEFT_CORNER, 0, 0);
-        uiFrame.addUIObject(uiButtonChangeLayer, UIObject.DRAW_TOP_LEFT_CORNER, 0, 2);
+        uiFrame.addUIObject(uiButtonTileType, 0, 1);
+        uiFrame.addUIObject(uiTextButtonSave, 0, 0);
+        uiFrame.addUIObject(uiButtonChangeLayer, 0, 2);
 
         // MAKING THEM HIDDEN OR NOT
-        setActive(false);
+        setShow(false);
     }
 
     public void update(){
@@ -88,7 +82,7 @@ public class MapMakerManager implements IListener {
         gc.loadMapM.reloadAvailableMaps();
     }
 
-    public void setActive(boolean active){
+    public void setShow(boolean active){
         uiFrame.setShow(active);
     }
 
@@ -133,5 +127,10 @@ public class MapMakerManager implements IListener {
 //                setActive(!uiMenu.isActive());
 //            }
         }
+    }
+
+    @Override
+    public void register(Event event) {
+        event.addListener(this);
     }
 }

@@ -44,9 +44,9 @@
 <li>Une frame contient d'autres <b>UIObjects</b></li>
 <li>Elle permet d'organiser harmonieusement les UIObjects en calculant les positions des UIObjects en fonction 
 de leur taille, de leur nombre et d'où on veut les positionner</li>
-<li>Une frame <b>drawCentered=true</b> affiche ses UIObjects autour de son centre absolu</li>
-<li>Une frame <b>drawCentered=false</b> affiche ses UIObjects en x et y supérieurs au centre absolu</li>
-<li>Une frame affiche toujours ses UIObjects en <b>drawCentered=true</b></li>
+<li>Une frame est positionnée comme tous les autres UI, i.e. son coin supérieur gauche correspond au point à partir duquel on affiche une image...</li>
+<li>Pour positionner une frame en <b>drawReference=DRAW_BOTTOM_RIGHT_CORNER</b> il faut placer le coin inférieur droit là où on veut trouver le centre absolu</li>
+<li>La frame sera étendue alors dans le sens des X<0 et Y<0 car <b>drawReference=DRAW_BOTTOM_RIGHT_CORNER</b></li>
 </ul>
 
 <h3>Simulation</h3>

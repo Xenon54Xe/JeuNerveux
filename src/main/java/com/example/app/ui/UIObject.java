@@ -167,6 +167,38 @@ public abstract class UIObject implements IDrawable {
         return getDrawTopLeftScreenY() + height / 2;
     }
 
+    public int getDrawReferenceScreenX(){
+        return switch (drawReference){
+            case DRAW_TOP_LEFT_CORNER -> getDrawTopLeftScreenX();
+            case DRAW_BOTTOM_LEFT_CORNER -> getDrawBottomLeftScreenX();
+            case DRAW_TOP_RIGHT_CORNER -> getDrawTopRightScreenX();
+            case DRAW_BOTTOM_RIGHT_CORNER -> getDrawBottomRightScreenX();
+            case DRAW_CENTER -> getDrawCenterScreenX();
+            default -> throw new IllegalStateException("Unexpected value: " + drawReference);
+        };
+    }
+
+    public int getDrawReferenceScreenY(){
+        return switch (drawReference){
+            case DRAW_TOP_LEFT_CORNER -> getDrawTopLeftScreenY();
+            case DRAW_BOTTOM_LEFT_CORNER -> getDrawBottomLeftScreenY();
+            case DRAW_TOP_RIGHT_CORNER -> getDrawTopRightScreenY();
+            case DRAW_BOTTOM_RIGHT_CORNER -> getDrawBottomRightScreenY();
+            case DRAW_CENTER -> getDrawCenterScreenY();
+            default -> throw new IllegalStateException("Unexpected value: " + drawReference);
+        };
+    }
+
+    public int[] getDrawReferenceMultiplier(){
+        return switch (drawReference){
+            case DRAW_TOP_LEFT_CORNER, DRAW_CENTER -> new int[]{1, 1};
+            case DRAW_BOTTOM_LEFT_CORNER -> new int[]{1, -1};
+            case DRAW_TOP_RIGHT_CORNER -> new int[]{-1, 1};
+            case DRAW_BOTTOM_RIGHT_CORNER -> new int[]{-1, -1};
+            default -> throw new IllegalStateException("Unexpected value: " + drawReference);
+        };
+    }
+
     public void setScreenPosition(Vector2D vector2D){
         setScreenPosition((int)Math.round(vector2D.getX()), (int)Math.round(vector2D.getY()));
     }
