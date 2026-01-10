@@ -1,6 +1,10 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
+import com.example.app.event.ComponentEntityDead;
+import com.example.app.event.Event;
+import com.example.app.event.IEventComponent;
+import com.example.app.event.IListener;
 import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
 import com.example.app.utils.Vector2D;
@@ -8,7 +12,7 @@ import com.example.app.utils.Vector2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends LivingEntity implements IAttackEntity{
+public class Player extends LivingEntity implements IAttackEntity, IListener {
 
     // UTILS
     private final KeyHandler keyH;
@@ -24,6 +28,9 @@ public class Player extends LivingEntity implements IAttackEntity{
     private int attackDelay = 10;
     private int attackTimer = 0;
     private BufferedImage attackImage;
+
+    // PLAYER GROUP
+    PlayerEntityGroup playerEntityGroup;
 
     public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
         super(gc, solidArea, name, speed, width, height, health, waitTimeBeforeAnimation, xp);
@@ -50,57 +57,77 @@ public class Player extends LivingEntity implements IAttackEntity{
         left2 = getSpriteImage("entities/player", "boy_left_2.png");
         right1 = getSpriteImage("entities/player", "boy_right_1.png");
         right2 = getSpriteImage("entities/player", "boy_right_2.png");
+
+        // PLAYER ENTITY GROUP
+        playerEntityGroup = new PlayerEntityGroup(gc, this);
+        setGroupID(playerEntityGroup.ID);
+
+        // Event
+        register(gc.eventEntityDead);
+    }
+
+    public void playerMoveBehavior(){
+        if (getMoveDirectionVector() != Vector2D.ZERO) {
+            setMoveDirectionVector(Vector2D.ZERO);
+        }
+
+        if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
+
+            Vector2D newMoveVector = Vector2D.ZERO;
+            if (keyH.upPressed) {
+                newMoveVector = newMoveVector.add(Vector2D.UP);
+            }
+            if (keyH.downPressed) {
+                newMoveVector = newMoveVector.add(Vector2D.DOWN);
+            }
+            if (keyH.leftPressed) {
+                newMoveVector = newMoveVector.add(Vector2D.LEFT);
+            }
+            if (keyH.rightPressed) {
+                newMoveVector = newMoveVector.add(Vector2D.RIGHT);
+            }
+            setMoveDirectionVector(newMoveVector.getNormalized());
+
+            if (keyH.xPressed && getSpeed() != sprintSpeed) {
+                setSpeed(sprintSpeed);
+            } else if (getSpeed() != baseSpeed) {
+                setSpeed(baseSpeed);
+            }
+
+            updateDrawDirection();
+
+            // MOVE IF THERE IS NO COLLISIONS (MOVE VECTOR != ZERO)
+            move(gc.dt);
+
+            updateShowedSprite();
+        }
+    }
+
+    public void playerAttackBehavior(){
+        if (attackTimer == 0 && mouseH.leftClickClicked && !gc.uiM.isMouseOverUI()) {
+            attack();
+        }
     }
 
     @Override
     public void update(){
         if (isActive()) {
-            if (getMoveDirectionVector() != Vector2D.ZERO) {
-                setMoveDirectionVector(Vector2D.ZERO);
+            super.update();
+
+            if (isOwnBehavior()) {
+                playerMoveBehavior();
             }
+            playerAttackBehavior();
 
-            if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
-
-                Vector2D newMoveVector = Vector2D.ZERO;
-                if (keyH.upPressed) {
-                    newMoveVector = newMoveVector.add(Vector2D.UP);
-                }
-                if (keyH.downPressed) {
-                    newMoveVector = newMoveVector.add(Vector2D.DOWN);
-                }
-                if (keyH.leftPressed) {
-                    newMoveVector = newMoveVector.add(Vector2D.LEFT);
-                }
-                if (keyH.rightPressed) {
-                    newMoveVector = newMoveVector.add(Vector2D.RIGHT);
-                }
-                setMoveDirectionVector(newMoveVector.getNormalized());
-
-                if (keyH.xPressed && getSpeed() != sprintSpeed) {
-                    setSpeed(sprintSpeed);
-                } else if (getSpeed() != baseSpeed) {
-                    setSpeed(baseSpeed);
-                }
-
-                gc.cChecker.checkTile(this);
-
-                updateDrawDirection();
-
-                // MOVE IF THERE IS NO COLLISIONS (MOVE VECTOR != ZERO)
-                move(gc.dt);
-
-                updateShowedSprite();
-            }
-
-            if (attackTimer == 0 && mouseH.leftClickClicked && !gc.uiM.isMouseOverUI()) {
-                attack();
-            }
+            playerEntityGroup.update();
         }
     }
 
     @Override
     public void draw(Graphics2D g2) {
         if (isVisible() && isShow()) {
+            super.draw(g2);
+
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE
                 g2.drawImage(attackImage, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
@@ -116,5 +143,28 @@ public class Player extends LivingEntity implements IAttackEntity{
     public void attack() {
         attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
         attackTimer = attackDelay;
+    }
+
+    @Override
+    public void onTrigger(IEventComponent component) {
+        if (component instanceof ComponentEntityDead(LivingEntity killed, LivingEntity killer)){
+
+            if (killer.getGroupID() == getGroupID()){
+                LivingEntity entity = (LivingEntity) killed.makeClone();
+                entity.setWorldPosition(killed.getWorldPosition());
+                entity.setSpeed(baseSpeed);
+                playerEntityGroup.addEntity(entity);
+            }
+        }
+    }
+
+    @Override
+    public void register(Event event) {
+        event.addListener(this);
+    }
+
+    @Override
+    public Entity makeClone() {
+        return new Player(gc, getSolidArea(), getName(), baseSpeed, getWidth(), getHeight(), getMaxHealth(), getWaitTimeBeforeAnimation(), getStartXp(), reach, damage);
     }
 }

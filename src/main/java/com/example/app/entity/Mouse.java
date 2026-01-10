@@ -7,6 +7,7 @@ import java.awt.*;
 
 public class Mouse extends LivingEntity implements IAttackEntity{
 
+    // CLASS VARIABLES
     double amount = 0;
     int count = 0;
 
@@ -35,27 +36,32 @@ public class Mouse extends LivingEntity implements IAttackEntity{
         setAvoidWall(true);
     }
 
+    public void mouseBehavior(){
+        // MOUSE BEHAVIOR
+        if (count <= 0){
+            count = 20;
+
+            amount = (Math.random() - 0.5) / 2 ;
+
+            Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
+
+            setMoveDirectionVector(getMoveDirectionVector().add(orthogonalVector.mul(amount)).getNormalized());
+            updateDrawDirection();
+        }
+        count--;
+
+        move(gc.dt);
+        updateShowedSprite();
+    }
+
     @Override
     public void update() {
         if (isActive()){
+            super.update();
 
-            // MOUSE BEHAVIOR
-            if (count <= 0){
-                count = 20;
-
-                amount = (Math.random() - 0.5) / 2 ;
-
-                Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
-
-                setMoveDirectionVector(getMoveDirectionVector().add(orthogonalVector.mul(amount)).getNormalized());
-                updateDrawDirection();
+            if (isOwnBehavior()) {
+                mouseBehavior();
             }
-            count--;
-
-            gc.cChecker.checkTile(this);
-
-            move(gc.dt);
-            updateShowedSprite();
 
             attack();
         }
@@ -64,6 +70,8 @@ public class Mouse extends LivingEntity implements IAttackEntity{
     @Override
     public void draw(Graphics2D g2) {
         if (isVisible() && isShow()){
+            super.draw(g2);
+
             drawWalkingAnimation(g2);
 
             /*
@@ -80,5 +88,10 @@ public class Mouse extends LivingEntity implements IAttackEntity{
             attackTimer = 20;
         }
         attackTimer--;
+    }
+
+    @Override
+    public Entity makeClone() {
+        return new Mouse(gc, getSolidArea(), getName(), getSpeed(), getWidth(), getHeight(), getMaxHealth(), getWaitTimeBeforeAnimation(), getStartXp(), reach, damage);
     }
 }

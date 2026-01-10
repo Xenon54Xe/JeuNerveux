@@ -6,11 +6,9 @@ public interface IAttackEntity {
 
     void attack();
 
-    boolean isDead();
-
     default void attackNearestEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
 
-        if (isDead()){
+        if (self.isDead()){
             return;
         }
 
@@ -19,7 +17,9 @@ public interface IAttackEntity {
 
         for (LivingEntity entity : entities) {
 
-            if (entity == self){
+            if (self == entity
+                    || (self.getGroupID() != -1 && entity.getGroupID() == self.getGroupID())){
+                // Skip this entity
                 continue;
             }
 
@@ -35,15 +35,18 @@ public interface IAttackEntity {
         }
     }
 
+
     default void attackFirstNearEnoughEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
 
-        if (isDead()){
+        if (self.isDead()){
             return;
         }
 
         for (LivingEntity entity : entities) {
 
-            if (entity == self){
+            if (self == entity
+                    || (self.getGroupID() != -1 && entity.getGroupID() == self.getGroupID())){
+                // Skip this entity
                 continue;
             }
 

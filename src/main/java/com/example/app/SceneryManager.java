@@ -1,16 +1,15 @@
 package com.example.app;
 
-import com.example.app.entity.Mouse;
-import com.example.app.entity.Player;
-import com.example.app.event.ComponentUIClick;
+import com.example.app.entity.*;
+import com.example.app.event.*;
 import com.example.app.event.Event;
-import com.example.app.event.IEventComponent;
-import com.example.app.event.IListener;
 import com.example.app.ui.UIFrame;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UIText;
+import com.example.app.utils.Vector2D;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class SceneryManager implements IListener {
 
@@ -23,6 +22,8 @@ public class SceneryManager implements IListener {
     // CLASS VARIABLES
     private String lastChoosedScenery;
     private final UIFrame uiFrameMap1;
+
+    private final ArrayList<IEntityGroup> groups = new ArrayList<>();
 
     // UI TO UPDATE
     UIText playerPosition;
@@ -101,16 +102,27 @@ public class SceneryManager implements IListener {
         // ENTITY MANAGER
         // PLAYER
         Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
-        Player player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 10000, 6, 0, 2 * gc.tileSize, 20);
+        Player player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 100, 6, 0, 2 * gc.tileSize, 20);
         gc.entityM.addEntity(player);
         gc.entityM.setPlayer(player);
+
+
         // MICE
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
-        for (int i = 0; i < 100; i++) {
-            Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 180, 1, gc.tileSize, 2);
-            //mouse.setTilePosition(5, 3);
-            mouse.setRandomPosition(gc.tileM.spawnableTiles);
-            gc.entityM.addEntity(mouse);
+        for (int i = 0; i < 20; i++) {
+
+            /*
+            /!\ les groups ne sont jamais détruits !
+             */
+            IEntityGroup group = new EnemyEntityGroup(gc);
+            groups.add(group);
+            Vector2D targetPosition = Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles);
+            for (int j = 0; j < 5; j++) {
+
+                Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse-" + (5 * i + j),50, gc.tileSize, gc.tileSize, 25, 180, 1, gc.tileSize, 5);
+                mouse.setWorldPosition(targetPosition.add(Vector2D.getRandomVectorNormalized().mul(gc.tileSize)));
+                group.addEntity(mouse);
+            }
         }
 
         // TRACKED
@@ -137,6 +149,11 @@ public class SceneryManager implements IListener {
         if (lastChoosedScenery.equals(MAP1_SCENERY)) {
             playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
             playerXP.setText("XP : " + gc.entityM.player.getXp());
+
+            // ENTITY GROUP
+            for (IEntityGroup group : groups){
+                group.update();
+            }
         }
     }
 
@@ -147,6 +164,10 @@ public class SceneryManager implements IListener {
 
             if (mouseButtonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
                 changeScenery(payload);
+            }
+        } else if (component instanceof ComponentGroupDead(EntityGroup group)) {
+            if (! groups.remove(group)){
+                assert false;
             }
         }
     }

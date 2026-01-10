@@ -14,11 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
+public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEntity {
 
     // UTILS
     final GameCanvas gc;
-    
+
     // IMAGES
     BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     // IMAGES LOGIC
@@ -32,7 +32,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
     private final String name;
     private int speed;
     private final int width, height;
-    
+
     // MOVEMENT
     private Vector2D worldPosition = Vector2D.ZERO;
     private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
@@ -41,6 +41,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
     private boolean show = true;
     private boolean active = true;
     private boolean avoidWall;
+    private boolean ownBehavior = true;
 
     public Entity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int waitTimeBeforeAnimation){
         this.gc = gc;
@@ -144,14 +145,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
     }
 
     public void setRandomPosition(ArrayList<Integer> choiceTiles){
-        int randomIndex = (int)Math.floor(Math.random() * choiceTiles.size());
-        int randomNumber = choiceTiles.get(randomIndex);
-
-        int col, row;
-        col = randomNumber % gc.tileM.getMaxWorldCol();
-        row = randomNumber / gc.tileM.getMaxWorldRow();
-
-        setTilePosition(col, row);
+        setTilePosition(Vector2D.chooseRandomTile(gc, choiceTiles));
     }
 
     public double getWorldX() {
@@ -208,6 +202,14 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
         setWorldPosition(new Vector2D(gc.tileSize * col + getWidth() / 2.0, gc.tileSize * row + getHeight() / 2.0));
     }
 
+    public void setTilePosition(int[] position){
+        setTilePosition(position[0], position[1]);
+    }
+
+    public void setTilePosition(Vector2D position){
+        setTilePosition((int)position.getX(), (int)position.getY());
+    }
+
     public int getSpeed() {
         return speed;
     }
@@ -262,6 +264,18 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
         this.avoidWall = avoidWall;
     }
 
+    public boolean isOwnBehavior() {
+        return ownBehavior;
+    }
+
+    public void setOwnBehavior(boolean ownBehavior) {
+        this.ownBehavior = ownBehavior;
+    }
+
+    public int getWaitTimeBeforeAnimation() {
+        return waitTimeBeforeAnimation;
+    }
+
     public void drawWalkingAnimation(Graphics2D g2){
 
         if (isVisible()) {
@@ -304,11 +318,14 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable {
     }
 
     public void move(Vector2D vector2D) {
-        // Make the com.example.app.entity move using its moveVectorDirection
+        // Make the entity move using its moveVectorDirection
         worldPosition = worldPosition.add(vector2D);
     }
 
     public void move(double dt){
+        // Anticipate collisions
+        gc.cChecker.checkTile(this); // Disable moving if collisions will happen
+        // Move
         move(moveDirectionVector.mul(getSpeed() * dt));
     }
 }

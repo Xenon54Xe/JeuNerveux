@@ -15,10 +15,11 @@ public class EntityManager implements IListener {
     final GameCanvas gc;
 
     // CLASS VARIABLES
+    public final ArrayList<LivingEntity> entitiesToAdd = new ArrayList<>();
     public final ArrayList<LivingEntity> livingEntities = new ArrayList<>();
     private final ArrayList<LivingEntity> entitiesToRemove = new ArrayList<>();
 
-    public LivingEntity player;
+    public Player player;
 
     public EntityManager(GameCanvas gc){
         this.gc = gc;
@@ -28,12 +29,16 @@ public class EntityManager implements IListener {
         register(gc.eventEntityDead);
     }
 
-    public void setPlayer(LivingEntity player) {
+    public void setPlayer(Player player) {
         this.player = player;
     }
 
     public void addEntity(LivingEntity entity){
         livingEntities.add(entity);
+    }
+
+    public void safeAddEntity(LivingEntity entity){
+        entitiesToAdd.add(entity);
     }
 
     private void removeEntity(LivingEntity entity){
@@ -42,14 +47,15 @@ public class EntityManager implements IListener {
 
     public void safeRemoveEntity(LivingEntity entity){
         // Add the com.example.app.entity to the list of com.example.app.entity to remove
-        entitiesToRemove.add(entity);
+        if (!entitiesToRemove.contains(entity)) {
+            entitiesToRemove.add(entity);
+            entity.softKill();
+        }
     }
 
     public void safeRemoveAllEntities(){
         for (LivingEntity entity : livingEntities){
-            if (!entitiesToRemove.contains(entity)){
-                entitiesToRemove.add(entity);
-            }
+            safeRemoveEntity(entity);
         }
     }
 
@@ -68,6 +74,10 @@ public class EntityManager implements IListener {
             removeEntity(entity);
         }
         entitiesToRemove.clear();
+
+        // Add entities
+        livingEntities.addAll(entitiesToAdd);
+        entitiesToAdd.clear();
 
         // Update entities
         for (LivingEntity entity : livingEntities){
@@ -97,7 +107,7 @@ public class EntityManager implements IListener {
             }
         }
         if (component instanceof ComponentChangeMap cmComponent){
-            for (Entity entity : livingEntities){
+            for (LivingEntity entity : livingEntities){
                 entity.setRandomPosition(cmComponent.spawnableTiles());
             }
         }

@@ -42,6 +42,7 @@ public class GameCanvas extends Canvas implements Runnable {
     public final Event eventEntityDead = new Event();
     public final Event eventChangeMap = new Event();
     public final Event eventCreateMap = new Event();
+    public final Event eventGroupDead = new Event();
 
     // HANDLERS
     public final KeyHandler keyH = new KeyHandler();
@@ -92,6 +93,7 @@ public class GameCanvas extends Canvas implements Runnable {
         eventUIClick.addListener(testListener);
         eventEntityDead.addListener(testListener);
         eventCreateMap.addListener(testListener);
+        eventGroupDead.addListener(testListener);
 
         // UI
         uiM = new UIManager(this);

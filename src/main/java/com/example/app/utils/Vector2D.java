@@ -1,5 +1,7 @@
 package com.example.app.utils;
 
+import com.example.app.GameCanvas;
+
 import java.util.ArrayList;
 
 public class Vector2D {
@@ -32,9 +34,36 @@ public class Vector2D {
         y = vector.y;
     }
 
+    public static long random(int min, int max){
+        return Math.round(Math.random() * (max - min)) + min;
+    }
+
+    public static Vector2D chooseRandomWorldPosition(GameCanvas gc, ArrayList<Integer> choiceTiles){
+        return tileToWorldPosition(gc, chooseRandomTile(gc, choiceTiles));
+    }
+
+    public static Vector2D tileToWorldPosition(GameCanvas gc, int col, int row){
+        return new Vector2D(col * gc.tileSize + gc.tileSize / 2.0, row * gc.tileSize + gc.tileSize / 2.0);
+    }
+
+    public static Vector2D tileToWorldPosition(GameCanvas gc, int[] position){
+        return tileToWorldPosition(gc, position[0], position[1]);
+    }
+
+    public static int[] chooseRandomTile(GameCanvas gc, ArrayList<Integer> choiceTiles){
+        int randomIndex = (int)random(0, choiceTiles.size() - 1);
+        int randomNumber = choiceTiles.get(randomIndex);
+
+        int col, row;
+        col = randomNumber % gc.tileM.getMaxWorldCol();
+        row = randomNumber / gc.tileM.getMaxWorldRow();
+
+        return new int[]{col, row};
+    }
+
     public static Vector2D getRandomVectorNormalized(){
-        double x = Math.random();
-        double y = Math.random();
+        double x = Math.random() * 2 - 1;
+        double y = Math.random() * 2 - 1;
 
         return new Vector2D(x, y).getNormalized();
     }

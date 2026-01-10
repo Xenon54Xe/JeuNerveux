@@ -4,22 +4,25 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.7.1&#10;feat:&#10;- smarter frames (can draw from every corner)">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.7.2-b&#10;feat:&#10;- removed error">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EnemyEntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/PlayerEntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentGroupDead.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFillBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapMakerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/test.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,8 +63,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Interface" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -226,8 +229,8 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.com.example.app.Main" />
-        <item itemvalue="Application.HandlerTester" />
         <item itemvalue="Application.UtilsTester" />
+        <item itemvalue="Application.HandlerTester" />
         <item itemvalue="Application.main.java.main.Main" />
         <item itemvalue="Application.net.rubicon.main.Main" />
       </list>
@@ -236,7 +239,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.138" />
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
       </set>
     </attachedChunks>
   </component>
@@ -387,7 +390,23 @@
       <option name="project" value="LOCAL" />
       <updated>1767352443935</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="v0.7.2&#10;feat:&#10;- code refactor&#10;- organized ui">
+      <option name="closed" value="true" />
+      <created>1767877428797</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1767877428798</updated>
+    </task>
+    <task id="LOCAL-00019" summary="v0.7.2-b&#10;feat:&#10;- removed error">
+      <option name="closed" value="true" />
+      <created>1767877477069</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1767877477069</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -421,7 +440,9 @@
     <MESSAGE value="v0.6.2&#10;feat: &#10;- reload available maps every time one is created&#10;- refactor and testing of FileUtils" />
     <MESSAGE value="v0.7.0&#10;feat:&#10;- enhanced ui with UIFrame&#10;- code refactor&#10;- README.md refactor" />
     <MESSAGE value="v0.7.1&#10;feat:&#10;- smarter frames (can draw from every corner)" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.7.1&#10;feat:&#10;- smarter frames (can draw from every corner)" />
+    <MESSAGE value="v0.7.2&#10;feat:&#10;- code refactor&#10;- organized ui" />
+    <MESSAGE value="v0.7.2-b&#10;feat:&#10;- removed error" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.7.2-b&#10;feat:&#10;- removed error" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
