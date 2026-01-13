@@ -34,7 +34,7 @@ public class UIBox extends UIObject {
     public void draw(Graphics2D g2) {
         if (isShow()){
             g2.setColor(boxColor);
-            g2.fillRect(getDrawTopLeftScreenX(), getDrawTopLeftScreenY(), getWidth(), getHeight()); // x, y, width, height
+            g2.fillRoundRect(getDrawTopLeftScreenX(), getDrawTopLeftScreenY(), getWidth(), getHeight(), 35, 35);
         }
     }
 }

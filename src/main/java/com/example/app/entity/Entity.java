@@ -5,6 +5,7 @@ import com.example.app.ITrackable;
 import com.example.app.IDrawable;
 import com.example.app.ui.IUpdatable;
 import com.example.app.utils.FileUtils;
+import com.example.app.utils.ILinkedList;
 import com.example.app.utils.Vector2D;
 
 import javax.imageio.ImageIO;
@@ -19,6 +20,9 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     // UTILS
     final GameCanvas gc;
 
+    // STATIC
+    public static int NEXT_ID = 0;
+
     // IMAGES
     BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
     // IMAGES LOGIC
@@ -32,10 +36,12 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     private final String name;
     private int speed;
     private final int width, height;
+    private final int id;
 
     // MOVEMENT
     private Vector2D worldPosition = Vector2D.ZERO;
     private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
+    private boolean onCollision = false;
 
     // STATUS
     private boolean show = true;
@@ -54,6 +60,9 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
 
         this.waitTimeBeforeAnimation = waitTimeBeforeAnimation;
         spriteCounter = (int) (Math.random() * waitTimeBeforeAnimation);
+
+        // ID
+        id = NEXT_ID++;
     }
 
     public String getName() {
@@ -126,11 +135,6 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         this.show = show;
     }
 
-    @Override
-    public void toggleShow() {
-        setShow(!show);
-    }
-
     public boolean isVisible(){
         return IDrawable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.screenWidth, gc.screenHeight, gc.tileSize);
     }
@@ -140,22 +144,34 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         return worldPosition.copy();
     }
 
+    public Vector2D getWorldTopLeftPosition(){
+        return getWorldPosition().sub(new Vector2D(width / 2.0, height / 2.0));
+    }
+
     public void setWorldPosition(Vector2D worldPosition) {
         this.worldPosition = worldPosition;
     }
 
-    public void setRandomPosition(ArrayList<Integer> choiceTiles){
+    public void setRandomTilePosition(ILinkedList<Integer> choiceTiles){
         setTilePosition(Vector2D.chooseRandomTile(gc, choiceTiles));
     }
 
     public double getWorldX() {
-        // The world pos of the drawn com.example.app.entity's center
+        // The world pos of the drawn entity's center
         return worldPosition.getX();
     }
 
     public double getWorldY() {
-        // The world pos of the drawn com.example.app.entity's center
+        // The world pos of the drawn entity's center
         return worldPosition.getY();
+    }
+
+    public double getTopLeftWorldX(){
+        return getWorldX() - width / 2.0;
+    }
+
+    public double getTopLeftWorldY(){
+        return getWorldY() - height / 2.0;
     }
 
     public int getScreenX() {
@@ -231,8 +247,12 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         return moveDirectionVector;
     }
 
+    public Vector2D getNextMoveVector(double dt){
+        return moveDirectionVector.mul(getSpeed() * dt);
+    }
+
     public void setMoveDirectionVector(Vector2D moveDirectionVector) {
-        assert Math.abs(moveDirectionVector.getLength() - 1) < 0.001 || moveDirectionVector.equals(Vector2D.ZERO);
+        assert moveDirectionVector.isNormalized();
         this.moveDirectionVector = moveDirectionVector;
     }
 
@@ -270,6 +290,14 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
 
     public void setOwnBehavior(boolean ownBehavior) {
         this.ownBehavior = ownBehavior;
+    }
+
+    public boolean isOnCollision() {
+        return onCollision;
+    }
+
+    public void setOnCollision(boolean onCollision) {
+        this.onCollision = onCollision;
     }
 
     public int getWaitTimeBeforeAnimation() {
@@ -317,15 +345,40 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         }
     }
 
-    public void move(Vector2D vector2D) {
+    private void move(Vector2D vector2D) {
         // Make the entity move using its moveVectorDirection
         worldPosition = worldPosition.add(vector2D);
     }
 
-    public void move(double dt){
+    public void move(double dt) {
         // Anticipate collisions
+        onCollision = false;
         gc.cChecker.checkTile(this); // Disable moving if collisions will happen
-        // Move
-        move(moveDirectionVector.mul(getSpeed() * dt));
+
+        if (!onCollision) {
+            // Move
+            move(getNextMoveVector(dt));
+        }
+    }
+
+    public void move(ArrayList<Entity> entities, double dt){
+        // Anticipate collisions
+        onCollision = false;
+        gc.cChecker.checkTile(this); // Disable moving if collisions will happen
+        gc.cChecker.checkEntity(this, entities);
+
+        if (!onCollision) {
+            // Move
+            move(getNextMoveVector(dt));
+        }
+    }
+
+    public boolean equals(Entity other) {
+        return id == other.id;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

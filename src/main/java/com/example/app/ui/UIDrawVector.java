@@ -4,12 +4,12 @@ import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 
-public class DrawVector extends UIObject {
+public class UIDrawVector extends UIObject {
 
     private Vector2D vector2D;
     private Color vectorColor;
 
-    public DrawVector(Vector2D screenPosition, Vector2D vector2D, Color vectorColor){
+    public UIDrawVector(Vector2D screenPosition, Vector2D vector2D, Color vectorColor){
         super("Vector", (int)screenPosition.getX(), (int)screenPosition.getY());
 
         this.vector2D = vector2D;

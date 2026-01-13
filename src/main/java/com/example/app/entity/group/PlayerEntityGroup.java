@@ -1,8 +1,10 @@
-package com.example.app.entity;
+package com.example.app.entity.group;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentEntityDead;
-import com.example.app.event.IEventComponent;
+import com.example.app.entity.LivingEntity;
+import com.example.app.entity.Player;
+import com.example.app.event.component.ComponentEntityDead;
+import com.example.app.event.component.IEventComponent;
 
 public class PlayerEntityGroup extends EntityGroup{
 
@@ -17,7 +19,7 @@ public class PlayerEntityGroup extends EntityGroup{
 
     @Override
     public void update() {
-        makeEntitiesMove(gc, player.getWorldPosition());
+        makeEntitiesMove(player.getWorldPosition(), true);
     }
 
     @Override

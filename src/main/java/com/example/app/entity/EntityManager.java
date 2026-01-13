@@ -1,23 +1,23 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentChangeMap;
-import com.example.app.event.ComponentEntityDead;
-import com.example.app.event.Event;
-import com.example.app.event.IEventComponent;
-import com.example.app.event.IListener;
+import com.example.app.event.*;
+import com.example.app.event.component.ComponentChangeMap;
+import com.example.app.event.component.ComponentEntityDead;
+import com.example.app.event.component.IEventComponent;
+import com.example.app.utils.ILinkedList;
+import com.example.app.utils.LinkedList;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class EntityManager implements IListener {
 
     final GameCanvas gc;
 
     // CLASS VARIABLES
-    public final ArrayList<LivingEntity> entitiesToAdd = new ArrayList<>();
-    public final ArrayList<LivingEntity> livingEntities = new ArrayList<>();
-    private final ArrayList<LivingEntity> entitiesToRemove = new ArrayList<>();
+    public final ILinkedList<LivingEntity> entitiesToAdd = new LinkedList<>();
+    public final ILinkedList<LivingEntity> livingEntities = new LinkedList<>();
+    private final ILinkedList<LivingEntity> entitiesToRemove = new LinkedList<>();
 
     public Player player;
 
@@ -42,25 +42,31 @@ public class EntityManager implements IListener {
     }
 
     private void removeEntity(LivingEntity entity){
-        livingEntities.remove(entity);
+        assert livingEntities.remove(entity);
     }
 
     public void safeRemoveEntity(LivingEntity entity){
         // Add the com.example.app.entity to the list of com.example.app.entity to remove
         if (!entitiesToRemove.contains(entity)) {
             entitiesToRemove.add(entity);
-            entity.softKill();
         }
     }
 
     public void safeRemoveAllEntities(){
-        for (LivingEntity entity : livingEntities){
-            safeRemoveEntity(entity);
+        for (int i = 0; i < livingEntities.size(); i++){
+            livingEntities.getFirstValueNShift().softKill();
         }
     }
 
-    public void randomChangeTracked() {
-        for (LivingEntity entity : livingEntities){
+    public void trackPlayer(){
+        if (player != null) {
+            gc.tracked = player;
+        }
+    }
+
+    public void trackRandom() {
+        for (int i = 0; i < livingEntities.size(); i++){
+            LivingEntity entity = livingEntities.getFirstValueNShift();
             if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
                 gc.tracked = entity;
                 return;
@@ -70,28 +76,40 @@ public class EntityManager implements IListener {
 
     public void update(){
         // Remove entities
-        for (LivingEntity entity : entitiesToRemove){
-            removeEntity(entity);
+        if (!entitiesToRemove.isEmpty()) {
+            for (int i = 0; i < entitiesToRemove.size(); i++) {
+                removeEntity(entitiesToRemove.getFirstValueNShift());
+            }
+            entitiesToRemove.clear();
         }
-        entitiesToRemove.clear();
 
         // Add entities
-        livingEntities.addAll(entitiesToAdd);
-        entitiesToAdd.clear();
+        if (!entitiesToAdd.isEmpty()) {
+            livingEntities.addAll(entitiesToAdd);
+            entitiesToAdd.clear();
+        }
 
         // Update entities
-        for (LivingEntity entity : livingEntities){
-            entity.update();
+        for (int i = 0; i < livingEntities.size(); i++){
+            livingEntities.getFirstValueNShift().update();
         }
 
         if (gc.keyH.fClicked){
-            randomChangeTracked();
+            trackRandom();
+        }
+        if (gc.keyH.gClicked){
+            trackPlayer();
         }
     }
 
     public void draw(Graphics2D g2){
-        for (LivingEntity entity : livingEntities){
-            entity.draw(g2);
+        if (player != null) {
+            livingEntities.setRoot(player);
+            livingEntities.shift();
+        }
+
+        for (int i = 0; i < livingEntities.size(); i++){
+            livingEntities.getFirstValueNShift().draw(g2);
         }
     }
 
@@ -103,18 +121,22 @@ public class EntityManager implements IListener {
             safeRemoveEntity(deadEntity);
 
             if (deadEntity.equals(gc.tracked)) {
-                randomChangeTracked();
+                trackRandom();
+            }
+
+            if (player != null && deadEntity.equals(player)){
+                player = null;
             }
         }
         if (component instanceof ComponentChangeMap cmComponent){
-            for (LivingEntity entity : livingEntities){
-                entity.setRandomPosition(cmComponent.spawnableTiles());
+            for (int i = 0; i < livingEntities.size(); i++){
+                livingEntities.getFirstValueNShift().setRandomTilePosition(cmComponent.spawnableTiles());
             }
         }
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 }

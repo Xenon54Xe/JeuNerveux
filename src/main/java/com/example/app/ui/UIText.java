@@ -15,6 +15,7 @@ public class UIText extends UIObject implements IUIText {
         this.text = text;
     }
 
+    @Override
     public void setText(String text) {
         this.text = text;
     }

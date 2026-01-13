@@ -2,7 +2,7 @@ package com.example.app.utils;
 
 import com.example.app.tile.Tile;
 
-public class TileLinkedList extends LinkedList<Tile>{
+public class TileLinkedList extends LinkedList<Tile> {
 
     public TileLinkedList(){
         super();

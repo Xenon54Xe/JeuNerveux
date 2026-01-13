@@ -1,5 +1,7 @@
 package com.example.app.event;
 
+import com.example.app.event.component.IEventComponent;
+
 public class TestListener implements IListener{
 
     @Override
@@ -8,7 +10,7 @@ public class TestListener implements IListener{
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 }

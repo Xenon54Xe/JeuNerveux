@@ -2,14 +2,14 @@ package com.example.app.ui;
 
 import com.example.app.GameCanvas;
 import com.example.app.SceneryManager;
-import com.example.app.event.ComponentUIClick;
-import com.example.app.event.Event;
-import com.example.app.event.IEventComponent;
-import com.example.app.event.IListener;
+import com.example.app.event.*;
+import com.example.app.event.component.ComponentUIClick;
+import com.example.app.event.component.IEventComponent;
 import com.example.app.handler.KeyHandler;
 import com.example.app.tile.LoadMapManager;
 import com.example.app.tile.MapDrawerManager;
 import com.example.app.tile.MapCreateManager;
+import com.example.app.ui.frame.UIFrame;
 
 import java.awt.*;
 
@@ -128,7 +128,7 @@ public class UIMainMenuManager implements IListener {
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 }

@@ -1,6 +1,6 @@
-package com.example.app.event;
+package com.example.app.event.component;
 
-import com.example.app.entity.EntityGroup;
+import com.example.app.entity.group.EntityGroup;
 
 public record ComponentGroupDead(EntityGroup group) implements IEventComponent{
 

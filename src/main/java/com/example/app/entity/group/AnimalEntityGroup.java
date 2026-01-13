@@ -1,14 +1,14 @@
-package com.example.app.entity;
+package com.example.app.entity.group;
 
 import com.example.app.GameCanvas;
 import com.example.app.utils.Vector2D;
 
-public class EnemyEntityGroup extends EntityGroup{
+public class AnimalEntityGroup extends EntityGroup{
 
     private int changeTargetCounter = 0;
     private Vector2D targetPosition = Vector2D.ZERO;
 
-    public EnemyEntityGroup(GameCanvas gc) {
+    public AnimalEntityGroup(GameCanvas gc) {
         super(gc);
     }
 
@@ -20,6 +20,6 @@ public class EnemyEntityGroup extends EntityGroup{
         }
         changeTargetCounter--;
 
-        makeEntitiesMove(gc, targetPosition);
+        makeEntitiesMove(targetPosition, false);
     }
 }

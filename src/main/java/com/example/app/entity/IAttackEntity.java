@@ -1,12 +1,14 @@
 package com.example.app.entity;
 
+import com.example.app.utils.ILinkedList;
+
 import java.util.ArrayList;
 
 public interface IAttackEntity {
 
     void attack();
 
-    default void attackNearestEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
+    default void attackNearestEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
 
         if (self.isDead()){
             return;
@@ -15,8 +17,8 @@ public interface IAttackEntity {
         double lowestDistance = Double.POSITIVE_INFINITY;
         LivingEntity nearestEntity = entities.getFirst();
 
-        for (LivingEntity entity : entities) {
-
+        for (int i = 0; i < entities.size(); i++) {
+            LivingEntity entity = entities.getFirstValueNShift();
             if (self == entity
                     || (self.getGroupID() != -1 && entity.getGroupID() == self.getGroupID())){
                 // Skip this entity
@@ -36,14 +38,14 @@ public interface IAttackEntity {
     }
 
 
-    default void attackFirstNearEnoughEntity(LivingEntity self, ArrayList<LivingEntity> entities, int reach, int damage) {
+    default void attackFirstNearEnoughEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
 
         if (self.isDead()){
             return;
         }
 
-        for (LivingEntity entity : entities) {
-
+        for (int i = 0; i < entities.size(); i++) {
+            LivingEntity entity = entities.getFirstValueNShift();
             if (self == entity
                     || (self.getGroupID() != -1 && entity.getGroupID() == self.getGroupID())){
                 // Skip this entity

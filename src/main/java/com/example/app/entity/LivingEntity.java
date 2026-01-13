@@ -1,7 +1,7 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentEntityDead;
+import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.ui.UIFillBar;
 import com.example.app.ui.UIObject;
 
@@ -93,7 +93,7 @@ public abstract class LivingEntity extends Entity {
         health -= damage;
         healthBar.setPercentFill((double)Math.max(0, health) / maxHealth);
 
-        if (!dead && health <= 0){
+        if (health <= 0){
             kill(killer);
         }
     }

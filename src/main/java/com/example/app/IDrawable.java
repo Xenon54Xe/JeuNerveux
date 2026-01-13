@@ -10,7 +10,9 @@ public interface IDrawable {
     
     boolean isShow();
     
-    void toggleShow();
+    default void toggleShow(){
+        setShow(!isShow());
+    }
 
     int getWidth();
 

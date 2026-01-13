@@ -1,10 +1,10 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentEntityDead;
-import com.example.app.event.Event;
-import com.example.app.event.IEventComponent;
-import com.example.app.event.IListener;
+import com.example.app.entity.group.PlayerEntityGroup;
+import com.example.app.event.*;
+import com.example.app.event.component.ComponentEntityDead;
+import com.example.app.event.component.IEventComponent;
 import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
 import com.example.app.utils.Vector2D;
@@ -149,7 +149,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     public void onTrigger(IEventComponent component) {
         if (component instanceof ComponentEntityDead(LivingEntity killed, LivingEntity killer)){
 
-            if (killer.getGroupID() == getGroupID()){
+            if (killer != null  && killer.getGroupID() == getGroupID()){
                 LivingEntity entity = (LivingEntity) killed.makeClone();
                 entity.setWorldPosition(killed.getWorldPosition());
                 entity.setSpeed(baseSpeed);
@@ -159,7 +159,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 

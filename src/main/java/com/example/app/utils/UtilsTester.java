@@ -1,11 +1,17 @@
 package com.example.app.utils;
 
-import com.example.app.GameCanvas;
-import com.example.app.entity.EntityGroup;
-
 public class UtilsTester {
 
     public static void main(String[] args) {
+
+//        // ILinkedList
+//        ILinkedList<Integer> iLinkedList = new LinkedList<>();
+//        for (int i = 0; i < 100; i++) {
+//            iLinkedList.add(i);
+//        }
+//        System.out.println(iLinkedList);
+
+
 //        // ID tester
 //        EntityGroup group = new EntityGroup(new GameCanvas());
 //        System.out.println(group.ID);

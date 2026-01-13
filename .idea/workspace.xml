@@ -4,23 +4,53 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.7.2-b&#10;feat:&#10;- removed error">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EnemyEntityGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntityGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/PlayerEntityGroup.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentGroupDead.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFillBar.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIOval.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILinkedList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EnemyEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/AnimalEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/IEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/PlayerEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentChangeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentChangeMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentCreateMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentCreateMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentEntityDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentEntityDead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentGroupDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/ComponentUIClick.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentUIClick.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEventComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/IEventComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/DrawVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIDrawVector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/FrameCase.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/FrameCase.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
     </list>
@@ -63,8 +93,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Record" />
-        <option value="Class" />
+        <option value="Exception" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -141,7 +172,7 @@
       <recent name="main2" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.com.example.app.Main">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="HandlerTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.app.handler.HandlerTester" />
       <module name="JeuNerveux" />
@@ -149,6 +180,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.app.handler.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.app.Main" />
+      <module name="JeuNerveux" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.app.override.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -177,27 +222,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="com.example.app.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.example.app.Main" />
-      <module name="JeuNerveux" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.example.app.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="main.java.main.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.java.main.Main" />
       <module name="JeuNerveux" />
       <option name="VM_PARAMETERS" value="-ea" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.app.*" />
+          <option name="PATTERN" value="com.example.app.override.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -220,15 +251,15 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.HandlerTester" />
       <item itemvalue="Application.UtilsTester" />
-      <item itemvalue="Application.com.example.app.Main" />
       <item itemvalue="Application.main.java.main.Main" />
       <item itemvalue="Application.net.rubicon.main.Main" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.com.example.app.Main" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.UtilsTester" />
         <item itemvalue="Application.HandlerTester" />
         <item itemvalue="Application.main.java.main.Main" />
@@ -406,7 +437,15 @@
       <option name="project" value="LOCAL" />
       <updated>1767877477069</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar">
+      <option name="closed" value="true" />
+      <created>1768074529750</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1768074529750</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -442,7 +481,8 @@
     <MESSAGE value="v0.7.1&#10;feat:&#10;- smarter frames (can draw from every corner)" />
     <MESSAGE value="v0.7.2&#10;feat:&#10;- code refactor&#10;- organized ui" />
     <MESSAGE value="v0.7.2-b&#10;feat:&#10;- removed error" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.7.2-b&#10;feat:&#10;- removed error" />
+    <MESSAGE value="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

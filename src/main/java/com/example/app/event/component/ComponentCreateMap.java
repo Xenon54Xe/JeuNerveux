@@ -1,4 +1,4 @@
-package com.example.app.event;
+package com.example.app.event.component;
 
 public record ComponentCreateMap(String name, int nbCol, int nbRow, int nbLayer) implements IEventComponent {
 

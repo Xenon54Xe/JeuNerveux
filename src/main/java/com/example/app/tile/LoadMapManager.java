@@ -2,12 +2,11 @@ package com.example.app.tile;
 
 import com.example.app.GameCanvas;
 import com.example.app.SceneryManager;
-import com.example.app.event.ComponentCreateMap;
-import com.example.app.event.ComponentUIClick;
-import com.example.app.event.Event;
-import com.example.app.event.IEventComponent;
-import com.example.app.event.IListener;
+import com.example.app.event.*;
+import com.example.app.event.component.ComponentUIClick;
+import com.example.app.event.component.IEventComponent;
 import com.example.app.ui.*;
+import com.example.app.ui.frame.UIFrame;
 import com.example.app.utils.FileUtils;
 
 import java.awt.*;
@@ -106,7 +105,7 @@ public class LoadMapManager implements IListener {
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 }

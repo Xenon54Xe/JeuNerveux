@@ -1,10 +1,12 @@
-package com.example.app.ui;
+package com.example.app.ui.frame;
 
 import com.example.app.GameCanvas;
+import com.example.app.ui.UIObject;
+import com.example.app.utils.ILinkedList;
+import com.example.app.utils.LinkedList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class UIFrame extends UIObject {
 
@@ -14,7 +16,7 @@ public class UIFrame extends UIObject {
     private UIFrame parentFrame = null;
 
     // CLASS VARIABLES
-    private final ArrayList<FrameCase> frameCases = new ArrayList<>();
+    private final ILinkedList<FrameCase> frameCases = new LinkedList<>();
     private int maxCol, maxRow; // To place ui
 
     // DRAW OPTIONS
@@ -83,8 +85,8 @@ public class UIFrame extends UIObject {
 
     @Override
     public void setDrawReference(String drawReference) {
-        for (FrameCase frameCase : frameCases){
-            frameCase.getObject().setDrawReference(drawReference);
+        for (int i = 0; i < frameCases.size(); i++){
+            frameCases.getFirstValueNShift().getObject().setDrawReference(drawReference);
         }
 
         super.setDrawReference(drawReference);
@@ -117,7 +119,9 @@ public class UIFrame extends UIObject {
         // Get max width & height
         maxWidth = 0;
         maxHeight = 0;
-        for (FrameCase frameCase : frameCases) {
+        for (int i = 0; i < frameCases.size(); i++) {
+
+            FrameCase frameCase = frameCases.getFirstValueNShift();
             UIObject object = frameCase.getObject();
             if (object.getWidth() > maxWidth) {
                 maxWidth = object.getWidth();
@@ -135,8 +139,8 @@ public class UIFrame extends UIObject {
     public void setShow(boolean show) {
         super.setShow(show);
 
-        for (FrameCase frameCase : frameCases){
-            frameCase.getObject().setShow(show);
+        for (int i = 0; i < frameCases.size(); i++){
+            frameCases.getFirstValueNShift().getObject().setShow(show);
         }
     }
 
@@ -190,7 +194,8 @@ public class UIFrame extends UIObject {
                         int curStepX = getWidth() / (maxCol + 1);
                         int curStepY = getHeight() / (maxRow + 1);
 
-                        for (FrameCase frameCase : frameCases) {
+                        for (int i = 0; i < frameCases.size(); i++) {
+                            FrameCase frameCase = frameCases.getFirstValueNShift();
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();
@@ -212,7 +217,8 @@ public class UIFrame extends UIObject {
                         int widthMul = mul[0];
                         int heightMul = mul[1];
 
-                        for (FrameCase frameCase : frameCases) {
+                        for (int i = 0; i < frameCases.size(); i++) {
+                            FrameCase frameCase = frameCases.getFirstValueNShift();
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();
@@ -237,7 +243,8 @@ public class UIFrame extends UIObject {
                         int widthMul = mul[0];
                         int heightMul = mul[1];
 
-                        for (FrameCase frameCase : frameCases) {
+                        for (int i = 0; i < frameCases.size(); i++) {
+                            FrameCase frameCase = frameCases.getFirstValueNShift();
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();

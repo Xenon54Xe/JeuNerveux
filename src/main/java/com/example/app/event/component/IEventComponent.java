@@ -1,4 +1,4 @@
-package com.example.app.event;
+package com.example.app.event.component;
 
 public interface IEventComponent {
 

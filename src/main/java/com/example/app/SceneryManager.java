@@ -1,15 +1,21 @@
 package com.example.app;
 
 import com.example.app.entity.*;
+import com.example.app.entity.group.AnimalEntityGroup;
+import com.example.app.entity.group.EntityGroup;
+import com.example.app.entity.group.IEntityGroup;
 import com.example.app.event.*;
-import com.example.app.event.Event;
-import com.example.app.ui.UIFrame;
+import com.example.app.event.component.ComponentGroupDead;
+import com.example.app.event.component.ComponentUIClick;
+import com.example.app.event.component.IEventComponent;
+import com.example.app.ui.frame.UIFrame;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UIText;
+import com.example.app.utils.ILinkedList;
+import com.example.app.utils.LinkedList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class SceneryManager implements IListener {
 
@@ -20,10 +26,10 @@ public class SceneryManager implements IListener {
     public static final String CLEAN_SCENERY = "clean-scenery";
 
     // CLASS VARIABLES
-    private String lastChoosedScenery;
+    private String lastChosenScenery;
     private final UIFrame uiFrameMap1;
 
-    private final ArrayList<IEntityGroup> groups = new ArrayList<>();
+    private final ILinkedList<IEntityGroup> groups = new LinkedList<>();
 
     // UI TO UPDATE
     UIText playerPosition;
@@ -56,7 +62,7 @@ public class SceneryManager implements IListener {
 
         if (scenery.equals(TITLE_SCENERY) || scenery.equals(MAP1_SCENERY) || scenery.equals(CLEAN_SCENERY)) {
 
-            lastChoosedScenery = scenery;
+            lastChosenScenery = scenery;
 
             hideAllUI();
             gc.entityM.safeRemoveAllEntities();
@@ -86,12 +92,12 @@ public class SceneryManager implements IListener {
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
         for (int i = 0; i < 5; i++) {
             Mouse mouse = new Mouse(gc, mouseSolidArea, "mouse" + i,50, gc.tileSize, gc.tileSize, 25, 180, 1, gc.tileSize, 2);
-            mouse.setRandomPosition(gc.tileM.spawnableTiles);
+            mouse.setRandomTilePosition(gc.tileM.spawnableTiles);
             gc.entityM.addEntity(mouse);
         }
 
         // TRACKED
-        gc.entityM.randomChangeTracked();
+        gc.entityM.trackRandom();
     }
 
     private void map1Scenery(){
@@ -111,10 +117,7 @@ public class SceneryManager implements IListener {
         Rectangle mouseSolidArea = new Rectangle(16, 32, 16, 16);
         for (int i = 0; i < 20; i++) {
 
-            /*
-            /!\ les groups ne sont jamais détruits !
-             */
-            IEntityGroup group = new EnemyEntityGroup(gc);
+            IEntityGroup group = new AnimalEntityGroup(gc);
             groups.add(group);
             Vector2D targetPosition = Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles);
             for (int j = 0; j < 5; j++) {
@@ -136,7 +139,7 @@ public class SceneryManager implements IListener {
         // PLAYER
         Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
         Player player = new Player(gc, playerSolidArea, "Player", 200, gc.tileSize, gc.tileSize, 10000, 6, 0, 2 * gc.tileSize, 20);
-        player.setRandomPosition(gc.tileM.spawnableTiles);
+        player.setRandomTilePosition(gc.tileM.spawnableTiles);
         gc.entityM.addEntity(player);
         gc.entityM.setPlayer(player);
 
@@ -146,13 +149,15 @@ public class SceneryManager implements IListener {
 
     public void update(){
 
-        if (lastChoosedScenery.equals(MAP1_SCENERY)) {
-            playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
-            playerXP.setText("XP : " + gc.entityM.player.getXp());
+        if (lastChosenScenery.equals(MAP1_SCENERY)) {
+            if (gc.entityM.player != null) {
+                playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
+                playerXP.setText("XP : " + gc.entityM.player.getXp());
+            }
 
             // ENTITY GROUP
-            for (IEntityGroup group : groups){
-                group.update();
+            for (int i = 0; i < groups.size(); i++){
+                groups.getFirstValueNShift().update();
             }
         }
     }
@@ -173,7 +178,7 @@ public class SceneryManager implements IListener {
     }
 
     @Override
-    public void register(Event event) {
+    public void register(IEvent event) {
         event.addListener(this);
     }
 }

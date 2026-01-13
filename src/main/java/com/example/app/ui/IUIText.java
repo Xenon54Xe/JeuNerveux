@@ -4,6 +4,8 @@ import java.awt.*;
 
 public interface IUIText{
 
+    void setText(String text);
+
     default int[] calcBoxDimensions(Graphics2D g2, String text, int stepX, int stepY){
         /// Return width and height
         FontMetrics fm = g2.getFontMetrics();

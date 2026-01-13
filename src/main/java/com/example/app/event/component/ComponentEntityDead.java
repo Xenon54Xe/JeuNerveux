@@ -1,4 +1,4 @@
-package com.example.app.event;
+package com.example.app.event.component;
 
 import com.example.app.entity.LivingEntity;
 

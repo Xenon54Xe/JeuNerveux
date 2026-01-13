@@ -1,15 +1,12 @@
 package com.example.app.tile;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentChangeMap;
-import com.example.app.utils.FileUtils;
-import com.example.app.utils.TileLinkedList;
-import com.example.app.utils.Vector2D;
+import com.example.app.event.component.ComponentChangeMap;
+import com.example.app.utils.*;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class TileManager {
@@ -26,7 +23,7 @@ public class TileManager {
     public int[][][] tileMapNum;
 
     // If the map is 50x50 the 50th com.example.app.tile will be nbCol=0, nbRow = 1...
-    public ArrayList<Integer> spawnableTiles = new ArrayList<>();
+    public ILinkedList<Integer> spawnableTiles = new LinkedList<>();
 
     // LOAD MAP LATER
     private boolean willLoadMap = false;

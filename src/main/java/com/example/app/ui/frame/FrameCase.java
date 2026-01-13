@@ -1,4 +1,6 @@
-package com.example.app.ui;
+package com.example.app.ui.frame;
+
+import com.example.app.ui.UIObject;
 
 public class FrameCase {
 

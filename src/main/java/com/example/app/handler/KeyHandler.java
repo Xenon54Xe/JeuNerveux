@@ -20,6 +20,8 @@ public class KeyHandler implements KeyListener {
 
     public boolean fPressed;
     public boolean fClicked;
+    public boolean gPressed;
+    public boolean gClicked;
 
     public int getLastKeyCode(){
         // Return the key typed the last frame
@@ -32,6 +34,9 @@ public class KeyHandler implements KeyListener {
     public void update(){
         if (fClicked){
             fClicked = false;
+        }
+        if (gClicked){
+            gClicked = false;
         }
 
         // Allow to return a key only if it was typed the last frame
@@ -76,6 +81,10 @@ public class KeyHandler implements KeyListener {
             fPressed = true;
             fClicked = true;
         }
+        if (code == KeyEvent.VK_G && ! gPressed){
+            gPressed = true;
+            gClicked = true;
+        }
     }
 
     @Override
@@ -101,6 +110,9 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_F){
             fPressed = false;
+        }
+        if (code == KeyEvent.VK_G){
+            gPressed = false;
         }
     }
 }

@@ -1,8 +1,8 @@
 package com.example.app.ui;
 
 import com.example.app.GameCanvas;
-import com.example.app.event.ComponentUIClick;
-import com.example.app.event.Event;
+import com.example.app.event.component.ComponentUIClick;
+import com.example.app.event.IEvent;
 import com.example.app.handler.MouseHandler;
 import com.example.app.handler.MouseMotionHandler;
 
@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class UITextButton extends UIBoxText implements IClickable{
 
-    final Event eventUIClick;
+    final IEvent eventUIClick;
     final MouseHandler mouseH;
     final MouseMotionHandler mouseMH;
 

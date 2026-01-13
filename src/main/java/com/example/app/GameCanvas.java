@@ -2,6 +2,7 @@ package com.example.app;
 
 import com.example.app.entity.EntityManager;
 import com.example.app.event.Event;
+import com.example.app.event.IEvent;
 import com.example.app.event.TestListener;
 import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
@@ -38,11 +39,11 @@ public class GameCanvas extends Canvas implements Runnable {
     private double timeBetweenFPSFrames = 0;
 
     // EVENT
-    public final Event eventUIClick = new Event();
-    public final Event eventEntityDead = new Event();
-    public final Event eventChangeMap = new Event();
-    public final Event eventCreateMap = new Event();
-    public final Event eventGroupDead = new Event();
+    public final IEvent eventUIClick = new Event();
+    public final IEvent eventEntityDead = new Event();
+    public final IEvent eventChangeMap = new Event();
+    public final IEvent eventCreateMap = new Event();
+    public final IEvent eventGroupDead = new Event();
 
     // HANDLERS
     public final KeyHandler keyH = new KeyHandler();
@@ -153,6 +154,7 @@ public class GameCanvas extends Canvas implements Runnable {
                 render(bs);
                 lastTime = System.nanoTime();
 
+                // Show FPS
                 frameCount++;
                 timeBetweenFPSFrames += dt;
                 if (frameCount == 60){

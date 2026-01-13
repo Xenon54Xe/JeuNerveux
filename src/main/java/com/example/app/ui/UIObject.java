@@ -63,11 +63,6 @@ public abstract class UIObject implements IDrawable {
         this.show = show;
     }
 
-    @Override
-    public void toggleShow() {
-        setShow(!show);
-    }
-
     public String getDrawReference() {
         return drawReference;
     }
