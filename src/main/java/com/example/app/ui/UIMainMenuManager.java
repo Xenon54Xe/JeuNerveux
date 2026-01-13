@@ -83,6 +83,12 @@ public class UIMainMenuManager implements IListener {
     public void update(){
         if (gc.keyH.getLastKeyCode() == KeyHandler.ESCAPE){
             setShow(!mainMenu.isShow());
+
+            if (gc.gameState == GameCanvas.PLAY_STATE){
+                gc.gameState = GameCanvas.PAUSE_STATE;
+            }else if (gc.gameState == GameCanvas.PAUSE_STATE){
+                gc.gameState = GameCanvas.PLAY_STATE;
+            }
         }
     }
 
@@ -119,8 +125,10 @@ public class UIMainMenuManager implements IListener {
                         gc.mapCreateM.setShow(true);
                     } else if (payload.equals(TITLE_SCREEN)) {
                         gc.sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
+                        gc.gameState = GameCanvas.PLAY_STATE;
                     } else {
                         gc.sceneryM.changeScenery(SceneryManager.MAP1_SCENERY);
+                        gc.gameState = GameCanvas.PLAY_STATE;
                     }
                 }
             }

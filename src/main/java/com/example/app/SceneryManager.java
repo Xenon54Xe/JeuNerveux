@@ -149,15 +149,23 @@ public class SceneryManager implements IListener {
 
     public void update(){
 
+        if (lastChosenScenery.equals(TITLE_SCENERY)){
+            if (gc.gameState == GameCanvas.PAUSE_STATE){
+                gc.gameState = GameCanvas.PLAY_STATE;
+            }
+        }
+
         if (lastChosenScenery.equals(MAP1_SCENERY)) {
             if (gc.entityM.player != null) {
                 playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
                 playerXP.setText("XP : " + gc.entityM.player.getXp());
             }
 
-            // ENTITY GROUP
-            for (int i = 0; i < groups.size(); i++){
-                groups.getFirstValueNShift().update();
+            if (gc.gameState == GameCanvas.PLAY_STATE) {
+                // ENTITY GROUP
+                for (int i = 0; i < groups.size(); i++) {
+                    groups.getFirstValueNShift().update();
+                }
             }
         }
     }

@@ -67,6 +67,10 @@ public class GameCanvas extends Canvas implements Runnable {
     public final UIManager uiM;
     private final UIMainMenuManager uiMainMenuM;
 
+    // SOUND
+    Sound music = new Sound();
+    Sound se = new Sound();
+
     // ENTITIES
     public final EntityManager entityM;
     public ITrackable tracked;
@@ -76,6 +80,11 @@ public class GameCanvas extends Canvas implements Runnable {
 
     // THREAD
     private Thread gameThread;
+
+    // GAME STATE
+    public int gameState;
+    public final static int PLAY_STATE = 1;
+    public final static int PAUSE_STATE = 2;
 
     public GameCanvas() {
         // WINDOW SETTINGS
@@ -130,6 +139,9 @@ public class GameCanvas extends Canvas implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+
+        playMusic(Sound.INTRO_SCENE);
+        gameState = PLAY_STATE;
     }
 
     public void setTracked(ITrackable tracked) {
@@ -167,10 +179,12 @@ public class GameCanvas extends Canvas implements Runnable {
     }
 
     private void update() {
-        // Everything that need update
-        entityM.update();
+        if (gameState == PLAY_STATE) {
+            entityM.update();
+            mapDrawerM.update();
+        }
+
         uiM.update();
-        mapDrawerM.update();
         uiMainMenuM.update();
         sceneryM.update();
 
@@ -201,5 +215,20 @@ public class GameCanvas extends Canvas implements Runnable {
         g2.dispose();
         bs.show(); // FLIP BUFFERS (exact paint timing)
         Toolkit.getDefaultToolkit().sync(); // Optional for Linux
+    }
+
+    public void playMusic(int i){
+        music.setFile(i);
+        music.play();
+        music.loop();
+    }
+
+    public void stopMusic(){
+        music.stop();
+    }
+
+    public void playSE(int i){
+        se.setFile(i);
+        se.play();
     }
 }
