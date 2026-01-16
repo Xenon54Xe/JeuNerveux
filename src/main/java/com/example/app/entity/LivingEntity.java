@@ -74,7 +74,7 @@ public abstract class LivingEntity extends Entity {
         this.groupID = groupID;
     }
 
-    private void kill(LivingEntity killer){
+    void kill(LivingEntity killer){
         dead = true;
 
         if (killer != null) {

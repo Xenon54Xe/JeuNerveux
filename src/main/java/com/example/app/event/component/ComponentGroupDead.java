@@ -10,6 +10,6 @@ public record ComponentGroupDead(EntityGroup group) implements IEventComponent{
 
     @Override
     public String getName() {
-        return "Group: " + group.ID;
+        return "Group: " + group.id;
     }
 }

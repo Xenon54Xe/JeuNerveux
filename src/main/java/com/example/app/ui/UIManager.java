@@ -23,9 +23,18 @@ public class UIManager {
     private final ILinkedList<IClickable> clickableUIObjects = new LinkedList<>();
     private final ILinkedList<IUpdatable> updatableUIObjects = new LinkedList<>();
 
+    // UIMAP
+    public final UIMap uiMap;
+
     public UIManager(GameCanvas gc){
 
         arial_tile_size = new Font("Arial", Font.PLAIN, gc.tileSize / 2);
+
+        // UI
+        uiMap = new UIMap(gc, "map", gc.screenWidth, 0, gc.tileSize * 4, gc.tileSize * 4);
+        uiMap.setDrawReference(UIObject.DRAW_TOP_RIGHT_CORNER);
+        uiMap.setShow(true);
+        addUIObject(uiMap);
     }
 
     public boolean isMouseOverUI() {
@@ -41,6 +50,17 @@ public class UIManager {
             updatableUIObjects.add(updatable);
         }
         uiObjects.add(uiObject);
+    }
+
+    public void removeUIObject(UIObject uiObject){
+
+        if (uiObject instanceof IClickable clickable) {
+            clickableUIObjects.remove(clickable);
+        }
+        if (uiObject instanceof IUpdatable updatable) {
+            updatableUIObjects.remove(updatable);
+        }
+        uiObjects.remove(uiObject);
     }
 
     public void update(){

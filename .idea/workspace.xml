@@ -4,13 +4,29 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.8.1&#10;feat:&#10;- refactor&#10;- the game use only ILinkedList now&#10;- better collision checker&#10;bug:&#10;- need to make collision between entities">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Sound.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/sounds/introscene.wav" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.9.0&#10;feat:&#10;- added music &amp; sound">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/Tile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,36 +99,36 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Drawing.executor": "Run",
-    "Application.Game.executor": "Run",
-    "Application.HandlerTester.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.OldToNewMain.executor": "Run",
-    "Application.OldToNewMapMain.executor": "Debug",
-    "Application.UtilsTester.executor": "Run",
-    "Application.com.example.app.Main.executor": "Run",
-    "Application.main.java.main.Main.executor": "Run",
-    "Application.main.main.Main.executor": "Run",
-    "Application.main2.Main.executor": "Run",
-    "Application.net.rubicon.main.Main.executor": "Run",
-    "Gradle.Build JeuNerveux.executor": "Run",
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/home/titouan/IdeaProjects/JeuNerveux/src/main/resources/sounds",
-    "onboarding.tips.debug.path": "/home/titouan/IdeaProjects/JeuNerveux/src/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.sourceCode"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Drawing.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Game.executor&quot;: &quot;Run&quot;,
+    &quot;Application.HandlerTester.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.OldToNewMain.executor&quot;: &quot;Run&quot;,
+    &quot;Application.OldToNewMapMain.executor&quot;: &quot;Debug&quot;,
+    &quot;Application.UtilsTester.executor&quot;: &quot;Run&quot;,
+    &quot;Application.com.example.app.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main.java.main.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main.main.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.main2.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.net.rubicon.main.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.Build JeuNerveux.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/main/resources/sounds&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/Main.java&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.sourceCode&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src/main/resources/sounds" />
@@ -412,7 +428,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768326960615</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="v0.9.0&#10;feat:&#10;- added music &amp; sound">
+      <option name="closed" value="true" />
+      <created>1768339203470</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1768339203470</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -450,7 +474,8 @@
     <MESSAGE value="v0.7.2-b&#10;feat:&#10;- removed error" />
     <MESSAGE value="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar" />
     <MESSAGE value="v0.8.1&#10;feat:&#10;- refactor&#10;- the game use only ILinkedList now&#10;- better collision checker&#10;bug:&#10;- need to make collision between entities" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.8.1&#10;feat:&#10;- refactor&#10;- the game use only ILinkedList now&#10;- better collision checker&#10;bug:&#10;- need to make collision between entities" />
+    <MESSAGE value="v0.9.0&#10;feat:&#10;- added music &amp; sound" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.9.0&#10;feat:&#10;- added music &amp; sound" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

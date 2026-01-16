@@ -13,11 +13,14 @@ public class KeyHandler implements KeyListener {
     private boolean typedLastFrame = false;
     private int lastKeyCode = 0;
 
-    // Keys
+    // PLAYER MOVEMENTS
     public boolean upPressed, leftPressed, downPressed, rightPressed;
 
+    // SPEED
     public boolean xPressed;
+    public boolean cPressed;
 
+    // SWITCH ENTITY
     public boolean fPressed;
     public boolean fClicked;
     public boolean gPressed;
@@ -77,6 +80,9 @@ public class KeyHandler implements KeyListener {
         if (code == KeyEvent.VK_X && !xPressed){
             xPressed = true;
         }
+        if (code == KeyEvent.VK_C && !cPressed){
+            cPressed = true;
+        }
         if (code == KeyEvent.VK_F && ! fPressed){
             fPressed = true;
             fClicked = true;
@@ -107,6 +113,9 @@ public class KeyHandler implements KeyListener {
 
         if (code == KeyEvent.VK_X){
             xPressed = false;
+        }
+        if (code == KeyEvent.VK_C){
+            cPressed = false;
         }
         if (code == KeyEvent.VK_F){
             fPressed = false;

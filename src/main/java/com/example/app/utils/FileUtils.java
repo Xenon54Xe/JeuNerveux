@@ -1,5 +1,7 @@
 package com.example.app.utils;
 
+import com.example.app.tile.TileMap;
+
 import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URISyntaxException;
@@ -144,26 +146,23 @@ public class FileUtils {
         return userResources;
     }
 
-    public static void saveMap(int[][][] tileMapNum, String mapName){
-        int maxCol = tileMapNum.length;
-        int maxRow = tileMapNum[0].length;
-        int layerCount = tileMapNum[0][0].length;
+    public static void saveMap(TileMap tileMap, String mapName){
 
         List<String> lines = new ArrayList<>();
-        for (int row = 0; row < maxRow; row++) {
+        for (int row = 0; row < tileMap.getMaxRow(); row++) {
 
             StringBuilder stringBuilder = new StringBuilder();
-            for (int col = 0; col < maxCol; col++) {
+            for (int col = 0; col < tileMap.getMaxCol(); col++) {
 
                 // TO ADD LAYER INFO
-                for (int layer = 0; layer < layerCount; layer++) {
-                    stringBuilder.append(tileMapNum[col][row][layer]);
-                    if (layer != layerCount - 1) {
+                for (int layer = 0; layer < tileMap.getLayerCount(); layer++) {
+                    stringBuilder.append(tileMap.getTileNum(col, row, layer));
+                    if (layer != tileMap.getLayerCount() - 1) {
                         stringBuilder.append(":");
                     }
                 }
 
-                if (col != maxCol - 1) {
+                if (col != tileMap.getMaxCol() - 1) {
                     stringBuilder.append(" ");
                 }
             }
@@ -215,13 +214,13 @@ public class FileUtils {
         return null;
     }
 
-    public static void loadMap(int[][][] tileMapNum, String mapName){
+    public static void loadMap(TileMap tileMap, String mapName){
         try (InputStream is = loadFile("maps", mapName)) {
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
 
-            int maxWorldCol = tileMapNum.length;
-            int maxWorldRow = tileMapNum[0].length;
-            int layerCount = tileMapNum[0][0].length;
+            int maxWorldCol = tileMap.getMaxCol();
+            int maxWorldRow = tileMap.getMaxRow();
+            int layerCount = tileMap.getLayerCount();
 
             int col = 0;
             int row = 0;
@@ -248,7 +247,7 @@ public class FileUtils {
 
                         // LAYER VALUE
                         int num = Integer.parseInt(tileLayerNumbers[layer]);
-                        tileMapNum[col][row][layer] = num;
+                        tileMap.setTileNum(num, col, row, layer);
                     }
 
                     col++;

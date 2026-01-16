@@ -32,6 +32,8 @@ public class UIFrame extends UIObject {
     private int maxWidth, maxHeight;
     private int cumulatedWidth, cumulatedHeight; // max cumulated ui size
 
+    private int firstTime = 1;
+
     public UIFrame(GameCanvas gc, String name, String drawReference) {
         super(name, 0, 0);
 
@@ -41,6 +43,9 @@ public class UIFrame extends UIObject {
 
         setDrawEvenly();
         gc.uiM.addUIObject(this);
+
+        // Initial size
+        updateSize();
     }
 
     public UIFrame(GameCanvas gc, String name, String drawReference, int col, int row) {
@@ -53,6 +58,9 @@ public class UIFrame extends UIObject {
 
         setDrawEvenly();
         gc.uiM.addUIObject(this);
+
+        // Initial size
+        updateSize();
     }
 
     public UIFrame(GameCanvas gc, String name, String drawReference,
@@ -68,6 +76,9 @@ public class UIFrame extends UIObject {
 
         setDrawEvenly();
         gc.uiM.addUIObject(this);
+
+        // Initial size
+        updateSize();
     }
 
     public UIFrame getParentFrame() {
@@ -184,7 +195,10 @@ public class UIFrame extends UIObject {
 
             // SET POSITIONS
             updatePositionTimer--;
-            if (updatePositionTimer <= 0) {
+            if (updatePositionTimer <= 0 || firstTime >= 0) {
+                if (firstTime >= 0){
+                    firstTime--;
+                }
                 updateSize();
 
                 updatePositionTimer = updatePositionDelay;

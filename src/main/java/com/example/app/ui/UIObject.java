@@ -4,6 +4,11 @@ import com.example.app.IDrawable;
 import com.example.app.utils.Vector2D;
 
 public abstract class UIObject implements IDrawable {
+
+    // Management
+    public static int NEXT_ID = 0;
+    private final int id;
+
     // CLASS VARIABLES
     private int screenX, screenY;
     private String name;
@@ -24,6 +29,24 @@ public abstract class UIObject implements IDrawable {
         this.name = name;
         this.screenX = screenX;
         this.screenY = screenY;
+
+        id = NEXT_ID++;
+    }
+
+    public int getNextX(int x, int maxX){
+        return switch (drawReference){
+            case DRAW_TOP_LEFT_CORNER, DRAW_BOTTOM_LEFT_CORNER -> x;
+            case DRAW_TOP_RIGHT_CORNER, DRAW_BOTTOM_RIGHT_CORNER -> maxX - x;
+            default -> throw new IllegalStateException("Unexpected value: " + drawReference);
+        };
+    }
+
+    public int getNextY(int y, int maxY){
+        return switch (drawReference){
+            case DRAW_TOP_LEFT_CORNER, DRAW_TOP_RIGHT_CORNER -> y;
+            case DRAW_BOTTOM_LEFT_CORNER, DRAW_BOTTOM_RIGHT_CORNER -> maxY - y;
+            default -> throw new IllegalStateException("Unexpected value: " + drawReference);
+        };
     }
 
     public String getName() {
@@ -210,5 +233,9 @@ public abstract class UIObject implements IDrawable {
 
     public boolean mouseOver() {
         return false;
+    }
+
+    public boolean equals(UIObject obj) {
+    return id == obj.id;
     }
 }

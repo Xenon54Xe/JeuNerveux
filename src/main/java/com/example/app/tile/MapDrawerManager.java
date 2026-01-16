@@ -72,13 +72,21 @@ public class MapDrawerManager implements IListener {
                 if (worldX > gc.tileM.getMaxWorldCol() - 1 || worldX < 0 || worldY > gc.tileM.getMaxWorldRow() - 1 || worldY < 0){
                     return;
                 }
-                gc.tileM.tileMapNum[worldX][worldY][layer] = tileID;
+                gc.tileM.tileMap.setTileNum(tileID, worldX, worldY, layer);
             }
         }
     }
 
     public void saveMap() {
-        FileUtils.saveMap(gc.tileM.tileMapNum, gc.tileM.getMapName() + "-sav.txt");
+        String name = gc.tileM.getMapName();
+        if (name.length() >= 5 && name.substring(name.length() - 5, name.length() - 1).equals("-sav")){
+            int nb = Integer.parseInt(name.substring(name.length() - 1));
+            name = name.substring(0, name.length() - 1) + (nb + 1);
+        }
+        else {
+            name = gc.tileM.getMapName() + "-sav0";
+        }
+        FileUtils.saveMap(gc.tileM.tileMap, name);
         gc.loadMapM.reloadAvailableMaps();
     }
 
@@ -95,14 +103,14 @@ public class MapDrawerManager implements IListener {
             // CHANGE TILE TYPE EVENT
             if (message.equals(CHANGE_TILE_TYPE + ComponentUIClick.LEFT_BUTTON) || message.equals(CHANGE_TILE_TYPE + ComponentUIClick.RIGHT_BUTTON)) {
                 if (message.equals(CHANGE_TILE_TYPE + ComponentUIClick.LEFT_BUTTON)) {
-                    tileID = gc.tileM.tiles.getNextLayerTile((tileID + 1) % gc.tileM.tiles.size(), layer).getID();
+                    tileID = gc.tileM.tiles.getNextTile((tileID + 1) % gc.tileM.tiles.size()).getID();
                 }
                 if (message.equals(CHANGE_TILE_TYPE + ComponentUIClick.RIGHT_BUTTON)) {
                     tileID--;
                     if (tileID < 0) {
                         tileID += gc.tileM.tiles.size();
                     }
-                    tileID = gc.tileM.tiles.getPreviousLayerTile(tileID, layer).getID();
+                    tileID = gc.tileM.tiles.getPreviousTile(tileID).getID();
                 }
 
                 uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).getImage());
@@ -117,7 +125,7 @@ public class MapDrawerManager implements IListener {
             if (message.equals(CHANGE_LAYER + ComponentUIClick.LEFT_BUTTON)) {
                 layer = (layer + 1) % gc.tileM.getLayerCount();
                 uiButtonChangeLayer.setText("Layer : " + layer);
-                tileID = gc.tileM.tiles.getNextLayerTile(tileID, layer).getID();
+                tileID = gc.tileM.tiles.getNextTile(tileID).getID();
 
                 uiButtonTileType.setImage(gc.tileM.tiles.getTile(tileID).getImage());
             }

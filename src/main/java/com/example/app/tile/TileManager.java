@@ -20,7 +20,7 @@ public class TileManager {
     // CLASS VARIABLES
     public final TileLinkedList tiles = new TileLinkedList();
     private String mapName;
-    public int[][][] tileMapNum;
+    public TileMap tileMap;
 
     // If the map is 50x50 the 50th com.example.app.tile will be nbCol=0, nbRow = 1...
     public ILinkedList<Integer> spawnableTiles = new LinkedList<>();
@@ -69,25 +69,25 @@ public class TileManager {
         try {
             // Complete tiles
             // THE FIRST TILE MUST BE TRANSPARENT (SKIPPED WHEN DRAWN)
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "transparent.png"))),0, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "transparent.png"))), Tile.TRANSPARENT));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "grass.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "grass.png"))), Tile.GREEN));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "wall.png"))), true, 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "wall.png"))), Tile.GRAY, true));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "earth.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "earth.png"))), Tile.BROWN));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "sand.png"))), 0));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "sand.png"))), Tile.YELLOW));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "water.png"))), true, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "water.png"))), Tile.BLUE, true));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_cross.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_cross.png"))), Tile.ORANGE));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_horizontal.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_horizontal.png"))), Tile.ORANGE));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_vertical.png"))), 1));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "path_vertical.png"))), Tile.ORANGE));
 
-            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "tree.png"))), true, 1, 2));
+            tiles.add(new Tile(ImageIO.read(Objects.requireNonNull(FileUtils.loadFile("tiles", "tree.png"))), Tile.DARK_GREEN, true));
 
         }catch (IOException e){
             e.printStackTrace();
@@ -104,7 +104,7 @@ public class TileManager {
                 boolean spawnable = true;
                 for (int layer = 0; layer < layerCount; layer++) {
 
-                    if (tiles.getTile(tileMapNum[col][row][layer]).isCollision()){
+                    if (tiles.getTile(tileMap.getTileNum(col, row, layer)).isCollision()){
                         spawnable = false;
                     }
                 }
@@ -128,31 +128,34 @@ public class TileManager {
         maxWorldCol = dimensions[0];
         maxWorldRow = dimensions[1];
         layerCount = dimensions[2];
-        tileMapNum = new int[maxWorldCol][maxWorldRow][layerCount];
+        tileMap = new TileMap(maxWorldCol, maxWorldRow, layerCount);
 
         maxWorldWidth = maxWorldCol * gc.tileSize;
         maxWorldHeight = maxWorldRow * gc.tileSize;
 
         // LOAD MAP
-        FileUtils.loadMap(tileMapNum, mapName);
+        FileUtils.loadMap(tileMap, mapName);
         findSpawnableTiles();
 
         gc.eventChangeMap.trigger(new ComponentChangeMap(mapName, spawnableTiles));
+
+        // MAP
+        gc.uiM.uiMap.initMap(tileMap);
     }
 
     public void setTileMapNum(int[][][] tileMapNum) {
-        maxWorldCol = tileMapNum.length;
-        maxWorldRow = tileMapNum[0].length;
-        layerCount = tileMapNum[0][0].length;
+        tileMap = new TileMap(tileMapNum);
+
+        maxWorldCol = tileMap.getMaxCol();
+        maxWorldRow = tileMap.getMaxRow();
+        layerCount = tileMap.getLayerCount();
 
         maxWorldWidth = maxWorldCol * gc.tileSize;
         maxWorldHeight = maxWorldRow * gc.tileSize;
-
-        this.tileMapNum = tileMapNum;
     }
 
     public void draw(Graphics2D g2){
-        assert tileMapNum != null;
+        assert tileMap != null;
 
         double cameraWorldX = gc.tracked.getCameraWorldX();
         double cameraWorldY = gc.tracked.getCameraWorldY();
@@ -186,7 +189,7 @@ public class TileManager {
             for (int layer = 0; layer < layerCount; layer++) {
 
                 // GET TILE ID
-                int tileID = tileMapNum[worldCol][worldRow][layer];
+                int tileID = tileMap.getTileNum(worldCol, worldRow, layer);
                 if (tileID != 0) {
                     g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.tileSize, gc.tileSize, null);
                 }

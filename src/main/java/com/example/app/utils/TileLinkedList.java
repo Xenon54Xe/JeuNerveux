@@ -15,37 +15,24 @@ public class TileLinkedList extends LinkedList<Tile> {
     }
 
     public Tile getTile(int ID){
+        return getTile(ID, false);
+    }
+
+    public Tile getTile(int ID, boolean reverse){
         Tile curTile = getFirstValue();
         while (curTile.getID() != ID){
-            shift(false);
+            shift(reverse);
             curTile = getFirstValue();
         }
         return curTile;
     }
 
-    public Tile getTile(int ID, int layer, boolean reverse){
-        Tile curTile = getTile(ID);
-        if (curTile.layerContains(layer)){
-            return curTile;
-        }
-
-        for (int i = 0; i < size(); i++) {
-            shift(reverse);
-            curTile = getFirstValue();
-            if (curTile.layerContains(layer)) {
-                return curTile;
-            }
-        }
-
-        return null;
+    public Tile getNextTile(int ID){
+        return getTile(ID, false);
     }
 
-    public Tile getNextLayerTile(int ID, int layer){
-        return getTile(ID, layer, false);
-    }
-
-    public Tile getPreviousLayerTile(int ID, int layer){
-        return getTile(ID, layer, true);
+    public Tile getPreviousTile(int ID){
+        return getTile(ID, true);
     }
 
     @Override

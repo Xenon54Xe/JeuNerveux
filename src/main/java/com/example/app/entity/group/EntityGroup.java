@@ -19,14 +19,14 @@ public abstract class EntityGroup implements IListener, IEntityGroup {
     private static int HIGHEST_ID = -1;
 
     // CLASS VARIABLES
-    public final int ID;
+    public final int id;
 
     private final ArrayList<Entity> entities = new ArrayList<>();
     private int entityCount = 0;
 
     public EntityGroup(GameCanvas gc){
-        ID = HIGHEST_ID + 1;
-        HIGHEST_ID = ID;
+        id = HIGHEST_ID + 1;
+        HIGHEST_ID = id;
 
         this.gc = gc;
 
@@ -36,7 +36,7 @@ public abstract class EntityGroup implements IListener, IEntityGroup {
     @Override
     public void addEntity(LivingEntity entity){
         entity.setOwnBehavior(false);
-        entity.setGroupID(ID);
+        entity.setGroupID(id);
 
         gc.entityM.safeAddEntity(entity);
 

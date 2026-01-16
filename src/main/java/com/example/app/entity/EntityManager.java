@@ -100,6 +100,9 @@ public class EntityManager implements IListener {
         if (gc.keyH.gClicked){
             trackPlayer();
         }
+
+        // Update ui map
+        gc.uiM.uiMap.setEntitiesPositions(livingEntities);
     }
 
     public void draw(Graphics2D g2){

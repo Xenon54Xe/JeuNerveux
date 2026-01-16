@@ -21,7 +21,7 @@ public class UIMainMenuManager implements IListener {
     public final static String TITLE_SCREEN = "title-screen";
 
     // MAIN MENU
-    private final boolean showMapEditors = false;
+    private final boolean showMapEditors = true;
     private final UIFrame mainMenu;
 
     public UIMainMenuManager(GameCanvas gc){
@@ -125,11 +125,10 @@ public class UIMainMenuManager implements IListener {
                         gc.mapCreateM.setShow(true);
                     } else if (payload.equals(TITLE_SCREEN)) {
                         gc.sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
-                        gc.gameState = GameCanvas.PLAY_STATE;
                     } else {
                         gc.sceneryM.changeScenery(SceneryManager.MAP1_SCENERY);
-                        gc.gameState = GameCanvas.PLAY_STATE;
                     }
+                    gc.gameState = GameCanvas.PLAY_STATE;
                 }
             }
         }

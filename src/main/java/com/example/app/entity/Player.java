@@ -3,10 +3,15 @@ package com.example.app.entity;
 import com.example.app.GameCanvas;
 import com.example.app.entity.group.PlayerEntityGroup;
 import com.example.app.event.*;
+import com.example.app.event.component.ComponentChangeMap;
 import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.event.component.IEventComponent;
 import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
+import com.example.app.tile.TileMap;
+import com.example.app.ui.UIMap;
+import com.example.app.ui.frame.UIFrame;
+import com.example.app.utils.ILinkedList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
@@ -22,7 +27,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     private final int sprintSpeed;
     private final int baseSpeed;
 
-    private final int reach;
+    private int reach;
     private final int damage;
 
     private int attackDelay = 10;
@@ -60,10 +65,18 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
 
         // PLAYER ENTITY GROUP
         playerEntityGroup = new PlayerEntityGroup(gc, this);
-        setGroupID(playerEntityGroup.ID);
+        setGroupID(playerEntityGroup.id);
 
         // Event
         register(gc.eventEntityDead);
+    }
+
+    public int getReach() {
+        return reach;
+    }
+
+    public void setReach(int reach) {
+        this.reach = reach;
     }
 
     public void playerMoveBehavior(){
@@ -90,7 +103,11 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
 
             if (keyH.xPressed && getSpeed() != sprintSpeed) {
                 setSpeed(sprintSpeed);
-            } else if (getSpeed() != baseSpeed) {
+            }
+            else if (keyH.cPressed){
+                setSpeed(sprintSpeed * 3);
+            }
+            else if (getSpeed() != baseSpeed) {
                 setSpeed(baseSpeed);
             }
 
@@ -127,6 +144,8 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     public void draw(Graphics2D g2) {
         if (isVisible() && isShow()) {
             super.draw(g2);
+
+            // DRAW MAP
 
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE

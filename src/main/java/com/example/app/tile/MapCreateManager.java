@@ -88,7 +88,7 @@ public class MapCreateManager implements IListener {
                 int nbLayer = Integer.parseInt(nbLayerS);
 
                 // CREATE NEW MAP
-                int[][][] tileMapNum = new int[nbCol][nbRow][nbLayer];
+                TileMap tileMap = new TileMap(nbCol, nbRow, nbLayer);
                 for (int row = 0; row < nbRow; row++) {
 
                     for (int col = 0; col < nbCol; col++) {
@@ -96,15 +96,15 @@ public class MapCreateManager implements IListener {
                         for (int layer = 0; layer < nbLayer; layer++) {
 
                             if (layer == 0){
-                                tileMapNum[col][row][layer] = 1;
+                                tileMap.setTileNum(1, col, row, layer);
                             }
                             else {
-                                tileMapNum[col][row][layer] = 0;
+                                tileMap.setTileNum(0, col, row, layer);
                             }
                         }
                     }
                 }
-                FileUtils.saveMap(tileMapNum, name);
+                FileUtils.saveMap(tileMap, name);
 
                 // LOAD THE NEW MAP
                 gc.tileM.setMapName(name);

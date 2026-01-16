@@ -74,7 +74,7 @@ public class CollisionChecker {
             else {
 
                 // Test if the entity is heading toward a collision tile
-                int tileNum = gc.tileM.tileMapNum[tilePos[0]][tilePos[1]][layer];
+                int tileNum = gc.tileM.tileMap.getTileNum(tilePos[0], tilePos[1], layer);
                 Tile tile = gc.tileM.tiles.getTile(tileNum);
 
                 if (tile.isCollision()){
@@ -183,8 +183,8 @@ public class CollisionChecker {
                     entityTopRow = (int)((entityTopWorldY - entity.getSpeed() * gc.dt) / gc.tileSize);
 
                     while (layer < gc.tileM.getLayerCount()){
-                        tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityTopRow][layer];
-                        tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityTopRow][layer];
+                        tileNum1 = gc.tileM.tileMap.getTileNum(entityLeftCol, entityTopRow, layer);
+                        tileNum2 = gc.tileM.tileMap.getTileNum(entityRightCol, entityTopRow, layer);
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.RIGHT));
                             layer = gc.tileM.getLayerCount();
@@ -196,8 +196,8 @@ public class CollisionChecker {
                     entityBottomRow = (int)((entityBottomWorldY + entity.getSpeed() * gc.dt) / gc.tileSize);
 
                     while (layer < gc.tileM.getLayerCount()){
-                        tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityBottomRow][layer];
-                        tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityBottomRow][layer];
+                        tileNum1 = gc.tileM.tileMap.getTileNum(entityLeftCol, entityBottomRow, layer);
+                        tileNum2 = gc.tileM.tileMap.getTileNum(entityRightCol, entityBottomRow, layer);
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.RIGHT));
                             layer = gc.tileM.getLayerCount();
@@ -209,8 +209,8 @@ public class CollisionChecker {
                     entityLeftCol = (int)((entityLeftWorldX - entity.getSpeed() * gc.dt) / gc.tileSize);
 
                     while (layer < gc.tileM.getLayerCount()){
-                        tileNum1 = gc.tileM.tileMapNum[entityLeftCol][entityTopRow][layer];
-                        tileNum2 = gc.tileM.tileMapNum[entityLeftCol][entityBottomRow][layer];
+                        tileNum1 = gc.tileM.tileMap.getTileNum(entityLeftCol, entityTopRow, layer);
+                        tileNum2 = gc.tileM.tileMap.getTileNum(entityLeftCol, entityBottomRow, layer);
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.DOWN));
                             layer = gc.tileM.getLayerCount();
@@ -222,8 +222,8 @@ public class CollisionChecker {
                     entityRightCol = (int)((entityRightWorldX + entity.getSpeed() * gc.dt) / gc.tileSize);
 
                     while (layer < gc.tileM.getLayerCount()){
-                        tileNum1 = gc.tileM.tileMapNum[entityRightCol][entityTopRow][layer];
-                        tileNum2 = gc.tileM.tileMapNum[entityRightCol][entityBottomRow][layer];
+                        tileNum1 = gc.tileM.tileMap.getTileNum(entityRightCol, entityTopRow, layer);
+                        tileNum2 = gc.tileM.tileMap.getTileNum(entityRightCol, entityBottomRow, layer);
                         if (gc.tileM.tiles.getTile(tileNum1).isCollision() || gc.tileM.tiles.getTile(tileNum2).isCollision()){
                             entity.setMoveDirectionVector(moveVector.mask(Vector2D.DOWN));
                             layer = gc.tileM.getLayerCount();
