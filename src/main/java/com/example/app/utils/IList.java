@@ -8,10 +8,6 @@ public interface IList<E> {
 
     E get(int i);
 
-    default E getFirst(){
-        return get(0);
-    }
-
     void add(E value);
 
     default void addAll(E[] values) {

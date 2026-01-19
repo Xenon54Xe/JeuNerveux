@@ -1,12 +1,13 @@
 package com.example.app.entity.group;
 
 import com.example.app.GameCanvas;
+import com.example.app.entity.Entity;
+import com.example.app.entity.LivingEntity;
 import com.example.app.utils.Vector2D;
 
 public class AnimalEntityGroup extends EntityGroup{
 
     private int changeTargetCounter = 0;
-    private Vector2D targetPosition = Vector2D.ZERO;
 
     public AnimalEntityGroup(GameCanvas gc) {
         super(gc);
@@ -14,12 +15,18 @@ public class AnimalEntityGroup extends EntityGroup{
 
     @Override
     public void update() {
-        if (changeTargetCounter <= 0){
-            changeTargetCounter = 4 * 60;
-            targetPosition = Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles);
-        }
-        changeTargetCounter--;
+        super.update();
 
-        makeEntitiesMove(targetPosition, false);
+        if (getMaster() != null) {
+            if (changeTargetCounter <= 0) {
+                changeTargetCounter = 4 * 60;
+                Vector2D targetPosition = Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles);
+                Vector2D targetDirection = targetPosition.sub(getMaster().getWorldPosition()).getNormalized();
+                getMaster().setMoveDirectionVector(targetDirection);
+            }
+            changeTargetCounter--;
+
+            makeEntitiesMove(getMaster().getWorldPosition(), false);
+        }
     }
 }

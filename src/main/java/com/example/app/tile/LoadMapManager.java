@@ -99,7 +99,7 @@ public class LoadMapManager implements IListener {
                 gc.tileM.loadMap();
 
                 // Scenery
-                gc.sceneryM.changeScenery(SceneryManager.CLEAN_SCENERY);
+                gc.sceneryM.safeChangeScenery(SceneryManager.CLEAN_SCENERY);
             }
         }
     }

@@ -8,14 +8,14 @@ public interface IAttackEntity {
 
     void attack();
 
-    default void attackNearestEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
+    default boolean attackNearestEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
 
         if (self.isDead()){
-            return;
+            return false;
         }
 
         double lowestDistance = Double.POSITIVE_INFINITY;
-        LivingEntity nearestEntity = entities.getFirst();
+        LivingEntity nearestEntity = entities.getFirstValue();
 
         for (int i = 0; i < entities.size(); i++) {
             LivingEntity entity = entities.getFirstValueNShift();
@@ -34,14 +34,16 @@ public interface IAttackEntity {
 
         if (lowestDistance <= reach) {
             nearestEntity.damage(damage, self);
+            return true;
         }
+        return false;
     }
 
 
-    default void attackFirstNearEnoughEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
+    default boolean attackFirstNearEnoughEntity(LivingEntity self, ILinkedList<LivingEntity> entities, int reach, int damage) {
 
         if (self.isDead()){
-            return;
+            return false;
         }
 
         for (int i = 0; i < entities.size(); i++) {
@@ -55,8 +57,9 @@ public interface IAttackEntity {
             double distance = self.getWorldPosition().getDistance(entity.getWorldPosition());
             if (distance < reach) {
                 entity.damage(damage, self);
-                return;
+                return true;
             }
         }
+        return false;
     }
 }

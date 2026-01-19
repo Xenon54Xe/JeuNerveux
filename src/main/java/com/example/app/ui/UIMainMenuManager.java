@@ -18,10 +18,10 @@ public class UIMainMenuManager implements IListener {
     final GameCanvas gc;
 
     public final static String START_ADVENTURE = "start-adventure";
+    public final static String STRENGTH_TEST = "start-strength-test";
     public final static String TITLE_SCREEN = "title-screen";
 
     // MAIN MENU
-    private final boolean showMapEditors = true;
     private final UIFrame mainMenu;
 
     public UIMainMenuManager(GameCanvas gc){
@@ -43,10 +43,13 @@ public class UIMainMenuManager implements IListener {
         UITextButton startAdventure = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 START_ADVENTURE, "Start adventure",
                 gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
+        UITextButton startStrengthTest = new UITextButton(gc, Color.BLACK, Color.WHITE,
+                STRENGTH_TEST, "Start Strength Test",
+                gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
 
-        if (showMapEditors) {
+        if (gc.editorMode) {
 
-            mainMenu.setShape(1, 6);
+            mainMenu.setShape(1, 7);
 
             // MAP DRAWING
             UITextButton activateMapDrawing = new UITextButton(gc, Color.BLACK, Color.WHITE,
@@ -67,6 +70,7 @@ public class UIMainMenuManager implements IListener {
             mainMenu.addUIObject(activateMapDrawing, 0, 3);
             mainMenu.addUIObject(activateMapLoading, 0, 4);
             mainMenu.addUIObject(activateMapCreating, 0, 5);
+            mainMenu.addUIObject(startStrengthTest, 0, 6);
         }
         else {
             mainMenu.setShape(1, 3);
@@ -113,7 +117,8 @@ public class UIMainMenuManager implements IListener {
                         || payload.equals(MapDrawerManager.ACTIVATE_MAPMAKING)
                         || payload.equals(MapCreateManager.ACTIVATE_MAP_CREATING)
                         || payload.equals(START_ADVENTURE)
-                        || payload.equals(TITLE_SCREEN)){
+                        || payload.equals(TITLE_SCREEN)
+                        || payload.equals(STRENGTH_TEST)){
 
                     setShow(false);
                     if (payload.equals(LoadMapManager.ACTIVATE_MAP_LOADING)){
@@ -124,9 +129,11 @@ public class UIMainMenuManager implements IListener {
                     } else if (payload.equals(MapCreateManager.ACTIVATE_MAP_CREATING)) {
                         gc.mapCreateM.setShow(true);
                     } else if (payload.equals(TITLE_SCREEN)) {
-                        gc.sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
-                    } else {
-                        gc.sceneryM.changeScenery(SceneryManager.MAP1_SCENERY);
+                        gc.sceneryM.safeChangeScenery(SceneryManager.TITLE_SCENERY);
+                    } else if (payload.equals(START_ADVENTURE)){
+                        gc.sceneryM.safeChangeScenery(SceneryManager.MAP1_SCENERY);
+                    }else {
+                        gc.sceneryM.safeChangeScenery(SceneryManager.STRENGTH_SCENERY);
                     }
                     gc.gameState = GameCanvas.PLAY_STATE;
                 }

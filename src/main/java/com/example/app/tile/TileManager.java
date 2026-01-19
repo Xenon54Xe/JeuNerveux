@@ -120,6 +120,11 @@ public class TileManager {
         return FileUtils.getMapDimensions(mapName);
     }
 
+    public void loadMap(String mapName){
+        setMapName(mapName);
+        loadMap();
+    }
+
     public void loadMap(){
         assert mapName != null;
 

@@ -18,15 +18,15 @@ import java.util.Objects;
 public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEntity {
 
     // UTILS
-    final GameCanvas gc;
+    public final GameCanvas gc;
 
     // STATIC
     public static int NEXT_ID = 0;
 
     // IMAGES
-    BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
+    public BufferedImage left1, left2, right1, right2;
     // IMAGES LOGIC
-    private String drawDirection = Vector2D.S_DOWN;
+    private String drawDirection = Vector2D.S_LEFT;
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private final int waitTimeBeforeAnimation;
@@ -41,7 +41,6 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     // MOVEMENT
     private Vector2D worldPosition = Vector2D.ZERO;
     private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
-    private boolean onCollision = false;
 
     // STATUS
     private boolean show = true;
@@ -72,15 +71,11 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     // SPRITES
     public BufferedImage getSprite(String spriteName) {
         return switch (spriteName) {
-            case "up1" -> up1;
-            case "up2" -> up2;
-            case "down1" -> down1;
-            case "down2" -> down2;
             case "left1" -> left1;
             case "left2" -> left2;
             case "right1" -> right1;
             case "right2" -> right2;
-            default -> null;
+            default -> throw new IllegalStateException("Unexpected value: " + spriteName);
         };
     }
 
@@ -120,9 +115,17 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     public void updateDrawDirection(){
-        String direction = moveDirectionVector.getMainDirection();
-        if (!direction.equals(Vector2D.S_ZERO)){
-            drawDirection = direction;
+        ArrayList<String> directions = moveDirectionVector.getDirections();
+        if (directions == null){
+            return;
+        }
+
+        for (String direction : directions){
+            if (direction.equals(Vector2D.S_LEFT)){
+                setDrawDirection(Vector2D.S_LEFT);
+            } else if (direction.equals(Vector2D.S_RIGHT)) {
+                setDrawDirection(Vector2D.S_RIGHT);
+            }
         }
     }
 
@@ -292,14 +295,6 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         this.ownBehavior = ownBehavior;
     }
 
-    public boolean isOnCollision() {
-        return onCollision;
-    }
-
-    public void setOnCollision(boolean onCollision) {
-        this.onCollision = onCollision;
-    }
-
     public int getWaitTimeBeforeAnimation() {
         return waitTimeBeforeAnimation;
     }
@@ -311,36 +306,42 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
 
             // CHOOSE THE NEXT IMAGE
             String drawDirection = getDrawDirection();
-            if (drawDirection.equals(Vector2D.S_UP)) {
-                if (getSpriteNum() == 1) {
-                    image = getSprite("up1");
+            switch (drawDirection) {
+                case Vector2D.S_UP -> {
+                    if (getSpriteNum() == 1) {
+                        image = getSprite("up1");
+                    }
+                    if (getSpriteNum() == 2) {
+                        image = getSprite("up2");
+                    }
                 }
-                if (getSpriteNum() == 2) {
-                    image = getSprite("up2");
+                case Vector2D.S_DOWN -> {
+                    if (getSpriteNum() == 1) {
+                        image = getSprite("down1");
+                    }
+                    if (getSpriteNum() == 2) {
+                        image = getSprite("down2");
+                    }
                 }
-            } else if (drawDirection.equals(Vector2D.S_DOWN)) {
-                if (getSpriteNum() == 1) {
-                    image = getSprite("down1");
+                case Vector2D.S_LEFT -> {
+                    if (getSpriteNum() == 1) {
+                        image = getSprite("left1");
+                    }
+                    if (getSpriteNum() == 2) {
+                        image = getSprite("left2");
+                    }
                 }
-                if (getSpriteNum() == 2) {
-                    image = getSprite("down2");
-                }
-            } else if (drawDirection.equals(Vector2D.S_LEFT)) {
-                if (getSpriteNum() == 1) {
-                    image = getSprite("left1");
-                }
-                if (getSpriteNum() == 2) {
-                    image = getSprite("left2");
-                }
-            } else if (drawDirection.equals(Vector2D.S_RIGHT)) {
-                if (getSpriteNum() == 1) {
-                    image = getSprite("right1");
-                }
-                if (getSpriteNum() == 2) {
-                    image = getSprite("right2");
+                case Vector2D.S_RIGHT -> {
+                    if (getSpriteNum() == 1) {
+                        image = getSprite("right1");
+                    }
+                    if (getSpriteNum() == 2) {
+                        image = getSprite("right2");
+                    }
                 }
             }
 
+            assert image != null;
             g2.drawImage(image, getDrawTopLeftScreenX(), getDrawTopLeftScreenY(), width, height, null);
         }
     }
@@ -352,28 +353,21 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
 
     public void move(double dt) {
         // Anticipate collisions
-        onCollision = false;
-        gc.cChecker.checkTile(this); // Disable moving if collisions will happen
+        Vector2D correctedMoveVector = gc.cChecker.checkTile(this, getNextMoveVector(dt)); // Disable moving if collisions will happen
 
-        if (!onCollision) {
-            // Move
-            move(getNextMoveVector(dt));
-        }
+        move(correctedMoveVector);
     }
 
     public void move(ArrayList<Entity> entities, double dt){
-        // Anticipate collisions
-        onCollision = false;
-        gc.cChecker.checkTile(this); // Disable moving if collisions will happen
-        gc.cChecker.checkEntity(this, entities);
+        // Anticipate collisions with entities
+        Vector2D correctedMoveVector = gc.cChecker.checkTile(this, getNextMoveVector(dt)); // Disable moving if collisions will happen
+        correctedMoveVector = gc.cChecker.checkEntity(entities, this, correctedMoveVector);
 
-        if (!onCollision) {
-            // Move
-            move(getNextMoveVector(dt));
-        }
+        move(correctedMoveVector);
     }
 
     public boolean equals(Entity other) {
+        assert other != null;
         return id == other.id;
     }
 

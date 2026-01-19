@@ -2,6 +2,7 @@ package com.example.app.utils;
 
 import com.example.app.GameCanvas;
 
+import java.awt.*;
 import java.util.ArrayList;
 
 public class Vector2D {
@@ -11,17 +12,17 @@ public class Vector2D {
     private double y;
 
     // STATIC
-    public static Vector2D ZERO = new Vector2D(0, 0);
-    public static Vector2D UP = new Vector2D(0, -1);
-    public static Vector2D DOWN = new Vector2D(0, 1);
-    public static Vector2D LEFT = new Vector2D(-1, 0);
-    public static Vector2D RIGHT = new Vector2D(1, 0);
+    public static final Vector2D ZERO = new Vector2D(0, 0);
+    public static final Vector2D UP = new Vector2D(0, -1);
+    public static final Vector2D DOWN = new Vector2D(0, 1);
+    public static final Vector2D LEFT = new Vector2D(-1, 0);
+    public static final Vector2D RIGHT = new Vector2D(1, 0);
 
-    public static String S_ZERO = "zero";
-    public static String S_UP = "up";
-    public static String S_DOWN = "down";
-    public static String S_LEFT = "left";
-    public static String S_RIGHT = "right";
+    public static final String S_ZERO = "zero";
+    public static final String S_UP = "up";
+    public static final String S_DOWN = "down";
+    public static final String S_LEFT = "left";
+    public static final String S_RIGHT = "right";
 
 
     public Vector2D(double x, double y) {
@@ -68,6 +69,17 @@ public class Vector2D {
         return new Vector2D(x, y).getNormalized();
     }
 
+    public static Vector2D getRelatedVector(String direction){
+        return switch (direction){
+            case S_ZERO -> ZERO;
+            case S_UP -> UP;
+            case S_DOWN -> DOWN;
+            case S_LEFT -> LEFT;
+            case S_RIGHT -> RIGHT;
+            default -> throw new IllegalStateException("Unexpected value: " + direction);
+        };
+    }
+
     public static int getTileX(int tileSize, double worldX) {
         return (int) Math.floor(worldX / tileSize);
     }
@@ -87,6 +99,23 @@ public class Vector2D {
 
     public static double getDistance(Vector2D one, Vector2D two) {
         return two.sub(one).getLength();
+    }
+
+    public static boolean isPointInArea(Vector2D point, Vector2D topLeftAreaPoint, int width, int height){
+        Vector2D bottomRightAreaPoint = topLeftAreaPoint.add(new Vector2D(width, height));
+
+        return (point.getX() > topLeftAreaPoint.getX()
+                && point.getX() < bottomRightAreaPoint.getX()
+                && point.getY() > topLeftAreaPoint.getY()
+                && point.getY() < bottomRightAreaPoint.getY());
+    }
+
+    public static boolean isPointInArea(Vector2D point, Vector2D topLeftAreaPoint, Rectangle area){
+        return isPointInArea(point, topLeftAreaPoint.add(new Vector2D(area.x, area.y)), area.width, area.height);
+    }
+
+    public static boolean isPointInArea(Vector2D point, Rectangle area){
+        return isPointInArea(point, new Vector2D(area.x, area.y), area.width, area.height);
     }
 
     public double getX() {
@@ -200,7 +229,7 @@ public class Vector2D {
 
     public Vector2D projectTo(Vector2D targetVector) {
         double dotP = dotProduct(targetVector);
-        return new Vector2D(targetVector.getNormalized().mul(dotP));
+        return new Vector2D(targetVector.mul(dotP));
     }
 
     public Vector2D absProjectTo(Vector2D targetVector){

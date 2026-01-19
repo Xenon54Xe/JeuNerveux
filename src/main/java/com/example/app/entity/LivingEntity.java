@@ -10,7 +10,7 @@ import java.awt.*;
 public abstract class LivingEntity extends Entity {
 
     // CLASS VARIABLES
-    private final int maxHealth;
+    private int maxHealth;
     private int health;
     private final UIFillBar healthBar;
     private final int startXP;
@@ -38,12 +38,18 @@ public abstract class LivingEntity extends Entity {
         return maxHealth;
     }
 
+    public void setMaxHealth(int maxHealth) {
+        this.maxHealth = maxHealth;
+        health = maxHealth;
+    }
+
     public int getHealth() {
         return health;
     }
 
     public void setHealth(int health) {
         this.health = health;
+        healthBar.setPercentFill((double)Math.max(0, health) / maxHealth);
     }
 
     public int getStartXp() {
@@ -83,9 +89,9 @@ public abstract class LivingEntity extends Entity {
         gc.eventEntityDead.trigger(new ComponentEntityDead(this, killer));
     }
 
-    public void softKill(){
+    public void softKill(LivingEntity killer){
         if (!dead){
-            kill(null);
+            kill(killer);
         }
     }
 
@@ -94,7 +100,7 @@ public abstract class LivingEntity extends Entity {
         healthBar.setPercentFill((double)Math.max(0, health) / maxHealth);
 
         if (health <= 0){
-            kill(killer);
+            softKill(killer);
         }
     }
 

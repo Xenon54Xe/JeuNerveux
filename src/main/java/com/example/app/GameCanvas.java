@@ -36,7 +36,7 @@ public class GameCanvas extends Canvas implements Runnable {
     public double dt;
     // TEST FPS
     private int frameCount = 0;
-    private double timeBetweenFPSFrames = 0;
+    private long lastCheck = 0;
 
     // EVENT
     public final IEvent eventUIClick = new Event();
@@ -86,6 +86,9 @@ public class GameCanvas extends Canvas implements Runnable {
     public final static int PLAY_STATE = 1;
     public final static int PAUSE_STATE = 2;
 
+    // UTILS
+    public final boolean editorMode = false;
+
     public GameCanvas() {
         // WINDOW SETTINGS
         setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -98,12 +101,12 @@ public class GameCanvas extends Canvas implements Runnable {
         addMouseMotionListener(mouseMH);
 
         // Event init
-        TestListener testListener = new TestListener();
-        eventChangeMap.addListener(testListener);
-        eventUIClick.addListener(testListener);
-        eventEntityDead.addListener(testListener);
-        eventCreateMap.addListener(testListener);
-        eventGroupDead.addListener(testListener);
+//        TestListener testListener = new TestListener();
+//        eventChangeMap.addListener(testListener);
+//        eventUIClick.addListener(testListener);
+//       eventEntityDead.addListener(testListener);
+//       eventCreateMap.addListener(testListener);
+//        eventGroupDead.addListener(testListener);
 
         // UI
         uiM = new UIManager(this);
@@ -168,11 +171,11 @@ public class GameCanvas extends Canvas implements Runnable {
 
                 // Show FPS
                 frameCount++;
-                timeBetweenFPSFrames += dt;
-                if (frameCount == 60){
-                    System.out.println("FPS: " + (int)(Math.round(60d / timeBetweenFPSFrames)));
+                if (frameCount == FPS){
+                    double timeElapsed = (System.nanoTime() - lastCheck) / 10.0e8;
+                    lastCheck = System.nanoTime();
+                    System.out.println("FPS: " + (int)(Math.round(FPS / timeElapsed)));
                     frameCount = 0;
-                    timeBetweenFPSFrames = 0;
                 }
             }
         }

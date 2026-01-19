@@ -22,13 +22,6 @@ public interface ILinkedList<E> extends IList<E>{
         return value;
     }
 
-    default E get(int i){
-        for (int j = 0; j < i; j++){
-            shift();
-        }
-        return getFirstValue();
-    }
-
     default void setRoot(E value){
         assert contains(value);
 

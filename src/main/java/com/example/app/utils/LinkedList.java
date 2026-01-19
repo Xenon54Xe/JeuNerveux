@@ -4,10 +4,13 @@ public class LinkedList<E> implements ILinkedList<E> {
 
     private Node<E> root;
     private int size;
+    private int currentIndex;
 
     public LinkedList(){
-        size = 0;
         root = null;
+
+        size = 0;
+        currentIndex = -1;
     }
 
     public LinkedList(E value){
@@ -16,17 +19,31 @@ public class LinkedList<E> implements ILinkedList<E> {
         root.prev = root;
 
         size = 1;
+        currentIndex = 0;
     }
 
     @Override
     public void clear() {
-        size = 0;
         root = null;
+
+        size = 0;
+        currentIndex = -1;
     }
 
     @Override
     public boolean isEmpty() {
         return size == 0;
+    }
+
+    @Override
+    public E get(int i) {
+        assert 0 <= i && i < size;
+
+        while (currentIndex != i){
+            shift();
+        }
+
+        return getFirstValue();
     }
 
     @Override
@@ -46,6 +63,7 @@ public class LinkedList<E> implements ILinkedList<E> {
             root.next = newNode;
         }
         size++;
+        currentIndex = size - 1;
     }
 
     @Override
@@ -57,13 +75,17 @@ public class LinkedList<E> implements ILinkedList<E> {
 
         if (size == 1){
             root = null;
+
             size = 0;
+            currentIndex = -1;
         }
         else if (size > 1){
             root.next.prev = root.prev;
             root.prev.next = root.next;
             root = root.prev;
+
             size--;
+            currentIndex = size - 1;
         }
         return true;
     }
@@ -97,14 +119,29 @@ public class LinkedList<E> implements ILinkedList<E> {
 
     public void shift(){
         root = root.prev;
+
+        currentIndex++;
+        if (currentIndex == size){
+            currentIndex = 0;
+        }
     }
 
     public void shift(boolean reverse){
         if (!reverse) {
             root = root.prev;
+
+            currentIndex++;
+            if (currentIndex == size){
+                currentIndex = 0;
+            }
         }
         else {
             root = root.next;
+
+            currentIndex--;
+            if (currentIndex == 0){
+                currentIndex = size - 1;
+            }
         }
     }
 

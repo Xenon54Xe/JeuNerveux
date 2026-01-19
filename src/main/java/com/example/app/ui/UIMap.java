@@ -8,7 +8,6 @@ import com.example.app.utils.ILinkedList;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class UIMap extends UIBox{
 
@@ -18,9 +17,6 @@ public class UIMap extends UIBox{
     public ArrayList<Integer[]> entitiesPositions = new ArrayList<>();
     public int squareWidth, squareHeight;
     public int nbCol, nbRow;
-
-    private final int drawInterval = 120;
-    private int drawCounter = 0;
 
     public UIMap(GameCanvas gc, String name, int screenX, int screenY, int maxWidth, int maxHeight) {
         super(gc.mouseMH, null, name, screenX, screenY, maxWidth, maxHeight);

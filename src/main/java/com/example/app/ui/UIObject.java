@@ -7,7 +7,7 @@ public abstract class UIObject implements IDrawable {
 
     // Management
     public static int NEXT_ID = 0;
-    private final int id;
+    public final int id;
 
     // CLASS VARIABLES
     private int screenX, screenY;

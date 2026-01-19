@@ -26,6 +26,10 @@ public class UIManager {
     // UIMAP
     public final UIMap uiMap;
 
+    // TIMER
+    private int currentTimer = 0;
+    private UIObject objToKill;
+
     public UIManager(GameCanvas gc){
 
         arial_tile_size = new Font("Arial", Font.PLAIN, gc.tileSize / 2);
@@ -33,7 +37,7 @@ public class UIManager {
         // UI
         uiMap = new UIMap(gc, "map", gc.screenWidth, 0, gc.tileSize * 4, gc.tileSize * 4);
         uiMap.setDrawReference(UIObject.DRAW_TOP_RIGHT_CORNER);
-        uiMap.setShow(true);
+        //uiMap.setShow(true);
         addUIObject(uiMap);
     }
 
@@ -52,7 +56,13 @@ public class UIManager {
         uiObjects.add(uiObject);
     }
 
-    public void removeUIObject(UIObject uiObject){
+    public void addUIObjectWithTimer(UIObject uiObject, int timer){
+        currentTimer = timer;
+        objToKill = uiObject;
+        addUIObject(uiObject);
+    }
+
+    public boolean removeUIObject(UIObject uiObject){
 
         if (uiObject instanceof IClickable clickable) {
             clickableUIObjects.remove(clickable);
@@ -60,7 +70,7 @@ public class UIManager {
         if (uiObject instanceof IUpdatable updatable) {
             updatableUIObjects.remove(updatable);
         }
-        uiObjects.remove(uiObject);
+        return uiObjects.remove(uiObject);
     }
 
     public void update(){
@@ -74,6 +84,14 @@ public class UIManager {
         for (int i = 0; i < updatableUIObjects.size(); i++){
             IUpdatable updatable = updatableUIObjects.getFirstValueNShift();
             updatable.update();
+        }
+
+        if (currentTimer > 0){
+            currentTimer--;
+            if (currentTimer == 0){
+                objToKill.setShow(false);
+                removeUIObject(objToKill);
+            }
         }
     }
 

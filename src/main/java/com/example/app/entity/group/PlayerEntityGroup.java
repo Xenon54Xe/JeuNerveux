@@ -10,20 +10,20 @@ import com.example.app.utils.Vector2D;
 public class PlayerEntityGroup extends EntityGroup{
 
     // CLASS VARIABLES
-    private final Player player;
     private final int enemyFindInterval = 20;
     private int enemyFindCount = 0;
     private LivingEntity foundEnemy = null;
 
-    public PlayerEntityGroup(GameCanvas gc, Player player) {
+    public PlayerEntityGroup(GameCanvas gc, LivingEntity player) {
         super(gc);
 
-        this.player = player;
+        setMaster(player);
     }
-
 
     @Override
     public void update() {
+        super.update();
+
         // Look for nearby enemies
         enemyFindCount--;
         if (enemyFindCount <= 0){
@@ -35,27 +35,41 @@ public class PlayerEntityGroup extends EntityGroup{
         if (foundEnemy != null){
             makeEntitiesMove(foundEnemy.getWorldPosition(), false);
         }else {
-            makeEntitiesMove(player.getWorldPosition(), true);
+            makeEntitiesMove(getMaster().getWorldPosition(), true, true);
         }
     }
 
     private void findNewEnemy() {
+        foundEnemy = null;
+
+        if (gc.sceneryM.groups.isEmpty()){
+            return;
+        }
+
         // Find new enemy
-        for (int i = 0; i < gc.entityM.livingEntities.size(); i++) {
-            LivingEntity entity = gc.entityM.livingEntities.getFirstValueNShift();
-            if (!(entity.getGroupID() == id) &&
-                    entity.getWorldPosition().getDistance(player.getWorldPosition()) < player.getReach() * 2){
-                foundEnemy = entity;
-                return;
+        double minDistance = Double.POSITIVE_INFINITY;
+        for (int i = 0; i < gc.sceneryM.groups.size(); i++) {
+
+            LivingEntity entity = gc.sceneryM.groups.getFirstValueNShift().getMaster();
+            if (entity == null){
+                continue;
+            }
+
+            double distance = entity.getWorldPosition().getDistance(getMaster().getWorldPosition());
+            if (!(entity.getGroupID() == id) && distance < gc.tileSize * 4){
+
+                if (foundEnemy == null || distance < minDistance) {
+                    minDistance = distance;
+                    foundEnemy = entity;
+                }
             }
         }
-        foundEnemy = null;
     }
 
     @Override
     public void onTrigger(IEventComponent component) {
         if (component instanceof ComponentEntityDead(LivingEntity killed, LivingEntity killer)){
-            if (killed == player){
+            if (killed == getMaster()){
                 killGroup();
             }
         }

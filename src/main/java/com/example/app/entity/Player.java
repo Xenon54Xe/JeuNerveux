@@ -3,15 +3,9 @@ package com.example.app.entity;
 import com.example.app.GameCanvas;
 import com.example.app.entity.group.PlayerEntityGroup;
 import com.example.app.event.*;
-import com.example.app.event.component.ComponentChangeMap;
 import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.event.component.IEventComponent;
 import com.example.app.handler.KeyHandler;
-import com.example.app.handler.MouseHandler;
-import com.example.app.tile.TileMap;
-import com.example.app.ui.UIMap;
-import com.example.app.ui.frame.UIFrame;
-import com.example.app.utils.ILinkedList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
@@ -21,27 +15,50 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
 
     // UTILS
     private final KeyHandler keyH;
-    private final MouseHandler mouseH;
 
     // PLAYER
     private final int sprintSpeed;
     private final int baseSpeed;
 
     private int reach;
-    private final int damage;
+    private int damage;
+    private boolean canAttack = true;
 
-    private int attackDelay = 10;
+    private int attackDelay = 30;
     private int attackTimer = 0;
-    private BufferedImage attackImage;
+    private BufferedImage attackImageRight;
+    private BufferedImage attackImageLeft;
 
     // PLAYER GROUP
-    PlayerEntityGroup playerEntityGroup;
+    public PlayerEntityGroup playerEntityGroup;
 
-    public Player(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
-        super(gc, solidArea, name, speed, width, height, health, waitTimeBeforeAnimation, xp);
+    public Player(GameCanvas gc, String name){
+        super(gc, new Rectangle(30, 70, 36, 20), name, 200, gc.tileSize * 2, gc.tileSize * 2, 100, 6, 0);
 
         keyH = gc.keyH;
-        mouseH = gc.mouseH;
+
+        sprintSpeed = getSpeed() * 3;
+        baseSpeed = getSpeed();
+        reach = gc.tileSize * 2;
+        damage = 35;
+
+        // DEFAULT VALUES
+        setTilePosition(7, 5);
+
+        initImages();
+
+        // PLAYER ENTITY GROUP
+        playerEntityGroup = new PlayerEntityGroup(gc, this);
+        setGroupID(playerEntityGroup.id);
+
+        // Event
+        register(gc.eventEntityDead);
+    }
+
+    public Player(GameCanvas gc, String name, int speed, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
+        super(gc, new Rectangle(8, 32, 32, 16), name, speed, gc.tileSize, gc.tileSize, health, waitTimeBeforeAnimation, xp);
+//new Rectangle(32, 50, 32, 32)
+        keyH = gc.keyH;
 
         sprintSpeed = speed * 3;
         baseSpeed = speed;
@@ -52,16 +69,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
         // DEFAULT VALUES
         setTilePosition(7, 5);
 
-        // PLAYER IMAGES
-        attackImage = getSpriteImage("entities/player", "boy_down_sword.png");
-        up1 = getSpriteImage("entities/player", "boy_up_1.png");
-        up2 = getSpriteImage("entities/player", "boy_up_2.png");
-        down1 = getSpriteImage("entities/player", "boy_down_1.png");
-        down2 = getSpriteImage("entities/player", "boy_down_2.png");
-        left1 = getSpriteImage("entities/player", "boy_left_1.png");
-        left2 = getSpriteImage("entities/player", "boy_left_2.png");
-        right1 = getSpriteImage("entities/player", "boy_right_1.png");
-        right2 = getSpriteImage("entities/player", "boy_right_2.png");
+        initImages();
 
         // PLAYER ENTITY GROUP
         playerEntityGroup = new PlayerEntityGroup(gc, this);
@@ -71,12 +79,34 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
         register(gc.eventEntityDead);
     }
 
+    public void initImages(){
+        // PLAYER IMAGES
+        attackImageRight = getSpriteImage("entities/player", "shaman_attack_right.png");
+        attackImageLeft = getSpriteImage("entities/player", "shaman_attack_left.png");
+        left1 = getSpriteImage("entities/player", "shaman_left1.png");
+        left2 = getSpriteImage("entities/player", "shaman_left2.png");
+        right1 = getSpriteImage("entities/player", "shaman_right1.png");
+        right2 = getSpriteImage("entities/player", "shaman_right2.png");
+    }
+
     public int getReach() {
         return reach;
     }
 
     public void setReach(int reach) {
         this.reach = reach;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setAttackDelay(int attackDelay) {
+        this.attackDelay = attackDelay;
     }
 
     public void playerMoveBehavior(){
@@ -104,7 +134,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
             if (keyH.xPressed && getSpeed() != sprintSpeed) {
                 setSpeed(sprintSpeed);
             }
-            else if (keyH.cPressed){
+            else if (keyH.cPressed && gc.editorMode){
                 setSpeed(sprintSpeed * 3);
             }
             else if (getSpeed() != baseSpeed) {
@@ -121,13 +151,17 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     }
 
     public void playerAttackBehavior(){
-        if (attackTimer == 0 && mouseH.leftClickClicked && !gc.uiM.isMouseOverUI()) {
+        if (attackTimer <= 0 && canAttack) {
             attack();
         }
     }
 
     @Override
     public void update(){
+        if (gc.mouseH.leftClickClicked){
+            canAttack = !canAttack;
+        }
+
         if (isActive()) {
             super.update();
 
@@ -136,32 +170,45 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
             }
             playerAttackBehavior();
 
-            playerEntityGroup.update();
+            if (!isDead()) {
+                playerEntityGroup.update();
+            }
         }
     }
 
     @Override
     public void draw(Graphics2D g2) {
         if (isVisible() && isShow()) {
-            super.draw(g2);
-
             // DRAW MAP
 
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE
-                g2.drawImage(attackImage, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, gc.tileSize, gc.tileSize, null);
+                if (attackTimer > attackDelay / 2) {
+                    if (getDrawDirection().equals(Vector2D.S_RIGHT)) {
+                        g2.drawImage(attackImageRight, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, getWidth(), getHeight(), null);
+                    }
+                    else {
+                        g2.drawImage(attackImageLeft, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, getWidth(), getHeight(), null);
+                    }
+                }
+                else {
+                    drawWalkingAnimation(g2);
+                }
                 attackTimer--;
             } else {
-
                 drawWalkingAnimation(g2);
             }
+
+            super.draw(g2);
         }
     }
 
     @Override
     public void attack() {
-        attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
-        attackTimer = attackDelay;
+        boolean succes = attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
+        if (succes) {
+            attackTimer = attackDelay;
+        }
     }
 
     @Override
@@ -169,10 +216,26 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
         if (component instanceof ComponentEntityDead(LivingEntity killed, LivingEntity killer)){
 
             if (killer != null  && killer.getGroupID() == getGroupID()){
+                if (killer != this){
+                    addXp(killed.getXp());
+                }
+
+                // MAKE CLONE
                 LivingEntity entity = (LivingEntity) killed.makeClone();
                 entity.setWorldPosition(killed.getWorldPosition());
                 entity.setSpeed(baseSpeed);
                 playerEntityGroup.addEntity(entity);
+
+                if (playerEntityGroup.size() > 10){
+                    LivingEntity weekest = playerEntityGroup.getWeekest();
+                    playerEntityGroup.safeRemoveEntity(weekest);
+                    weekest.softKill(null);
+                    return;
+                }
+            }
+
+            if (killed.getGroupID() == getGroupID() && !killed.equals(this)){
+                playerEntityGroup.removeEntity(killed);
             }
         }
     }
@@ -184,6 +247,6 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
 
     @Override
     public Entity makeClone() {
-        return new Player(gc, getSolidArea(), getName(), baseSpeed, getWidth(), getHeight(), getMaxHealth(), getWaitTimeBeforeAnimation(), getStartXp(), reach, damage);
+        return new Player(gc, getName(), baseSpeed, getMaxHealth(), getWaitTimeBeforeAnimation(), getStartXp(), reach, damage);
     }
 }

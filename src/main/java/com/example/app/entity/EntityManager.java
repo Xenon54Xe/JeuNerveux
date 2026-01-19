@@ -1,9 +1,11 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
+import com.example.app.entity.group.EntityGroup;
 import com.example.app.event.*;
 import com.example.app.event.component.ComponentChangeMap;
 import com.example.app.event.component.ComponentEntityDead;
+import com.example.app.event.component.ComponentGroupDead;
 import com.example.app.event.component.IEventComponent;
 import com.example.app.utils.ILinkedList;
 import com.example.app.utils.LinkedList;
@@ -54,7 +56,7 @@ public class EntityManager implements IListener {
 
     public void safeRemoveAllEntities(){
         for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.getFirstValueNShift().softKill();
+            livingEntities.getFirstValueNShift().softKill(null);
         }
     }
 
@@ -71,6 +73,13 @@ public class EntityManager implements IListener {
                 gc.tracked = entity;
                 return;
             }
+        }
+    }
+
+    public void regenAllEntities(){
+        for (int i = 0; i < livingEntities.size(); i++) {
+            LivingEntity entity = livingEntities.getFirstValueNShift();
+            entity.setHealth(entity.getMaxHealth());
         }
     }
 
@@ -100,9 +109,12 @@ public class EntityManager implements IListener {
         if (gc.keyH.gClicked){
             trackPlayer();
         }
+        if(gc.keyH.rClicked && gc.editorMode){
+            regenAllEntities();
+        }
 
         // Update ui map
-        gc.uiM.uiMap.setEntitiesPositions(livingEntities);
+        //gc.uiM.uiMap.setEntitiesPositions(livingEntities);
     }
 
     public void draw(Graphics2D g2){
@@ -134,6 +146,11 @@ public class EntityManager implements IListener {
         if (component instanceof ComponentChangeMap cmComponent){
             for (int i = 0; i < livingEntities.size(); i++){
                 livingEntities.getFirstValueNShift().setRandomTilePosition(cmComponent.spawnableTiles());
+            }
+        }
+        if (component instanceof ComponentGroupDead(EntityGroup group)){
+            for (LivingEntity entity : group.entities){
+                removeEntity(entity);
             }
         }
     }

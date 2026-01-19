@@ -4,29 +4,79 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.9.0&#10;feat:&#10;- added music &amp; sound">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileMap.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v0.10.0&#10;feat:&#10;- added ui map">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Animal.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Bear.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Cat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Dog.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Fox.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Mouse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rabbit.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rat.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Wolf.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/bear_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/bear_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/cat_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/cat_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/dog_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/dog_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/fox_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/fox_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/mouse_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/mouse_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/rabbit_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/rabbit_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/rat_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/rat_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/wolf_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/animals/wolf_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_attack_left.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_attack_right.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_left1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_left2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_right1.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/entities/player/shaman_right2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/maps/EmptyScenery" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Mouse.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/AnimalEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/AnimalEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/IEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/IEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/handler/KeyHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/Tile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/FileUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILinkedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/mouse/mouse_left.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/mouse/mouse_right.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_down_sword.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_idle_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_idle_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_left_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_left_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_right_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_right_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_up_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/entities/player/boy_up_2.png" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +170,7 @@
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/main/resources/sounds&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/main/resources/entities/player&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
@@ -131,17 +181,18 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/entities/player" />
       <recent name="$PROJECT_DIR$/src/main/resources/sounds" />
       <recent name="$PROJECT_DIR$/src/main/resources/maps" />
       <recent name="$PROJECT_DIR$/src/res/maps" />
       <recent name="$PROJECT_DIR$/src/res/tiles" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/entities/player" />
+      <recent name="$PROJECT_DIR$/src/main/resources/entities/animals" />
+      <recent name="$PROJECT_DIR$/src/main/resources/entities/tosort" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/resources/maps" />
-      <recent name="$PROJECT_DIR$/src/main/java/main" />
-      <recent name="$PROJECT_DIR$/src/main/java" />
-      <recent name="$PROJECT_DIR$/src" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="main2" />
@@ -436,7 +487,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768339203470</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="v0.10.0&#10;feat:&#10;- added ui map">
+      <option name="closed" value="true" />
+      <created>1768535400238</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1768535400238</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -475,7 +534,8 @@
     <MESSAGE value="v0.8.0&#10;feat:&#10;- when you kill an animal it becomes an ally&#10;- ui : health bar" />
     <MESSAGE value="v0.8.1&#10;feat:&#10;- refactor&#10;- the game use only ILinkedList now&#10;- better collision checker&#10;bug:&#10;- need to make collision between entities" />
     <MESSAGE value="v0.9.0&#10;feat:&#10;- added music &amp; sound" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.9.0&#10;feat:&#10;- added music &amp; sound" />
+    <MESSAGE value="v0.10.0&#10;feat:&#10;- added ui map" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.10.0&#10;feat:&#10;- added ui map" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

@@ -30,6 +30,10 @@ public class MapDrawerManager implements IListener {
     private int layer = 0;
     private final UITextButton uiButtonChangeLayer;
 
+    // UPDATE MAP
+    private final int updateDelay = 180;
+    private int updateCount = 0;
+
     public MapDrawerManager(GameCanvas gc) {
         // INIT
         this.gc = gc;
@@ -74,6 +78,12 @@ public class MapDrawerManager implements IListener {
                 }
                 gc.tileM.tileMap.setTileNum(tileID, worldX, worldY, layer);
             }
+
+            if (updateCount <= 0){
+                updateCount = updateDelay;
+                gc.uiM.uiMap.initMap(gc.tileM.tileMap);
+            }
+            updateCount--;
         }
     }
 
