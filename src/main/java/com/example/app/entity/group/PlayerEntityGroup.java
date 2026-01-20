@@ -50,7 +50,11 @@ public class PlayerEntityGroup extends EntityGroup{
         double minDistance = Double.POSITIVE_INFINITY;
         for (int i = 0; i < gc.sceneryM.groups.size(); i++) {
 
-            LivingEntity entity = gc.sceneryM.groups.getFirstValueNShift().getMaster();
+            IEntityGroup group = gc.sceneryM.groups.getFirstValueNShift();
+            if (group.isEmpty()){
+                continue;
+            }
+            LivingEntity entity = group.getMaster();
             if (entity == null){
                 continue;
             }

@@ -44,7 +44,7 @@ public class EntityManager implements IListener {
     }
 
     private void removeEntity(LivingEntity entity){
-        assert livingEntities.remove(entity);
+        livingEntities.remove(entity);
     }
 
     public void safeRemoveEntity(LivingEntity entity){

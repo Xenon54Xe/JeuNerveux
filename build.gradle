@@ -3,8 +3,8 @@ plugins {
     id 'application'
 }
 
-group = 'example'
-version = '0.7.1'
+group = 'com.example.app'
+version = '1.0.0-b'
 
 java {
     toolchain {
@@ -14,8 +14,17 @@ java {
 
 application {
     mainClass = 'com.example.app.Main' // CHANGE to your real main class
+    applicationDefaultJvmArgs = ["-da"] // disable assertion
 }
 
 repositories {
     mavenCentral()
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.example.app.Main'
+        )
+    }
 }
