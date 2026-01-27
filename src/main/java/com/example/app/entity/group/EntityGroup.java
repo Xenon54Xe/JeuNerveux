@@ -7,12 +7,12 @@ import com.example.app.event.*;
 import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.event.component.ComponentGroupDead;
 import com.example.app.event.component.IEventComponent;
-import com.example.app.ui.IUpdatable;
+import com.example.app.Updatable;
 import com.example.app.utils.Vector2D;
 
 import java.util.ArrayList;
 
-public abstract class EntityGroup implements IListener, IEntityGroup, IUpdatable {
+public abstract class EntityGroup implements Listener, IEntityGroup, Updatable {
 
     final GameCanvas gc;
 
@@ -35,8 +35,6 @@ public abstract class EntityGroup implements IListener, IEntityGroup, IUpdatable
         id = NEXT_ID++;
 
         this.gc = gc;
-
-        register(gc.eventEntityDead);
     }
 
     @Override
@@ -172,11 +170,11 @@ public abstract class EntityGroup implements IListener, IEntityGroup, IUpdatable
             if (!entity.equals(master)){
                 Vector2D position = entity.getWorldPosition();
                 Vector2D targetVector = targetPosition.sub(position);
-                if (notTooClose && targetVector.getLength() < gc.tileSize){
+                if (notTooClose && targetVector.getLength() < gc.TILE_SIZE){
                     continue;
                 }
 
-                if (canTeleporte && targetVector.getLength() > gc.screenWidth){
+                if (canTeleporte && targetVector.getLength() > gc.SCREEN_WIDTH){
                     entity.setWorldPosition(targetPosition);
                 }
                 else {
@@ -223,7 +221,7 @@ public abstract class EntityGroup implements IListener, IEntityGroup, IUpdatable
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventEntityDead.addListener(this);
     }
 }

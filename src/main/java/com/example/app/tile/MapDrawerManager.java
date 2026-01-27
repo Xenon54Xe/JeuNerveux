@@ -10,7 +10,7 @@ import com.example.app.utils.FileUtils;
 
 import java.awt.*;
 
-public class MapDrawerManager implements IListener {
+public class MapDrawerManager implements Listener {
 
     // UTILS
     private final GameCanvas gc;
@@ -39,24 +39,24 @@ public class MapDrawerManager implements IListener {
         this.gc = gc;
 
         // EVENT LISTENER
-        register(gc.eventUIClick);
+        register();
 
 //        // ACTIVATE BUTTON (always shown)
 //        UITextButton uiTextButtonActivate = new UITextButton(gc, Color.BLACK, Color.WHITE, ACTIVATE_MAPMAKING, "Activate map making", gc.tileSize * 10, gc.tileSize, 10, 10);
 //        gc.uiM.addUIObject(uiTextButtonActivate);
         // UI
         uiFrame = new UIFrame(gc, "Draw the map",
-                UIObject.DRAW_TOP_LEFT_CORNER, 1, 3);
+                UIObject.DRAW_TOP_LEFT, 1, 3);
         uiFrame.setDrawStepBetweenEdges(10, 10);
         uiFrame.expand();
 
         // BUTTON TILE TYPE
-        int size = (int)(gc.tileSize * 0.8);
-        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, CHANGE_TILE_TYPE, gc.tileSize, gc.tileSize * 3, gc.tileSize, gc.tileSize, size, size);
+        int size = (int)(gc.TILE_SIZE * 0.8);
+        uiButtonTileType = new UIImageButton(gc, gc.tileM.tiles.getTile(tileID).getImage(), Color.BLUE, CHANGE_TILE_TYPE, gc.TILE_SIZE, gc.TILE_SIZE * 3, gc.TILE_SIZE, gc.TILE_SIZE, size, size);
         // BUTTON SAVE
-        UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, SAVE_MAP, "click to save", gc.tileSize, gc.tileSize * 2, 10, 10);
+        UITextButton uiTextButtonSave = new UITextButton(gc, Color.BLACK, Color.WHITE, SAVE_MAP, "click to save", gc.TILE_SIZE, gc.TILE_SIZE * 2, 10, 10);
         // BUTTON CHANGE LAYER
-        uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, CHANGE_LAYER, "Layer : 0", gc.tileSize, gc.tileSize * 4, 10, 10);
+        uiButtonChangeLayer = new UITextButton(gc, Color.BLACK, Color.WHITE, CHANGE_LAYER, "Layer : 0", gc.TILE_SIZE, gc.TILE_SIZE * 4, 10, 10);
         // Register
         uiFrame.addUIObject(uiButtonTileType, 0, 1);
         uiFrame.addUIObject(uiTextButtonSave, 0, 0);
@@ -70,8 +70,8 @@ public class MapDrawerManager implements IListener {
         if (uiFrame.isShow()){
             // Allow to draw tiles
             if (!gc.uiM.isMouseOverUI() && gc.mouseH.leftClickPressed){
-                int worldX = (gc.mouseMH.getScreenX() + gc.tracked.getCameraWorldX()) / gc.tileSize;
-                int worldY = (gc.mouseMH.getScreenY() + gc.tracked.getCameraWorldY()) / gc.tileSize;
+                int worldX = (gc.mouseMH.getScreenX() + gc.tracked.getCameraWorldX()) / gc.TILE_SIZE;
+                int worldY = (gc.mouseMH.getScreenY() + gc.tracked.getCameraWorldY()) / gc.TILE_SIZE;
 
                 if (worldX > gc.tileM.getMaxWorldCol() - 1 || worldX < 0 || worldY > gc.tileM.getMaxWorldRow() - 1 || worldY < 0){
                     return;
@@ -148,7 +148,7 @@ public class MapDrawerManager implements IListener {
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventUIClick.addListener(this);
     }
 }

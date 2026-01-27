@@ -1,6 +1,6 @@
 package com.example.app.utils;
 
-public interface IList<E> {
+public interface List<E> {
 
     void clear();
 
@@ -10,9 +10,9 @@ public interface IList<E> {
 
     void add(E value);
 
-    default void addAll(E[] values) {
-        for (E value : values){
-            add(value);
+    default void addAll(Object[] values) {
+        for (Object value : values){
+            add((E) value);
         }
     }
 
@@ -22,9 +22,7 @@ public interface IList<E> {
 
     int size();
 
-    boolean equals(IList<E> other);
-
-    Object[] toArray();
+    boolean equals(List<E> other);
 
     String toString();
 }

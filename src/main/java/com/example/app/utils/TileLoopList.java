@@ -2,13 +2,13 @@ package com.example.app.utils;
 
 import com.example.app.tile.Tile;
 
-public class TileLinkedList extends LinkedList<Tile> {
+public class TileLoopList extends LoopList<Tile> {
 
-    public TileLinkedList(){
+    public TileLoopList(){
         super();
     }
 
-    public TileLinkedList(Tile value){
+    public TileLoopList(Tile value){
         super(value);
 
         value.setID(size() - 1);
@@ -19,10 +19,10 @@ public class TileLinkedList extends LinkedList<Tile> {
     }
 
     public Tile getTile(int ID, boolean reverse){
-        Tile curTile = getFirstValue();
+        Tile curTile = get();
         while (curTile.getID() != ID){
             shift(reverse);
-            curTile = getFirstValue();
+            curTile = get();
         }
         return curTile;
     }

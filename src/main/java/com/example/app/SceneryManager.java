@@ -13,28 +13,35 @@ import com.example.app.event.component.IEventComponent;
 import com.example.app.ui.frame.UIFrame;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UIText;
-import com.example.app.utils.ILinkedList;
-import com.example.app.utils.LinkedList;
+import com.example.app.utils.ArrayList;
+import com.example.app.utils.ILoopList;
+import com.example.app.utils.List;
+import com.example.app.utils.LoopList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 
-public class SceneryManager implements IListener {
+public class SceneryManager implements Listener {
 
     final GameCanvas gc;
 
+    // STATIC
     public static final String TITLE_SCENERY = "TitleScenery";
     public static final String MAP1_SCENERY = "map2-sav1";
     public static final String STRENGTH_SCENERY = "Map1Scenery";
     public static final String CLEAN_SCENERY = "clean-scenery";
 
     // CLASS VARIABLES
-    private int changeSceneryCount = 1;
+    private int changeSceneryCounter = 1;
     private String lastChosenScenery;
+
+    // UI
+    // MAP1
     private final UIFrame uiFrameMap1;
+    // LOADING
     private final UIText loadingText;
 
-    public final ILinkedList<IEntityGroup> groups = new LinkedList<>();
+    public final List<IEntityGroup> groups = new ArrayList<>();
     private int[] animalGroupCount = new int[8];
 
     // UI TO UPDATE
@@ -45,26 +52,25 @@ public class SceneryManager implements IListener {
         this.gc = gc;
 
         // UI MENUS
-        uiFrameMap1 = new UIFrame(gc, "Scenery Map1", UIObject.DRAW_TOP_LEFT_CORNER,
-                0, 0, gc.tileSize, gc.tileSize * 2, 1, 2);
+        uiFrameMap1 = new UIFrame(gc, "Scenery Map1", UIObject.DRAW_TOP_LEFT,
+                0, 0, gc.TILE_SIZE, gc.TILE_SIZE * 2, 1, 2);
         uiFrameMap1.setDrawEvenly();
 
         // UI
         makeUI();
         // Chargement
-        loadingText = new UIText(Color.WHITE, "LOADING...", gc.screenWidth / 2, gc.screenHeight / 2);
-        loadingText.setDrawReference(UIObject.DRAW_CENTER);
+        loadingText = new UIText(Color.WHITE, "LOADING...", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
+        loadingText.setDrawRule(UIObject.DRAW_CENTER);
         gc.uiM.addUIObject(loadingText);
 
         // EVENT
-        register(gc.eventUIClick);
-        register(gc.eventGroupDead);
+        register();
     }
 
     private void makeUI(){
         // MAP1
-        playerPosition = new UIText(Color.WHITE, "Position : ", gc.tileSize, gc.tileSize);
-        playerMobs = new UIText(Color.WHITE, "0/10", gc.tileSize, gc.tileSize * 2);
+        playerPosition = new UIText(Color.WHITE, "Position : ", gc.TILE_SIZE, gc.TILE_SIZE);
+        playerMobs = new UIText(Color.WHITE, "0/10", gc.TILE_SIZE, gc.TILE_SIZE * 2);
         uiFrameMap1.addUIObject(playerPosition, 0, 0);
         uiFrameMap1.addUIObject(playerMobs, 0, 1);
     }
@@ -76,7 +82,7 @@ public class SceneryManager implements IListener {
             // SHOW chargement
             loadingText.setShow(true);
             lastChosenScenery = scenery;
-            changeSceneryCount = 2;
+            changeSceneryCounter = 2;
         }
     }
 
@@ -146,7 +152,7 @@ public class SceneryManager implements IListener {
     private void cleanScenery(){
         // PLAYER
         Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
-        Player player = new Player(gc, "Player", 200, 10000, 6, 0, 2 * gc.tileSize, 20);
+        Player player = new Player(gc, "Player", 200, 10000, 6, 0, 2 * gc.TILE_SIZE, 20);
         player.setRandomTilePosition(gc.tileM.spawnableTiles);
         gc.entityM.addEntity(player);
         gc.entityM.setPlayer(player);
@@ -298,7 +304,7 @@ public class SceneryManager implements IListener {
                 if (gc.entityM.player != null) {
                     // MAKE GROUPS SPAWN AROUND PLAYER
                     // Wolf
-                    int nbA = 6;
+                    int nbA = 0;
                     int countA = 10;
                     int groupCount = animalGroupCount[nbA];
                     if (groupCount < 1) {
@@ -323,9 +329,9 @@ public class SceneryManager implements IListener {
             }
         }
 
-        if (changeSceneryCount > 0){
-            changeSceneryCount --;
-            if (changeSceneryCount == 0){
+        if (changeSceneryCounter > 0){
+            changeSceneryCounter--;
+            if (changeSceneryCounter == 0){
                 changeScenery(lastChosenScenery);
             }
         }
@@ -350,7 +356,8 @@ public class SceneryManager implements IListener {
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventUIClick.addListener(this);
+        gc.eventGroupDead.addListener(this);
     }
 }

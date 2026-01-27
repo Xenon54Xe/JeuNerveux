@@ -50,7 +50,7 @@ public class PlayerEntityGroup extends EntityGroup{
         double minDistance = Double.POSITIVE_INFINITY;
         for (int i = 0; i < gc.sceneryM.groups.size(); i++) {
 
-            IEntityGroup group = gc.sceneryM.groups.getFirstValueNShift();
+            IEntityGroup group = gc.sceneryM.groups.get(i);
             if (group.isEmpty()){
                 continue;
             }
@@ -60,7 +60,7 @@ public class PlayerEntityGroup extends EntityGroup{
             }
 
             double distance = entity.getWorldPosition().getDistance(getMaster().getWorldPosition());
-            if (!(entity.getGroupID() == id) && distance < gc.tileSize * 4){
+            if (!(entity.getGroupID() == id) && distance < gc.TILE_SIZE * 4){
 
                 if (foundEnemy == null || distance < minDistance) {
                     minDistance = distance;

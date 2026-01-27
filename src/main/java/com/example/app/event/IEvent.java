@@ -4,9 +4,9 @@ import com.example.app.event.component.IEventComponent;
 
 public interface IEvent{
 
-    void addListener(IListener listener);
+    void addListener(Listener listener);
 
-    boolean removeListener(IListener listener);
+    boolean removeListener(Listener listener);
 
     void trigger(IEventComponent component);
 }

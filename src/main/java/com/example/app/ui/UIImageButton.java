@@ -1,14 +1,14 @@
 package com.example.app.ui;
 
 import com.example.app.GameCanvas;
+import com.example.app.Updatable;
 import com.example.app.event.IEvent;
 import com.example.app.event.component.ComponentUIClick;
-import com.example.app.event.Event;
 import com.example.app.handler.MouseHandler;
 
 import java.awt.*;
 
-public class UIImageButton extends UIBoxImage implements IClickable{
+public class UIImageButton extends UIBoxImage implements Updatable {
 
     final IEvent eventUIClick;
     final MouseHandler mouseH;
@@ -27,7 +27,8 @@ public class UIImageButton extends UIBoxImage implements IClickable{
         this.active = active;
     }
 
-    public void isClicked() {
+    @Override
+    public void update() {
         if (active && isShow()) {
             if (mouseOver() && mouseH.leftClickClicked) {
                 eventUIClick.trigger(new ComponentUIClick(this, ComponentUIClick.LEFT_BUTTON));

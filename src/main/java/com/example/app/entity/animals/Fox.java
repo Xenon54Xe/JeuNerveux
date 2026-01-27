@@ -8,7 +8,7 @@ import java.awt.*;
 public class Fox extends Animal{
 
     public Fox(GameCanvas gc, String name){
-        super(gc, new Rectangle(8, 32, 32, 16), name, 50, gc.tileSize, gc.tileSize, 830, 180, 50, gc.tileSize, 150, 30);
+        super(gc, new Rectangle(8, 32, 32, 16), name, 50, gc.TILE_SIZE, gc.TILE_SIZE, 830, 180, 50, gc.TILE_SIZE, 150, 30);
     }
 
     public Fox(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {

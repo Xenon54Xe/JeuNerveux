@@ -1,3 +1,4 @@
+// java
 package com.example.app;
 
 import com.example.app.entity.EntityManager;
@@ -11,157 +12,121 @@ import com.example.app.tile.LoadMapManager;
 import com.example.app.tile.MapCreateManager;
 import com.example.app.tile.MapDrawerManager;
 import com.example.app.tile.TileManager;
-import com.example.app.ui.UIMainMenuManager;
 import com.example.app.ui.UIManager;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-
 public class GameCanvas extends Canvas implements Runnable {
 
-    // SCREEN SETTINGS
-    private final int originalTileSize = 16;
-    private final int scale = 3;
+    // \`SCREEN CONFIG\`
+    private static final int ORIGINAL_TILE_SIZE = 16;
+    private static final int SCALE = 3;
+    public final int TILE_SIZE = ORIGINAL_TILE_SIZE * SCALE;
+    public final int MAX_SCREEN_COL = 16;
+    public final int MAX_SCREEN_ROW = 12;
+    public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
+    public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
-    public final int tileSize = originalTileSize * scale;
-    public final int maxScreenCol = 16;
-    public final int maxScreenRow = 12;
-    public final int screenWidth = tileSize * maxScreenCol;
-    public final int screenHeight = tileSize * maxScreenRow;
-
-    // FPS
-    private final int FPS = 60;
+    // \`TIMING / FPS\`
+    private static final int FPS = 60;
     private final double drawInterval = 1.0 / FPS;
     public double dt;
-    // TEST FPS
     private int frameCount = 0;
     private long lastCheck = 0;
 
-    // EVENT
+    // \`GAME STATE\`
+    public static final int PLAY_STATE = 1;
+    public static final int PAUSE_STATE = 2;
+    public int gameState;
+
+    // \`EVENTS\` (public to match original usage)
     public final IEvent eventUIClick = new Event();
     public final IEvent eventEntityDead = new Event();
     public final IEvent eventChangeMap = new Event();
     public final IEvent eventCreateMap = new Event();
     public final IEvent eventGroupDead = new Event();
 
-    // HANDLERS
+    // \`INPUT HANDLERS\`
     public final KeyHandler keyH = new KeyHandler();
     public final MouseHandler mouseH = new MouseHandler();
     public final MouseMotionHandler mouseMH = new MouseMotionHandler();
 
-    // MAP
+    // \`MANAGERS\`
     public final TileManager tileM;
     public final MapDrawerManager mapDrawerM;
-
-    // MAP LOADER
     public final LoadMapManager loadMapM;
-    
-    // MAP CREATER
     public final MapCreateManager mapCreateM;
-
-    // SceneryManager
     public final SceneryManager sceneryM;
-
-    // UI
     public final UIManager uiM;
-    private final UIMainMenuManager uiMainMenuM;
-
-    // SOUND
-    Sound music = new Sound();
-    Sound se = new Sound();
-
-    // ENTITIES
     public final EntityManager entityM;
-    public ITrackable tracked;
+    public Trackable tracked;
 
-    // COLLISION CHECKER
+    // \`COLLISION & SOUND\`
     public final CollisionChecker cChecker;
+    private final Sound music = new Sound();
+    private final Sound se = new Sound();
 
-    // THREAD
+    // \`THREAD\`
     private Thread gameThread;
 
-    // GAME STATE
-    public int gameState;
-    public final static int PLAY_STATE = 1;
-    public final static int PAUSE_STATE = 2;
-
-    // UTILS
-    public final boolean editorMode = false;
+    // \`UTILS\`
+    public final boolean editorMode = true;
 
     public GameCanvas() {
-        // WINDOW SETTINGS
-        setPreferredSize(new Dimension(screenWidth, screenHeight));
+        // window / canvas settings
+        setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setBackground(Color.BLACK);
         setIgnoreRepaint(true); // IMPORTANT: no auto-Swing repaint
 
-        // Handler init
+        // input listeners
         addKeyListener(keyH);
         addMouseListener(mouseH);
         addMouseMotionListener(mouseMH);
 
-        // Event init
-//        TestListener testListener = new TestListener();
-//        eventChangeMap.addListener(testListener);
-//        eventUIClick.addListener(testListener);
-//       eventEntityDead.addListener(testListener);
-//       eventCreateMap.addListener(testListener);
-//        eventGroupDead.addListener(testListener);
+        // events
+        TestListener testListener = new TestListener();
+        eventChangeMap.addListener(testListener);
+        eventUIClick.addListener(testListener);
+        eventEntityDead.addListener(testListener);
+        eventCreateMap.addListener(testListener);
+        eventGroupDead.addListener(testListener);
 
-        // UI
-        uiM = new UIManager(this);
-        uiMainMenuM = new UIMainMenuManager(this);
-
-        // MAP LOADER
-        loadMapM = new LoadMapManager(this);
-        
-        // MAP CREATE
-        mapCreateM = new MapCreateManager(this);
-
-        // MAP INIT
-        tileM = new TileManager(this);
-
-        // MAPMAKER
-        mapDrawerM = new MapDrawerManager(this);
-
-        // COLLISION
+        // collision
         cChecker = new CollisionChecker(this);
 
-        // ENTITIES
-        entityM = new EntityManager(this);
+        // managers (preserve original initialization order)
+        uiM = new UIManager(this);
 
-        // SceneryManager
+        tileM = new TileManager(this);
+        loadMapM = new LoadMapManager(this);
+        mapCreateM = new MapCreateManager(this);
+        mapDrawerM = new MapDrawerManager(this);
+
+        entityM = new EntityManager(this);
         sceneryM = new SceneryManager(this);
         sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
 
-        // END
-        uiMainMenuM.setShow(true);
         setFocusable(true);
     }
 
+    // \`LIFECYCLE\`
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
-
         playMusic(Sound.INTRO_SCENE);
         gameState = PLAY_STATE;
     }
 
-    public void setTracked(ITrackable tracked) {
-        this.tracked = tracked;
-    }
-
     @Override
     public void run() {
-
-        // Buffer strategy (how to show images)
-        createBufferStrategy(2);  // triple buffering
+        // Buffer strategy setup
+        createBufferStrategy(2); // double buffering (comment preserved)
         BufferStrategy bs = getBufferStrategy();
 
-        // Frame logic
         long lastTime = System.nanoTime();
-        while (gameThread != null) {
 
+        while (gameThread != null) {
             dt = (System.nanoTime() - lastTime) / 1_000_000_000.0;
 
             if (dt >= drawInterval) {
@@ -169,18 +134,19 @@ public class GameCanvas extends Canvas implements Runnable {
                 render(bs);
                 lastTime = System.nanoTime();
 
-                // Show FPS
+                // FPS reporting
                 frameCount++;
-                if (frameCount == FPS){
+                if (frameCount == FPS) {
                     double timeElapsed = (System.nanoTime() - lastCheck) / 10.0e8;
                     lastCheck = System.nanoTime();
-                    System.out.println("FPS: " + (int)(Math.round(FPS / timeElapsed)));
+                    System.out.println("FPS: " + (int) (Math.round(FPS / timeElapsed)));
                     frameCount = 0;
                 }
             }
         }
     }
 
+    // \`GAME LOOP HELPERS\`
     private void update() {
         if (gameState == PLAY_STATE) {
             entityM.update();
@@ -188,50 +154,50 @@ public class GameCanvas extends Canvas implements Runnable {
         }
 
         uiM.update();
-        uiMainMenuM.update();
         sceneryM.update();
 
-        // Allow to have a one frame click
-        // UPDATE AFTER EVERY THING !!!!
-        // TO ALLOW ONE FRAME CLICK ...
+        // Allow single-frame input handling: update after all logic
         keyH.update();
         mouseH.update();
     }
 
     private void render(BufferStrategy bs) {
-
-        // Everything that need to be rendered
         Graphics2D g2 = (Graphics2D) bs.getDrawGraphics();
+        try {
+            // clear
+            g2.setColor(Color.BLACK);
+            g2.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-        // CLEAR SCREEN
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, screenWidth, screenHeight);
+            // drawing order
+            tileM.draw(g2);
+            entityM.draw(g2);
+            uiM.draw(g2);
+        } finally {
+            g2.dispose();
+        }
 
-        // TILES
-        tileM.draw(g2);
-        // ENTITIES
-        entityM.draw(g2);
-        // UI
-        uiM.draw(g2);
-
-        // END
-        g2.dispose();
-        bs.show(); // FLIP BUFFERS (exact paint timing)
-        Toolkit.getDefaultToolkit().sync(); // Optional for Linux
+        bs.show(); // flip buffers
+        Toolkit.getDefaultToolkit().sync(); // optional on Linux
     }
 
-    public void playMusic(int i){
+    // \`AUDIO CONTROLS\`
+    public void playMusic(int i) {
         music.setFile(i);
         music.play();
         music.loop();
     }
 
-    public void stopMusic(){
+    public void stopMusic() {
         music.stop();
     }
 
-    public void playSE(int i){
+    public void playSE(int i) {
         se.setFile(i);
         se.play();
+    }
+
+    // \`SETTERS / UTIL\`
+    public void setTracked(Trackable tracked) {
+        this.tracked = tracked;
     }
 }

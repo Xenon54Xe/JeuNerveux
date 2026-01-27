@@ -8,7 +8,7 @@ import java.awt.*;
 public class Cat extends Animal{
 
     public Cat(GameCanvas gc, String name){
-        super(gc, new Rectangle(8, 32, 32, 16), name, 50, gc.tileSize, gc.tileSize, 523, 180, 15, gc.tileSize, 25, 30);
+        super(gc, new Rectangle(8, 32, 32, 16), name, 50, gc.TILE_SIZE, gc.TILE_SIZE, 523, 180, 15, gc.TILE_SIZE, 25, 30);
     }
 
     public Cat(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {

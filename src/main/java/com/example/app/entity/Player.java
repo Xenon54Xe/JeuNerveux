@@ -11,7 +11,7 @@ import com.example.app.utils.Vector2D;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends LivingEntity implements IAttackEntity, IListener {
+public class Player extends LivingEntity implements IAttackEntity, Listener {
 
     // UTILS
     private final KeyHandler keyH;
@@ -33,13 +33,13 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     public PlayerEntityGroup playerEntityGroup;
 
     public Player(GameCanvas gc, String name){
-        super(gc, new Rectangle(30, 70, 36, 20), name, 200, gc.tileSize * 2, gc.tileSize * 2, 100, 6, 0);
+        super(gc, new Rectangle(30, 70, 36, 20), name, 200, gc.TILE_SIZE * 2, gc.TILE_SIZE * 2, 100, 6, 0);
 
         keyH = gc.keyH;
 
         sprintSpeed = getSpeed() * 3;
         baseSpeed = getSpeed();
-        reach = gc.tileSize * 2;
+        reach = gc.TILE_SIZE * 2;
         damage = 35;
 
         // DEFAULT VALUES
@@ -52,11 +52,11 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
         setGroupID(playerEntityGroup.id);
 
         // Event
-        register(gc.eventEntityDead);
+        register();
     }
 
     public Player(GameCanvas gc, String name, int speed, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
-        super(gc, new Rectangle(8, 32, 32, 16), name, speed, gc.tileSize, gc.tileSize, health, waitTimeBeforeAnimation, xp);
+        super(gc, new Rectangle(8, 32, 32, 16), name, speed, gc.TILE_SIZE, gc.TILE_SIZE, health, waitTimeBeforeAnimation, xp);
 //new Rectangle(32, 50, 32, 32)
         keyH = gc.keyH;
 
@@ -76,7 +76,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
         setGroupID(playerEntityGroup.id);
 
         // Event
-        register(gc.eventEntityDead);
+        register();
     }
 
     public void initImages(){
@@ -184,7 +184,7 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE
                 if (attackTimer > attackDelay / 2) {
-                    if (getDrawDirection().equals(Vector2D.S_RIGHT)) {
+                    if (getDrawDirection() == Vector2D.S_RIGHT) {
                         g2.drawImage(attackImageRight, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, getWidth(), getHeight(), null);
                     }
                     else {
@@ -241,8 +241,8 @@ public class Player extends LivingEntity implements IAttackEntity, IListener {
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventEntityDead.addListener(this);
     }
 
     @Override

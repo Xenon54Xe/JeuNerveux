@@ -4,7 +4,7 @@ import com.example.app.GameCanvas;
 import com.example.app.entity.LivingEntity;
 import com.example.app.tile.Tile;
 import com.example.app.tile.TileMap;
-import com.example.app.utils.ILinkedList;
+import com.example.app.utils.ILoopList;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -64,11 +64,11 @@ public class UIMap extends UIBox{
         this.entitiesPositions = entitiesPositions;
     }
 
-    public void setEntitiesPositions(ILinkedList<LivingEntity> entities){
+    public void setEntitiesPositions(ILoopList<LivingEntity> entities){
         ArrayList<Integer[]> arrayList = new ArrayList<>();
 
         for (int i = 0; i < entities.size(); i++) {
-            LivingEntity entity = entities.getFirstValueNShift();
+            LivingEntity entity = entities.get(true);
             Integer[] integers = new Integer[2];
             integers[0] = entity.getTileX();
             integers[1] = entity.getTileY();
@@ -95,8 +95,8 @@ public class UIMap extends UIBox{
             return;
         }
 
-        int startDrawX = getDrawReferenceScreenX();
-        int startDrawY = getDrawReferenceScreenY();
+        int startDrawX = getDrawRuleScreenX();
+        int startDrawY = getDrawRuleScreenY();
         g2.setColor(Color.RED);
 
         for (Integer[] pos : entitiesPositions){
@@ -109,8 +109,8 @@ public class UIMap extends UIBox{
     }
 
     private void drawFullMap(Graphics2D g2) {
-        int startDrawX = getDrawReferenceScreenX();
-        int startDrawY = getDrawReferenceScreenY();
+        int startDrawX = getDrawRuleScreenX();
+        int startDrawY = getDrawRuleScreenY();
 
         for (int col = 0; col < nbCol; col++) {
             for (int row = 0; row < nbRow; row++) {

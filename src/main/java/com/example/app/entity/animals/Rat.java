@@ -10,7 +10,7 @@ import java.awt.*;
 public class Rat extends Animal implements IAttackEntity {
 
     public Rat(GameCanvas gc, String name){
-        super(gc, new Rectangle(10, 25, 15, 10), name, 50, 35, 35, 231, 180, 2, gc.tileSize, 6, 30);
+        super(gc, new Rectangle(10, 25, 15, 10), name, 50, 35, 35, 231, 180, 2, gc.TILE_SIZE, 6, 30);
     }
 
     public Rat(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay){

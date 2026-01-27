@@ -18,11 +18,11 @@ public class Vector2D {
     public static final Vector2D LEFT = new Vector2D(-1, 0);
     public static final Vector2D RIGHT = new Vector2D(1, 0);
 
-    public static final String S_ZERO = "zero";
-    public static final String S_UP = "up";
-    public static final String S_DOWN = "down";
-    public static final String S_LEFT = "left";
-    public static final String S_RIGHT = "right";
+    public static final int S_ZERO = 0;
+    public static final int S_UP = 1;
+    public static final int S_DOWN = 2;
+    public static final int S_LEFT = 3;
+    public static final int S_RIGHT = 4;
 
 
     public Vector2D(double x, double y) {
@@ -39,21 +39,24 @@ public class Vector2D {
         return Math.round(Math.random() * (max - min)) + min;
     }
 
-    public static Vector2D chooseRandomWorldPosition(GameCanvas gc, ILinkedList<Integer> choiceTiles) {
+    public static Vector2D chooseRandomWorldPosition(GameCanvas gc, ILoopList<Integer> choiceTiles) {
         return tileToWorldPosition(gc, chooseRandomTile(gc, choiceTiles));
     }
 
     public static Vector2D tileToWorldPosition(GameCanvas gc, int col, int row) {
-        return new Vector2D(col * gc.tileSize + gc.tileSize / 2.0, row * gc.tileSize + gc.tileSize / 2.0);
+        return new Vector2D(col * gc.TILE_SIZE + gc.TILE_SIZE / 2.0, row * gc.TILE_SIZE + gc.TILE_SIZE / 2.0);
     }
 
     public static Vector2D tileToWorldPosition(GameCanvas gc, int[] position) {
         return tileToWorldPosition(gc, position[0], position[1]);
     }
 
-    public static int[] chooseRandomTile(GameCanvas gc, ILinkedList<Integer> choiceTiles) {
+    public static int[] chooseRandomTile(GameCanvas gc, ILoopList<Integer> choiceTiles) {
         int randomIndex = (int) random(0, choiceTiles.size() - 1);
-        int randomNumber = choiceTiles.get(randomIndex);
+        for (int i = 0; i < randomIndex; i++) {
+            choiceTiles.shift();
+        }
+        int randomNumber = choiceTiles.get();
 
         int col, row;
         col = randomNumber % gc.tileM.getMaxWorldCol();
@@ -69,7 +72,7 @@ public class Vector2D {
         return new Vector2D(x, y).getNormalized();
     }
 
-    public static Vector2D getRelatedVector(String direction){
+    public static Vector2D getRelatedVector(int direction){
         return switch (direction){
             case S_ZERO -> ZERO;
             case S_UP -> UP;
@@ -144,7 +147,7 @@ public class Vector2D {
         return Math.abs(getLength() - 1) < 0.0001 || equals(Vector2D.ZERO);
     }
 
-    public String getMainDirection() {
+    public int getMainDirection() {
         if (x == 0 && y == 0) {
             return S_ZERO;
         }
@@ -164,12 +167,12 @@ public class Vector2D {
         }
     }
 
-    public ArrayList<String> getDirections() {
+    public ArrayList<Integer> getDirections() {
         if (x == 0 && y == 0) {
             return null;
         }
 
-        ArrayList<String> directions = new ArrayList<>();
+        ArrayList<Integer> directions = new ArrayList<>();
         if (x > 0) {
             directions.add(S_RIGHT);
         } else if (x < 0) {
@@ -203,20 +206,6 @@ public class Vector2D {
 
     public Vector2D mul(double other) {
         return new Vector2D(x * other, y * other);
-    }
-
-    public double mul(Vector2D other) {
-        return x * other.x + y * other.y;
-    }
-
-    public Vector2D mask(Vector2D other) {
-        // Return the coordinates multiplied by the coordinates of the mask
-        return new Vector2D(x * other.x, y * other.y);
-    }
-
-    public Vector2D absMask(Vector2D other) {
-        // Return the coordinates multiplied by the absolutes coordinates of the mask
-        return new Vector2D(x * Math.abs(other.x), y * Math.abs(other.y));
     }
 
     public Vector2D getOrthogonal(){

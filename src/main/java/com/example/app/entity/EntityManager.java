@@ -7,19 +7,19 @@ import com.example.app.event.component.ComponentChangeMap;
 import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.event.component.ComponentGroupDead;
 import com.example.app.event.component.IEventComponent;
-import com.example.app.utils.ILinkedList;
-import com.example.app.utils.LinkedList;
+import com.example.app.utils.ILoopList;
+import com.example.app.utils.LoopList;
 
 import java.awt.*;
 
-public class EntityManager implements IListener {
+public class EntityManager implements Listener {
 
     final GameCanvas gc;
 
     // CLASS VARIABLES
-    public final ILinkedList<LivingEntity> entitiesToAdd = new LinkedList<>();
-    public final ILinkedList<LivingEntity> livingEntities = new LinkedList<>();
-    private final ILinkedList<LivingEntity> entitiesToRemove = new LinkedList<>();
+    public final ILoopList<LivingEntity> entitiesToAdd = new LoopList<>();
+    public final ILoopList<LivingEntity> livingEntities = new LoopList<>();
+    private final ILoopList<LivingEntity> entitiesToRemove = new LoopList<>();
 
     public Player player;
 
@@ -27,8 +27,7 @@ public class EntityManager implements IListener {
         this.gc = gc;
 
         // EVENT
-        register(gc.eventChangeMap);
-        register(gc.eventEntityDead);
+        register();
     }
 
     public void setPlayer(Player player) {
@@ -56,7 +55,7 @@ public class EntityManager implements IListener {
 
     public void safeRemoveAllEntities(){
         for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.getFirstValueNShift().softKill(null);
+            livingEntities.get(true).softKill(null);
         }
     }
 
@@ -68,7 +67,7 @@ public class EntityManager implements IListener {
 
     public void trackRandom() {
         for (int i = 0; i < livingEntities.size(); i++){
-            LivingEntity entity = livingEntities.getFirstValueNShift();
+            LivingEntity entity = livingEntities.get(true);
             if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
                 gc.tracked = entity;
                 return;
@@ -78,7 +77,7 @@ public class EntityManager implements IListener {
 
     public void regenAllEntities(){
         for (int i = 0; i < livingEntities.size(); i++) {
-            LivingEntity entity = livingEntities.getFirstValueNShift();
+            LivingEntity entity = livingEntities.get(true);
             entity.setHealth(entity.getMaxHealth());
         }
     }
@@ -87,20 +86,20 @@ public class EntityManager implements IListener {
         // Remove entities
         if (!entitiesToRemove.isEmpty()) {
             for (int i = 0; i < entitiesToRemove.size(); i++) {
-                removeEntity(entitiesToRemove.getFirstValueNShift());
+                removeEntity(entitiesToRemove.get(true));
             }
             entitiesToRemove.clear();
         }
 
         // Add entities
         if (!entitiesToAdd.isEmpty()) {
-            livingEntities.addAll(entitiesToAdd);
+            livingEntities.addAll(entitiesToAdd.toArray());
             entitiesToAdd.clear();
         }
 
         // Update entities
         for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.getFirstValueNShift().update();
+            livingEntities.get(true).update();
         }
 
         if (gc.keyH.fClicked){
@@ -124,7 +123,7 @@ public class EntityManager implements IListener {
         }
 
         for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.getFirstValueNShift().draw(g2);
+            livingEntities.get(true).draw(g2);
         }
     }
 
@@ -145,7 +144,7 @@ public class EntityManager implements IListener {
         }
         if (component instanceof ComponentChangeMap cmComponent){
             for (int i = 0; i < livingEntities.size(); i++){
-                livingEntities.getFirstValueNShift().setRandomTilePosition(cmComponent.spawnableTiles());
+                livingEntities.get(true).setRandomTilePosition(cmComponent.spawnableTiles());
             }
         }
         if (component instanceof ComponentGroupDead(EntityGroup group)){
@@ -156,7 +155,8 @@ public class EntityManager implements IListener {
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventChangeMap.addListener(this);
+        gc.eventEntityDead.addListener(this);
     }
 }

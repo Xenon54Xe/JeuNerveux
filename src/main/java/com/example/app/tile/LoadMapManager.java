@@ -13,7 +13,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class LoadMapManager implements IListener {
+public class LoadMapManager implements Listener {
 
     final GameCanvas gc;
 
@@ -40,19 +40,19 @@ public class LoadMapManager implements IListener {
         // UI MENU
 
         // LOAD MAP
-        uiFrameLoadMap = new UIFrame(gc, "Load Menu", UIObject.DRAW_TOP_LEFT_CORNER,
+        uiFrameLoadMap = new UIFrame(gc, "Load Menu", UIObject.DRAW_TOP_LEFT,
                 1, 2);
         uiFrameLoadMap.setDrawStepBetweenEdges(10, 10);
         uiFrameLoadMap.expand();
         // UI
-        changeMapButton = new UITextButton(gc, Color.WHITE, Color.BLACK, CHANGE_MAP, "Current map :", gc.tileSize, (int)(gc.screenHeight * 0.8), 10, 10);
-        UITextButton validateButton = new UITextButton(gc, Color.WHITE, Color.BLACK, VALIDATE, "Load", gc.tileSize, (int)(gc.screenHeight * 0.8) + gc.tileSize, 10, 10);
+        changeMapButton = new UITextButton(gc, Color.WHITE, Color.BLACK, CHANGE_MAP, "Current map :", gc.TILE_SIZE, (int)(gc.SCREEN_HEIGHT * 0.8), 10, 10);
+        UITextButton validateButton = new UITextButton(gc, Color.WHITE, Color.BLACK, VALIDATE, "Load", gc.TILE_SIZE, (int)(gc.SCREEN_HEIGHT * 0.8) + gc.TILE_SIZE, 10, 10);
         // Register load map
         uiFrameLoadMap.addUIObject(changeMapButton, 0, 0);
         uiFrameLoadMap.addUIObject(validateButton, 0, 1);
 
         // EVENT
-        gc.eventUIClick.addListener(this);
+        register();
 
         // END
         setShow(false);
@@ -105,7 +105,7 @@ public class LoadMapManager implements IListener {
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventUIClick.addListener(this);
     }
 }

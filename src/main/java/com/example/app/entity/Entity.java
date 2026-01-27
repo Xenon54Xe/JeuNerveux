@@ -1,11 +1,11 @@
 package com.example.app.entity;
 
 import com.example.app.GameCanvas;
-import com.example.app.ITrackable;
-import com.example.app.IDrawable;
-import com.example.app.ui.IUpdatable;
+import com.example.app.Trackable;
+import com.example.app.Drawable;
+import com.example.app.Updatable;
 import com.example.app.utils.FileUtils;
-import com.example.app.utils.ILinkedList;
+import com.example.app.utils.ILoopList;
 import com.example.app.utils.Vector2D;
 
 import javax.imageio.ImageIO;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEntity {
+public abstract class Entity implements Updatable, Drawable, Trackable, IEntity {
 
     // UTILS
     public final GameCanvas gc;
@@ -26,7 +26,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     // IMAGES
     public BufferedImage left1, left2, right1, right2;
     // IMAGES LOGIC
-    private String drawDirection = Vector2D.S_LEFT;
+    private int drawDirection = Vector2D.S_LEFT;
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private final int waitTimeBeforeAnimation;
@@ -71,7 +71,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     // SPRITES
     public BufferedImage getSprite(String spriteName) {
         return switch (spriteName) {
-            case "left1" -> left1;
+            case "left1"-> left1;
             case "left2" -> left2;
             case "right1" -> right1;
             case "right2" -> right2;
@@ -106,24 +106,24 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     // DRAW DIRECTION
-    public String getDrawDirection() {
+    public int getDrawDirection() {
         return drawDirection;
     }
 
-    public void setDrawDirection(String drawDirection) {
+    public void setDrawDirection(int drawDirection) {
         this.drawDirection = drawDirection;
     }
 
     public void updateDrawDirection(){
-        ArrayList<String> directions = moveDirectionVector.getDirections();
+        ArrayList<Integer> directions = moveDirectionVector.getDirections();
         if (directions == null){
             return;
         }
 
-        for (String direction : directions){
-            if (direction.equals(Vector2D.S_LEFT)){
+        for (int direction : directions){
+            if (direction == Vector2D.S_LEFT){
                 setDrawDirection(Vector2D.S_LEFT);
-            } else if (direction.equals(Vector2D.S_RIGHT)) {
+            } else if (direction == Vector2D.S_RIGHT) {
                 setDrawDirection(Vector2D.S_RIGHT);
             }
         }
@@ -139,12 +139,12 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     public boolean isVisible(){
-        return IDrawable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.screenWidth, gc.screenHeight, gc.tileSize);
+        return Drawable.super.isVisible(gc.tracked, (int)getWorldX(), (int)getWorldY(), gc.SCREEN_WIDTH, gc.SCREEN_HEIGHT, gc.TILE_SIZE);
     }
 
     // POSITION / SPEED
     public Vector2D getWorldPosition() {
-        return worldPosition.copy();
+        return worldPosition;
     }
 
     public Vector2D getWorldTopLeftPosition(){
@@ -155,7 +155,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
         this.worldPosition = worldPosition;
     }
 
-    public void setRandomTilePosition(ILinkedList<Integer> choiceTiles){
+    public void setRandomTilePosition(ILoopList<Integer> choiceTiles){
         setTilePosition(Vector2D.chooseRandomTile(gc, choiceTiles));
     }
 
@@ -178,21 +178,11 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     public int getScreenX() {
-        return IDrawable.super.getScreenX(gc.tracked, (int)getWorldX());
+        return Drawable.super.getScreenX(gc.tracked, (int)getWorldX());
     }
 
     public int getScreenY() {
-        return IDrawable.super.getScreenY(gc.tracked, (int)getWorldY());
-    }
-
-    @Override
-    public int getDrawTopLeftScreenX() {
-        return getScreenX() - getWidth() / 2;
-    }
-
-    @Override
-    public int getDrawTopLeftScreenY() {
-        return getScreenY() - getHeight() / 2;
+        return Drawable.super.getScreenY(gc.tracked, (int)getWorldY());
     }
 
     public Vector2D getScreenPosition(){
@@ -200,25 +190,25 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     public int getCameraWorldX(){
-        return (int)ITrackable.super.calcCameraWorldX(gc.screenWidth, gc.tileM.getWorldWidth());
+        return (int) Trackable.super.calcCameraWorldX(gc.SCREEN_WIDTH, gc.tileM.getWorldWidth());
     }
 
     public int getCameraWorldY(){
-        return (int)ITrackable.super.calcCameraWorldY(gc.screenHeight, gc.tileM.getWorldHeight());
+        return (int) Trackable.super.calcCameraWorldY(gc.SCREEN_HEIGHT, gc.tileM.getWorldHeight());
     }
 
     public int getTileX(){
         // Position du centre
-        return Vector2D.getTileX(gc.tileSize, getWorldX());
+        return Vector2D.getTileX(gc.TILE_SIZE, getWorldX());
     }
 
     public int getTileY(){
         // Position des pieds
-        return Vector2D.getTileY(gc.tileSize, getWorldY() + gc.tileSize / 2.0);
+        return Vector2D.getTileY(gc.TILE_SIZE, getWorldY() + gc.TILE_SIZE / 2.0);
     }
 
     public void setTilePosition(int col, int row){
-        setWorldPosition(new Vector2D(gc.tileSize * col + getWidth() / 2.0, gc.tileSize * row + getHeight() / 2.0));
+        setWorldPosition(new Vector2D(gc.TILE_SIZE * col + getWidth() / 2.0, gc.TILE_SIZE * row + getHeight() / 2.0));
     }
 
     public void setTilePosition(int[] position){
@@ -268,7 +258,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     }
 
     public boolean mouseOver() {
-        return IDrawable.super.mouseOver(gc.mouseMH);
+        return Drawable.super.isMouseOver(gc.mouseMH);
     }
 
     public boolean isActive() {
@@ -305,7 +295,7 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
             BufferedImage image = null;
 
             // CHOOSE THE NEXT IMAGE
-            String drawDirection = getDrawDirection();
+            int drawDirection = getDrawDirection();
             switch (drawDirection) {
                 case Vector2D.S_UP -> {
                     if (getSpriteNum() == 1) {
@@ -369,6 +359,21 @@ public abstract class Entity implements IUpdatable, IDrawable, ITrackable, IEnti
     public boolean equals(Entity other) {
         assert other != null;
         return id == other.id;
+    }
+
+    @Override
+    public int getDrawRule() {
+        return DRAW_CENTER;
+    }
+
+    @Override
+    public void setDrawRule(int drawRule) {
+
+    }
+
+    @Override
+    public boolean isMouseOver() {
+        return isMouseOver(gc.mouseMH);
     }
 
     @Override

@@ -7,21 +7,21 @@ import java.util.ArrayList;
 public class Event implements IEvent{
     // E = what will get the listener and what we send
 
-    private final ArrayList<IListener> listeners = new ArrayList<>();
+    private final ArrayList<Listener> listeners = new ArrayList<>();
 
     @Override
-    public void addListener(IListener listener) {
+    public void addListener(Listener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public boolean removeListener(IListener listener) {
+    public boolean removeListener(Listener listener) {
         return listeners.remove(listener);
     }
 
     @Override
     public void trigger(IEventComponent component) {
-        for (IListener listener : listeners){
+        for (Listener listener : listeners){
             listener.onTrigger(component);
         }
     }

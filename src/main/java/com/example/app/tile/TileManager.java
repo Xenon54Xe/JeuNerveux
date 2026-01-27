@@ -18,12 +18,12 @@ public class TileManager {
     private int maxWorldWidth, maxWorldHeight;
 
     // CLASS VARIABLES
-    public final TileLinkedList tiles = new TileLinkedList();
+    public final TileLoopList tiles = new TileLoopList();
     private String mapName;
     public TileMap tileMap;
 
     // If the map is 50x50 the 50th com.example.app.tile will be nbCol=0, nbRow = 1...
-    public ILinkedList<Integer> spawnableTiles = new LinkedList<>();
+    public ILoopList<Integer> spawnableTiles = new LoopList<>();
 
     // LOAD MAP LATER
     private boolean willLoadMap = false;
@@ -135,8 +135,8 @@ public class TileManager {
         layerCount = dimensions[2];
         tileMap = new TileMap(maxWorldCol, maxWorldRow, layerCount);
 
-        maxWorldWidth = maxWorldCol * gc.tileSize;
-        maxWorldHeight = maxWorldRow * gc.tileSize;
+        maxWorldWidth = maxWorldCol * gc.TILE_SIZE;
+        maxWorldHeight = maxWorldRow * gc.TILE_SIZE;
 
         // LOAD MAP
         FileUtils.loadMap(tileMap, mapName);
@@ -155,8 +155,8 @@ public class TileManager {
         maxWorldRow = tileMap.getMaxRow();
         layerCount = tileMap.getLayerCount();
 
-        maxWorldWidth = maxWorldCol * gc.tileSize;
-        maxWorldHeight = maxWorldRow * gc.tileSize;
+        maxWorldWidth = maxWorldCol * gc.TILE_SIZE;
+        maxWorldHeight = maxWorldRow * gc.TILE_SIZE;
     }
 
     public void draw(Graphics2D g2){
@@ -168,24 +168,24 @@ public class TileManager {
         int startWorldCol, endWorldCol, startWorldRow, endWorldRow;
         startWorldCol = Math.max(
                 0,
-                Vector2D.getTileX(gc.tileSize, cameraWorldX));
+                Vector2D.getTileX(gc.TILE_SIZE, cameraWorldX));
         endWorldCol = Math.min(
                 maxWorldCol,
-                Vector2D.getTileX(gc.tileSize, cameraWorldX + gc.screenWidth + gc.tileSize));
+                Vector2D.getTileX(gc.TILE_SIZE, cameraWorldX + gc.SCREEN_WIDTH + gc.TILE_SIZE));
         startWorldRow = Math.max(
                 0,
-                Vector2D.getTileY(gc.tileSize, cameraWorldY));
+                Vector2D.getTileY(gc.TILE_SIZE, cameraWorldY));
         endWorldRow = Math.min(
                 maxWorldRow,
-                Vector2D.getTileY(gc.tileSize, cameraWorldY + gc.screenHeight + gc.tileSize));
+                Vector2D.getTileY(gc.TILE_SIZE, cameraWorldY + gc.SCREEN_HEIGHT + gc.TILE_SIZE));
 
         int worldCol = startWorldCol;
         int worldRow = startWorldRow;
         while (worldCol < endWorldCol && worldRow < endWorldRow){
 
             // GET WHERE TILE WILL BE DRAWN
-            int worldX = worldCol * gc.tileSize;
-            int worldY = worldRow * gc.tileSize;
+            int worldX = worldCol * gc.TILE_SIZE;
+            int worldY = worldRow * gc.TILE_SIZE;
 
             int screenX = (int)(worldX - cameraWorldX);
             int screenY = (int)(worldY - cameraWorldY);
@@ -196,7 +196,7 @@ public class TileManager {
                 // GET TILE ID
                 int tileID = tileMap.getTileNum(worldCol, worldRow, layer);
                 if (tileID != 0) {
-                    g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.tileSize, gc.tileSize, null);
+                    g2.drawImage(tiles.getTile(tileID).getImage(), screenX, screenY, gc.TILE_SIZE, gc.TILE_SIZE, null);
                 }
             }
 

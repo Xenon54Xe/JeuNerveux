@@ -2,7 +2,11 @@ package com.example.app.event;
 
 import com.example.app.event.component.IEventComponent;
 
-public class TestListener implements IListener{
+public class TestListener implements Listener {
+
+    public void register(IEvent event) {
+        event.addListener(this);
+    }
 
     @Override
     public void onTrigger(IEventComponent component) {
@@ -10,7 +14,5 @@ public class TestListener implements IListener{
     }
 
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
-    }
+    public void register(){}
 }

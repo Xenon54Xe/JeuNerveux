@@ -12,7 +12,7 @@ import com.example.app.utils.FileUtils;
 
 import java.awt.*;
 
-public class MapCreateManager implements IListener {
+public class MapCreateManager implements Listener {
 
     final GameCanvas gc;
 
@@ -36,27 +36,27 @@ public class MapCreateManager implements IListener {
         uiFrameCreateEmptyMap.setDrawEvenly();
         uiFrameCreateEmptyMap.expand();
         // TITLE
-        UIText newMapTitle = new UIText(Color.white, "New Map", gc.screenWidth / 2, gc.tileSize);
+        UIText newMapTitle = new UIText(Color.white, "New Map", gc.SCREEN_WIDTH / 2, gc.TILE_SIZE);
         newMapTitle.setText("New Map");
         // MAP NAME
         mapNameWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Name",
-                gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize * 2,
-                gc.tileSize * 2, 10, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2 - gc.TILE_SIZE * 2,
+                gc.TILE_SIZE * 2, 10, 10, 10);
         // MAP WIDTH (TILE)
         mapWidthWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Width",
-                gc.screenWidth / 2, gc.screenHeight / 2 - gc.tileSize,
-                gc.tileSize * 2, 10, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2 - gc.TILE_SIZE,
+                gc.TILE_SIZE * 2, 10, 10, 10);
         // MAP HEIGHT (TILE)
         mapHeightWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Height",
-                gc.screenWidth / 2, gc.screenHeight / 2,
-                gc.tileSize * 2, 10, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2,
+                gc.TILE_SIZE * 2, 10, 10, 10);
         // MAP LAYER (TILE)
         mapLayerWB = new WritableBox(gc, Color.GRAY, Color.BLACK, "Layer",
-                gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize,
-                gc.tileSize * 3, 10, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2 + gc.TILE_SIZE,
+                gc.TILE_SIZE * 3, 10, 10, 10);
         // CREATE MAP
         UITextButton createMapButton = new UITextButton(gc, Color.BLACK, Color.WHITE, CREATE_MAP, "Create",
-                gc.screenWidth / 2, gc.screenHeight / 2 + gc.tileSize * 2, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2 + gc.TILE_SIZE * 2, 10, 10);
         // Register create empty map
         uiFrameCreateEmptyMap.addUIObject(newMapTitle, 0, 0);
         uiFrameCreateEmptyMap.addUIObject(mapNameWB, 0, 1);
@@ -65,7 +65,7 @@ public class MapCreateManager implements IListener {
         uiFrameCreateEmptyMap.addUIObject(mapLayerWB, 0, 4);
         uiFrameCreateEmptyMap.addUIObject(createMapButton, 0, 5);
 
-        register(gc.eventUIClick);
+        register();
     }
 
     public void setShow(boolean show) {
@@ -88,27 +88,11 @@ public class MapCreateManager implements IListener {
                 int nbLayer = Integer.parseInt(nbLayerS);
 
                 // CREATE NEW MAP
-                TileMap tileMap = new TileMap(nbCol, nbRow, nbLayer);
-                for (int row = 0; row < nbRow; row++) {
-
-                    for (int col = 0; col < nbCol; col++) {
-
-                        for (int layer = 0; layer < nbLayer; layer++) {
-
-                            if (layer == 0){
-                                tileMap.setTileNum(1, col, row, layer);
-                            }
-                            else {
-                                tileMap.setTileNum(0, col, row, layer);
-                            }
-                        }
-                    }
-                }
+                TileMap tileMap = getTileMap(nbCol, nbRow, nbLayer);
                 FileUtils.saveMap(tileMap, name);
 
                 // LOAD THE NEW MAP
-                gc.tileM.setMapName(name);
-                gc.tileM.loadMap();
+                gc.tileM.loadMap(name);
 
                 // Scenery
                 gc.sceneryM.safeChangeScenery(SceneryManager.CLEAN_SCENERY);
@@ -119,8 +103,28 @@ public class MapCreateManager implements IListener {
         }
     }
 
+    private static TileMap getTileMap(int nbCol, int nbRow, int nbLayer) {
+        TileMap tileMap = new TileMap(nbCol, nbRow, nbLayer);
+        for (int row = 0; row < nbRow; row++) {
+
+            for (int col = 0; col < nbCol; col++) {
+
+                for (int layer = 0; layer < nbLayer; layer++) {
+
+                    if (layer == 0){
+                        tileMap.setTileNum(1, col, row, layer);
+                    }
+                    else {
+                        tileMap.setTileNum(0, col, row, layer);
+                    }
+                }
+            }
+        }
+        return tileMap;
+    }
+
     @Override
-    public void register(IEvent event) {
-        event.addListener(this);
+    public void register() {
+        gc.eventUIClick.addListener(this);
     }
 }

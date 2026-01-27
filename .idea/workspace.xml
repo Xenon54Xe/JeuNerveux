@@ -4,19 +4,79 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v1.0.0-b&#10;feat:&#10;- added map (not optimized : can draw everything to an image.png and draw this image instead of drawing thousands of squares)&#10;- added mouse, rat, rabbit, cat, dog, fox, wolf and bear&#10;- killing the bear means win&#10;- changed designs&#10;bugs:&#10;- congratulations text doesn't disappear after 3 seconds (even if events works)&#10;- when entities want to attack they make the game lag&#10;TODO:&#10;- complete refactor for optimization &amp; visibility / usability">
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v1.0.1&#10;feat:&#10;- added files">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Drawable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ArrayList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILoopList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/BiNode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/OneNode.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ITrackable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Trackable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Bear.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Cat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Cat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Dog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Dog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Fox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Fox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Mouse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rabbit.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rat.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Listener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentChangeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentChangeMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IClickable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUpdatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Updatable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIDrawVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIDrawVector.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIOval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIOval.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILinkedList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/List.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LoopList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLoopList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CopilotPersistence">
+    <persistenceIdMap>
+      <entry key="_/home/titouan/IdeaProjects/JeuNerveux" value="36kZoQMWqyAyT0Az6Hy7HPs7u8z" />
+    </persistenceIdMap>
+  </component>
+  <component name="EmbeddingIndexingInfo">
+    <option name="cachedIndexableFilesCount" value="130" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -107,6 +167,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -121,6 +186,10 @@
     &quot;accountId&quot;: &quot;835a66b7-09a1-4084-8eb3-ce10dd35313b&quot;
   }
 }</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -159,18 +228,19 @@
     &quot;Gradle.JeuNerveux [run].executor&quot;: &quot;Run&quot;,
     &quot;Gradle.Load Gradle Dependencies.executor&quot;: &quot;Run&quot;,
     &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.MCP Project settings loaded&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;refactor&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/titouan/Downloads/github-copilot-intellij-1.5.63-243.zip&quot;,
     &quot;onboarding.tips.debug.path&quot;: &quot;/home/titouan/IdeaProjects/JeuNerveux/src/Main.java&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
     &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -192,7 +262,7 @@
       <recent name="main2" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.JeuNerveux [jar]">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.example.app.Main" />
       <module name="JeuNerveux" />
@@ -200,6 +270,20 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.example.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UtilsTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.example.app.utils.UtilsTester" />
+      <module name="JeuNerveux" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.example.app.utils.Node.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -289,52 +373,27 @@
       <GradleCoverageDisabled>false</GradleCoverageDisabled>
       <method v="2" />
     </configuration>
-    <configuration name="JeuNerveux [run]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="run" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <GradleProfilingDisabled>false</GradleProfilingDisabled>
-      <GradleCoverageDisabled>false</GradleCoverageDisabled>
-      <method v="2" />
-    </configuration>
     <list>
+      <item itemvalue="Application.UtilsTester" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Gradle.JeuNerveux [run]" />
       <item itemvalue="Gradle.JeuNerveux [build]" />
       <item itemvalue="Gradle.JeuNerveux [clean]" />
       <item itemvalue="Gradle.JeuNerveux [jar]" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.JeuNerveux [jar]" />
-        <item itemvalue="Gradle.JeuNerveux [run]" />
-        <item itemvalue="Gradle.JeuNerveux [build]" />
-        <item itemvalue="Gradle.JeuNerveux [clean]" />
         <item itemvalue="Application.Main" />
+        <item itemvalue="Application.UtilsTester" />
+        <item itemvalue="Gradle.JeuNerveux [jar]" />
+        <item itemvalue="Gradle.JeuNerveux [clean]" />
+        <item itemvalue="Gradle.JeuNerveux [build]" />
       </list>
     </recent_temporary>
   </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+        <option value="bundled-jdk-30f59d01ecdd-2fc7cc6b9a17-intellij.indexing.shared.core-IU-253.30387.90" />
       </set>
     </attachedChunks>
   </component>
@@ -541,7 +600,23 @@
       <option name="project" value="LOCAL" />
       <updated>1768788075959</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="v1.0.0&#10;feat:&#10;- entities no longer target invisible/inexistant entity&#10;- compatible with .jar compiling">
+      <option name="closed" value="true" />
+      <created>1768929868402</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1768929868402</updated>
+    </task>
+    <task id="LOCAL-00026" summary="v1.0.1&#10;feat:&#10;- added files">
+      <option name="closed" value="true" />
+      <created>1768929907458</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1768929907458</updated>
+    </task>
+    <option name="localTasksCounter" value="27" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -556,8 +631,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.2.1&#10;feat:&#10;- collision&#10;- new way to save maps&#10;- vectors&#10;bug: &#10;- player cant slide on vertical walls but can on horizontal walls" />
-    <MESSAGE value="v0.2.1&#10;feat:&#10;- code refactoring&#10;- you can now slide on vertical walls&#10;- button to activate or not the mapmaker" />
     <MESSAGE value="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces" />
     <MESSAGE value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
     <MESSAGE value="v0.3.1&#10;feat:&#10;- improved event system" />
@@ -581,7 +654,9 @@
     <MESSAGE value="v0.9.0&#10;feat:&#10;- added music &amp; sound" />
     <MESSAGE value="v0.10.0&#10;feat:&#10;- added ui map" />
     <MESSAGE value="v1.0.0-b&#10;feat:&#10;- added map (not optimized : can draw everything to an image.png and draw this image instead of drawing thousands of squares)&#10;- added mouse, rat, rabbit, cat, dog, fox, wolf and bear&#10;- killing the bear means win&#10;- changed designs&#10;bugs:&#10;- congratulations text doesn't disappear after 3 seconds (even if events works)&#10;- when entities want to attack they make the game lag&#10;TODO:&#10;- complete refactor for optimization &amp; visibility / usability" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0.0-b&#10;feat:&#10;- added map (not optimized : can draw everything to an image.png and draw this image instead of drawing thousands of squares)&#10;- added mouse, rat, rabbit, cat, dog, fox, wolf and bear&#10;- killing the bear means win&#10;- changed designs&#10;bugs:&#10;- congratulations text doesn't disappear after 3 seconds (even if events works)&#10;- when entities want to attack they make the game lag&#10;TODO:&#10;- complete refactor for optimization &amp; visibility / usability" />
+    <MESSAGE value="v1.0.0&#10;feat:&#10;- entities no longer target invisible/inexistant entity&#10;- compatible with .jar compiling" />
+    <MESSAGE value="v1.0.1&#10;feat:&#10;- added files" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0.1&#10;feat:&#10;- added files" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -600,5 +675,13 @@
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
   </component>
 </project>

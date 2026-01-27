@@ -2,7 +2,7 @@ package com.example.app;
 
 import com.example.app.utils.Vector2D;
 
-public interface ITrackable {
+public interface Trackable {
     /// Try to keep the tracked com.example.app.entity in the center of the screen, except when it is at the edge of the map
     ///
     /// The camera position is the position of the top left corner of the screen in the world

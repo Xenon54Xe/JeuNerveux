@@ -1,6 +1,7 @@
 package com.example.app.ui;
 
 import com.example.app.GameCanvas;
+import com.example.app.Updatable;
 import com.example.app.event.component.ComponentUIClick;
 import com.example.app.event.IEvent;
 import com.example.app.handler.MouseHandler;
@@ -8,7 +9,7 @@ import com.example.app.handler.MouseMotionHandler;
 
 import java.awt.*;
 
-public class UITextButton extends UIBoxText implements IClickable{
+public class UITextButton extends UIBoxText implements Updatable {
 
     final IEvent eventUIClick;
     final MouseHandler mouseH;
@@ -30,7 +31,7 @@ public class UITextButton extends UIBoxText implements IClickable{
     }
 
     @Override
-    public void isClicked() {
+    public void update() {
         if (active && isShow()) {
             if (mouseOver() && mouseH.leftClickClicked) {
                 eventUIClick.trigger(new ComponentUIClick(this, ComponentUIClick.LEFT_BUTTON));

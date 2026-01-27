@@ -10,7 +10,7 @@ import java.awt.*;
 public class Mouse extends Animal implements IAttackEntity {
 
     public Mouse(GameCanvas gc, String name){
-        super(gc, new Rectangle(6, 20, 12, 4), name, 50, gc.tileSize / 2, gc.tileSize / 2, 74, 180, 1, gc.tileSize, 5, 30);
+        super(gc, new Rectangle(6, 20, 12, 4), name, 50, gc.TILE_SIZE / 2, gc.TILE_SIZE / 2, 74, 180, 1, gc.TILE_SIZE, 5, 30);
 
         setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
         initImages();
@@ -19,7 +19,7 @@ public class Mouse extends Animal implements IAttackEntity {
     }
 
     public Mouse(GameCanvas gc, String name, int speed, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {
-        super(gc, new Rectangle(6, 20, 12, 4), name, speed, gc.tileSize / 2, gc.tileSize / 2, health, waitTimeBeforeAnimation, xp, reach, damage, attackDelay);
+        super(gc, new Rectangle(6, 20, 12, 4), name, speed, gc.TILE_SIZE / 2, gc.TILE_SIZE / 2, health, waitTimeBeforeAnimation, xp, reach, damage, attackDelay);
 
         setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
         initImages();

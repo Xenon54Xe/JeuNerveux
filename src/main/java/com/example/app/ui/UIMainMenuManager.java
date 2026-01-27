@@ -1,6 +1,8 @@
+// java
 package com.example.app.ui;
 
 import com.example.app.GameCanvas;
+import com.example.app.Drawable;
 import com.example.app.SceneryManager;
 import com.example.app.event.*;
 import com.example.app.event.component.ComponentUIClick;
@@ -13,7 +15,8 @@ import com.example.app.ui.frame.UIFrame;
 
 import java.awt.*;
 
-public class UIMainMenuManager implements IListener {
+@Deprecated
+public class UIMainMenuManager implements Listener {
 
     final GameCanvas gc;
 
@@ -28,24 +31,24 @@ public class UIMainMenuManager implements IListener {
         this.gc = gc;
 
         // UI
-        mainMenu = new UIFrame(gc, "Main menu", UIObject.DRAW_CENTER);
-        mainMenu.setDrawReference(UIObject.DRAW_CENTER);
+        mainMenu = new UIFrame(gc, "Main menu", Drawable.DRAW_CENTER);
+        mainMenu.setDrawRule(UIObject.DRAW_CENTER);
         mainMenu.setDrawEvenly();
         mainMenu.expand();
         // TITLE
         UIText title = new UIText(Color.WHITE, "Main Menu",
-                gc.screenWidth / 2, gc.tileSize);
+                gc.SCREEN_WIDTH / 2, gc.TILE_SIZE);
         // TITLE SCENERY
         UITextButton titleScreen = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 TITLE_SCREEN, "Title screen",
-                gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 4, 10, 10);
         // START ADVENTURE
         UITextButton startAdventure = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 START_ADVENTURE, "Start adventure",
-                gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 4, 10, 10);
         UITextButton startStrengthTest = new UITextButton(gc, Color.BLACK, Color.WHITE,
                 STRENGTH_TEST, "Start Strength Test",
-                gc.screenWidth / 2, gc.tileSize * 4, 10, 10);
+                gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 4, 10, 10);
 
         if (gc.editorMode) {
 
@@ -54,15 +57,15 @@ public class UIMainMenuManager implements IListener {
             // MAP DRAWING
             UITextButton activateMapDrawing = new UITextButton(gc, Color.BLACK, Color.WHITE,
                     MapDrawerManager.ACTIVATE_MAPMAKING, "Draw the map",
-                    gc.screenWidth / 2, gc.tileSize * 2, 10, 10);
+                    gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 2, 10, 10);
             // MAP LOADING
             UITextButton activateMapLoading = new UITextButton(gc, Color.BLACK, Color.WHITE,
                     LoadMapManager.ACTIVATE_MAP_LOADING, "Load a map",
-                    gc.screenWidth / 2, gc.tileSize * 3, 10, 10);
+                    gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 3, 10, 10);
             // MAP CREATING
             UITextButton activateMapCreating = new UITextButton(gc, Color.BLACK, Color.WHITE,
                     MapCreateManager.ACTIVATE_MAP_CREATING, "Create a map",
-                    gc.screenWidth / 2, gc.tileSize * 3, 10, 10);
+                    gc.SCREEN_WIDTH / 2, gc.TILE_SIZE * 3, 10, 10);
             // Register
             mainMenu.addUIObject(title, 0, 0);
             mainMenu.addUIObject(startAdventure, 0, 1);
@@ -81,7 +84,7 @@ public class UIMainMenuManager implements IListener {
         }
 
         // event
-        register(gc.eventUIClick);
+        register();
     }
 
     public void update(){
@@ -109,7 +112,12 @@ public class UIMainMenuManager implements IListener {
 
     @Override
     public void onTrigger(IEventComponent component) {
-        if (component instanceof ComponentUIClick(UIObject uiObject, String mouseButtonClicked)){
+        if (component instanceof ComponentUIClick) {
+            ComponentUIClick click = (ComponentUIClick) component;
+            // assume ComponentUIClick is a record-like type with accessors uiObject() and mouseButtonClicked()
+            UIObject uiObject = click.uiObject();
+            String mouseButtonClicked = click.mouseButtonClicked();
+
             String payload = uiObject.getName();
 
             if (mouseButtonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
@@ -141,8 +149,13 @@ public class UIMainMenuManager implements IListener {
         }
     }
 
-    @Override
+    // Provide both overloads to match either interface variant.
     public void register(IEvent event) {
         event.addListener(this);
+    }
+
+    public void register() {
+        // no-op fallback (some Listener variants expect no-arg)
+        gc.eventUIClick.addListener(this);
     }
 }

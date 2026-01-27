@@ -29,8 +29,8 @@ public abstract class LivingEntity extends Entity {
         this.xp = xp;
 
         // Health bar
-        healthBar = new UIFillBar(gc.mouseMH, Color.GRAY, Color.GREEN, "health bar", 0, 0, width, gc.tileSize / 4, 5, 5);
-        healthBar.setDrawReference(UIObject.DRAW_TOP_LEFT_CORNER);
+        healthBar = new UIFillBar(gc.mouseMH, Color.GRAY, Color.GREEN, "health bar", 0, 0, width, gc.TILE_SIZE / 4, 5, 5);
+        healthBar.setDrawRule(UIObject.DRAW_TOP_LEFT);
         healthBar.setShow(true);
     }
 

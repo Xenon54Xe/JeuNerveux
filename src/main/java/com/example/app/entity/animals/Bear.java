@@ -4,7 +4,6 @@ import com.example.app.GameCanvas;
 import com.example.app.SceneryManager;
 import com.example.app.entity.Entity;
 import com.example.app.entity.LivingEntity;
-import com.example.app.ui.UIBoxText;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UIText;
 
@@ -13,7 +12,7 @@ import java.awt.*;
 public class Bear extends Animal{
 
     public Bear(GameCanvas gc, String name){
-        super(gc, new Rectangle(16, 64, 64, 32), name, 65, gc.tileSize * 2, gc.tileSize * 2, 22600, 180, 100, gc.tileSize, 666, 20);
+        super(gc, new Rectangle(16, 64, 64, 32), name, 65, gc.TILE_SIZE * 2, gc.TILE_SIZE * 2, 22600, 180, 100, gc.TILE_SIZE, 666, 20);
     }
 
     public Bear(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {
@@ -31,10 +30,10 @@ public class Bear extends Animal{
     @Override
     public void softKill(LivingEntity killer) {
         gc.sceneryM.safeChangeScenery(SceneryManager.TITLE_SCENERY);
-        UIText text = new UIText(Color.YELLOW,"Congratulations !!!", gc.screenWidth / 2, gc.screenHeight / 2);
+        UIText text = new UIText(Color.YELLOW,"Congratulations !!!", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
         text.setShow(true);
-        text.setDrawReference(UIObject.DRAW_CENTER);
-        gc.uiM.addUIObjectWithTimer(text, 180);
+        text.setDrawRule(UIObject.DRAW_CENTER);
+        gc.uiM.addUIObject(text);
 
         super.softKill(killer);
     }

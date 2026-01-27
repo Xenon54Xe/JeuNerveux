@@ -27,11 +27,16 @@ public class UIBoxText extends UIBox implements IUIText{
     }
 
     @Override
+    public String getText() {
+        return text;
+    }
+
+    @Override
     public void draw(Graphics2D g2) {
         super.draw(g2);
 
         if(isShow()){
-            int[] dimensions = calcBoxDimensions(g2, text, stepX, stepY);
+            int[] dimensions = calcBoxDimensions(g2, stepX, stepY);
             setWidth(dimensions[0]);
             setHeight(dimensions[1]);
 

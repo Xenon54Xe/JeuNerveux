@@ -1,11 +1,11 @@
 package com.example.app.event.component;
 
 
-import com.example.app.utils.ILinkedList;
+import com.example.app.utils.ILoopList;
 
-public record ComponentChangeMap(String mapName, ILinkedList<Integer> spawnableTiles) implements IEventComponent{
+public record ComponentChangeMap(String mapName, ILoopList<Integer> spawnableTiles) implements IEventComponent{
 
-    public ComponentChangeMap(String mapName, ILinkedList<Integer> spawnableTiles){
+    public ComponentChangeMap(String mapName, ILoopList<Integer> spawnableTiles){
         this.mapName = mapName;
         this.spawnableTiles = spawnableTiles;
     }

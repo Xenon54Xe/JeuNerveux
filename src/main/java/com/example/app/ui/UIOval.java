@@ -14,6 +14,11 @@ public class UIOval extends UIObject{
     }
 
     @Override
+    public boolean isMouseOver() {
+        return false;
+    }
+
+    @Override
     public void draw(Graphics2D g2) {
         g2.setColor(color);
         g2.drawOval(getScreenX(), getScreenY(), getScreenX() + getWidth(), getScreenY() + getHeight());

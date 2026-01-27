@@ -36,7 +36,12 @@ public class UIBox extends UIObject {
     }
 
     public boolean mouseOver() {
-        return super.mouseOver(mouseMH);
+        return super.isMouseOver(mouseMH);
+    }
+
+    @Override
+    public boolean isMouseOver() {
+        return isMouseOver(mouseMH);
     }
 
     @Override

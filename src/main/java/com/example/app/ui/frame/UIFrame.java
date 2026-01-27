@@ -2,11 +2,10 @@ package com.example.app.ui.frame;
 
 import com.example.app.GameCanvas;
 import com.example.app.ui.UIObject;
-import com.example.app.utils.ILinkedList;
-import com.example.app.utils.LinkedList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 public class UIFrame extends UIObject {
 
@@ -16,7 +15,7 @@ public class UIFrame extends UIObject {
     private UIFrame parentFrame = null;
 
     // CLASS VARIABLES
-    private final ILinkedList<FrameCase> frameCases = new LinkedList<>();
+    private final ArrayList<FrameCase> frameCases = new ArrayList<>();
     private int maxCol, maxRow; // To place ui
 
     // DRAW OPTIONS
@@ -34,12 +33,12 @@ public class UIFrame extends UIObject {
 
     private int firstTime = 1;
 
-    public UIFrame(GameCanvas gc, String name, String drawReference) {
+    public UIFrame(GameCanvas gc, String name, int drawReference) {
         super(name, 0, 0);
 
         this.gc = gc;
 
-        setDrawReference(drawReference);
+        setDrawRule(drawReference);
 
         setDrawEvenly();
         gc.uiM.addUIObject(this);
@@ -48,12 +47,12 @@ public class UIFrame extends UIObject {
         updateSize();
     }
 
-    public UIFrame(GameCanvas gc, String name, String drawReference, int col, int row) {
+    public UIFrame(GameCanvas gc, String name, int drawRule, int col, int row) {
         super(name, 0, 0);
 
         this.gc = gc;
 
-        setDrawReference(drawReference);
+        setDrawRule(drawRule);
         setShape(col, row);
 
         setDrawEvenly();
@@ -63,7 +62,7 @@ public class UIFrame extends UIObject {
         updateSize();
     }
 
-    public UIFrame(GameCanvas gc, String name, String drawReference,
+    public UIFrame(GameCanvas gc, String name, int drawRule,
                    int screenX, int screenY, int width, int height, int col, int row) {
         super(name, screenX, screenY);
 
@@ -71,7 +70,7 @@ public class UIFrame extends UIObject {
 
         setWidth(width);
         setHeight(height);
-        setDrawReference(drawReference);
+        setDrawRule(drawRule);
         setShape(col, row);
 
         setDrawEvenly();
@@ -94,13 +93,12 @@ public class UIFrame extends UIObject {
         this.maxRow = row;
     }
 
-    @Override
-    public void setDrawReference(String drawReference) {
-        for (int i = 0; i < frameCases.size(); i++){
-            frameCases.getFirstValueNShift().getObject().setDrawReference(drawReference);
+    public void setDrawRule(int drawRule) {
+        for (FrameCase frameCase : frameCases){
+            frameCase.getObject().setDrawRule(drawRule);
         }
 
-        super.setDrawReference(drawReference);
+        super.setDrawRule(drawRule);
     }
 
     private void setDrawOption(String drawOption) {
@@ -130,9 +128,8 @@ public class UIFrame extends UIObject {
         // Get max width & height
         maxWidth = 0;
         maxHeight = 0;
-        for (int i = 0; i < frameCases.size(); i++) {
 
-            FrameCase frameCase = frameCases.getFirstValueNShift();
+        for (FrameCase frameCase : frameCases){
             UIObject object = frameCase.getObject();
             if (object.getWidth() > maxWidth) {
                 maxWidth = object.getWidth();
@@ -150,30 +147,35 @@ public class UIFrame extends UIObject {
     public void setShow(boolean show) {
         super.setShow(show);
 
-        for (int i = 0; i < frameCases.size(); i++){
-            frameCases.getFirstValueNShift().getObject().setShow(show);
+        for (FrameCase frameCase : frameCases){
+            frameCase.getObject().setShow(show);
         }
+    }
+
+    @Override
+    public boolean isMouseOver() {
+        return false;
     }
 
     public void expand(){
         // Set the drawReference before calling this
         if(parentFrame == null){
-            switch (getDrawReference()) {
-                case DRAW_CENTER -> setScreenPosition(gc.screenWidth / 2, gc.screenHeight / 2);
-                case DRAW_TOP_LEFT_CORNER -> setScreenPosition(Vector2D.ZERO);
-                case DRAW_BOTTOM_LEFT_CORNER -> setScreenPosition(0, gc.screenHeight);
-                case DRAW_TOP_RIGHT_CORNER -> setScreenPosition(gc.screenWidth, 0);
-                case DRAW_BOTTOM_RIGHT_CORNER -> setScreenPosition(gc.screenWidth, gc.screenHeight);
+            switch (getDrawRule()) {
+                case DRAW_CENTER -> setScreenPosition(gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
+                case DRAW_TOP_LEFT -> setScreenPosition(Vector2D.ZERO);
+                case DRAW_BOTTOM_LEFT -> setScreenPosition(0, gc.SCREEN_HEIGHT);
+                case DRAW_TOP_RIGHT -> setScreenPosition(gc.SCREEN_WIDTH, 0);
+                case DRAW_BOTTOM_RIGHT -> setScreenPosition(gc.SCREEN_WIDTH, gc.SCREEN_HEIGHT);
             }
-            setSize(gc.screenWidth, gc.screenHeight);
+            setSize(gc.SCREEN_WIDTH, gc.SCREEN_HEIGHT);
         }
         else {
-            switch (getDrawReference()){
+            switch (getDrawRule()){
                 case DRAW_CENTER -> setScreenPosition(parentFrame.getDrawCenterScreenX(), parentFrame.getDrawCenterScreenY());
-                case DRAW_TOP_LEFT_CORNER -> setScreenPosition(parentFrame.getDrawTopLeftScreenX(), parentFrame.getDrawTopLeftScreenY());
-                case DRAW_BOTTOM_LEFT_CORNER -> setScreenPosition(parentFrame.getDrawBottomLeftScreenX(), parentFrame.getDrawBottomLeftScreenY());
-                case DRAW_TOP_RIGHT_CORNER -> setScreenPosition(parentFrame.getDrawTopRightScreenX(), parentFrame.getDrawTopRightScreenY());
-                case DRAW_BOTTOM_RIGHT_CORNER -> setScreenPosition(parentFrame.getDrawBottomRightScreenX(), parentFrame.getDrawBottomRightScreenY());
+                case DRAW_TOP_LEFT -> setScreenPosition(parentFrame.getDrawTopLeftScreenX(), parentFrame.getDrawTopLeftScreenY());
+                case DRAW_BOTTOM_LEFT -> setScreenPosition(parentFrame.getDrawBottomLeftScreenX(), parentFrame.getDrawBottomLeftScreenY());
+                case DRAW_TOP_RIGHT -> setScreenPosition(parentFrame.getDrawTopRightScreenX(), parentFrame.getDrawTopRightScreenY());
+                case DRAW_BOTTOM_RIGHT -> setScreenPosition(parentFrame.getDrawBottomRightScreenX(), parentFrame.getDrawBottomRightScreenY());
             }
             setSize(parentFrame.getWidth(), parentFrame.getHeight());
         }
@@ -182,7 +184,7 @@ public class UIFrame extends UIObject {
     public void addUIObject(UIObject object, int col, int row){
         assert col < maxCol;
         assert row < maxRow;
-        object.setDrawReference(getDrawReference());
+        object.setDrawRule(getDrawRule());
         FrameCase newFrameCase = new FrameCase(object, col, row);
         frameCases.add(newFrameCase);
         gc.uiM.addUIObject(object);
@@ -208,8 +210,7 @@ public class UIFrame extends UIObject {
                         int curStepX = getWidth() / (maxCol + 1);
                         int curStepY = getHeight() / (maxRow + 1);
 
-                        for (int i = 0; i < frameCases.size(); i++) {
-                            FrameCase frameCase = frameCases.getFirstValueNShift();
+                        for (FrameCase frameCase : frameCases){
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();
@@ -220,9 +221,9 @@ public class UIFrame extends UIObject {
                     }
                     case DRAW_STEP_BETWEEN_CENTER -> {
 
-                        int startScreenX = getDrawReferenceScreenX();
-                        int startScreenY = getDrawReferenceScreenY();
-                        if (getDrawReference().equals(DRAW_CENTER)){
+                        int startScreenX = getDrawRuleScreenX();
+                        int startScreenY = getDrawRuleScreenY();
+                        if (getDrawRule() == DRAW_CENTER){
                             startScreenX -= cumulatedWidth / 2;
                             startScreenY -= cumulatedHeight / 2;
                         }
@@ -231,8 +232,7 @@ public class UIFrame extends UIObject {
                         int widthMul = mul[0];
                         int heightMul = mul[1];
 
-                        for (int i = 0; i < frameCases.size(); i++) {
-                            FrameCase frameCase = frameCases.getFirstValueNShift();
+                        for (FrameCase frameCase : frameCases){
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();
@@ -243,9 +243,9 @@ public class UIFrame extends UIObject {
                     }
                     case DRAW_STEP_BETWEEN_EDGES -> {
 
-                        int startScreenX = getDrawReferenceScreenX();
-                        int startScreenY = getDrawReferenceScreenY();
-                        if (getDrawReference().equals(DRAW_CENTER)){
+                        int startScreenX = getDrawRuleScreenX();
+                        int startScreenY = getDrawRuleScreenY();
+                        if (getDrawRule() == DRAW_CENTER){
                             startScreenX -= cumulatedWidth / 2;
                             startScreenY -= cumulatedHeight / 2;
                         }
@@ -257,8 +257,7 @@ public class UIFrame extends UIObject {
                         int widthMul = mul[0];
                         int heightMul = mul[1];
 
-                        for (int i = 0; i < frameCases.size(); i++) {
-                            FrameCase frameCase = frameCases.getFirstValueNShift();
+                        for (FrameCase frameCase : frameCases){
                             UIObject object = frameCase.getObject();
                             int col = frameCase.getCol();
                             int row = frameCase.getRow();

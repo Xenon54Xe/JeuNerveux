@@ -8,7 +8,7 @@ import java.awt.*;
 public class Dog extends Animal{
 
     public Dog(GameCanvas gc, String name){
-        super(gc, new Rectangle(8, 32, 32, 16), name, 75, gc.tileSize, gc.tileSize, 910, 180, 35, gc.tileSize, 40, 30);
+        super(gc, new Rectangle(8, 32, 32, 16), name, 75, gc.TILE_SIZE, gc.TILE_SIZE, 910, 180, 35, gc.TILE_SIZE, 40, 30);
     }
 
     public Dog(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {

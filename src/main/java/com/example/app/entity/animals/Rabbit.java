@@ -8,7 +8,7 @@ import java.awt.*;
 public class Rabbit extends Animal{
 
     public Rabbit(GameCanvas gc, String name){
-        super(gc, new Rectangle(8, 40, 32, 8), name, 50, gc.tileSize, gc.tileSize, 423, 180, 5, gc.tileSize, 10, 30);
+        super(gc, new Rectangle(8, 40, 32, 8), name, 50, gc.TILE_SIZE, gc.TILE_SIZE, 423, 180, 5, gc.TILE_SIZE, 10, 30);
     }
 
     public Rabbit(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage, int attackDelay) {

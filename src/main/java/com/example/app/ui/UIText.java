@@ -21,14 +21,19 @@ public class UIText extends UIObject implements IUIText {
     }
 
     @Override
-    public boolean mouseOver() {
+    public String getText() {
+        return text;
+    }
+
+    @Override
+    public boolean isMouseOver() {
         return false;
     }
 
     @Override
     public void draw(Graphics2D g2) {
         if (isShow()) {
-            int[] dimensions = calcBoxDimensions(g2, text, 0, 0);
+            int[] dimensions = calcBoxDimensions(g2, 0, 0);
             setWidth(dimensions[0]);
             setHeight(dimensions[1]);
 
