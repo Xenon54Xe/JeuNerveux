@@ -1,26 +1,27 @@
 package com.example.app.entity.group;
 
-import com.example.app.entity.LivingEntity;
+import com.example.app.DrawOther;
+import com.example.app.Updatable;
+import com.example.app.entity.Entity;
+import com.example.app.utils.collections.List;
 
-public interface IEntityGroup {
+public interface IEntityGroup extends Updatable, DrawOther {
 
     int getID();
 
-    LivingEntity getMaster();
+    void safeAddEntity(Entity entity);
 
-    void setMaster(LivingEntity entity);
+    void safeRemoveEntity(Entity entity);
 
-    void addEntity(LivingEntity entity);
-    
-    void safeRemoveEntity(LivingEntity entity);
-    
-    boolean contains(LivingEntity entity);
+    void safeRemoveAllEntities();
+
+    boolean contains(Entity entity);
 
     int size();
 
-    boolean isEmpty();
+    default boolean isEmpty(){
+        return size() == 0;
+    }
 
-    void killGroup();
-
-    void update();
+    List<Entity> getEntities();
 }

@@ -14,7 +14,7 @@ public abstract class UIObject implements Drawable {
     private String name;
     
     // DRAW LOGIC
-    private boolean show = false;
+    private boolean show = true;
     private int width, height;
 
     // DRAW REFERENCE

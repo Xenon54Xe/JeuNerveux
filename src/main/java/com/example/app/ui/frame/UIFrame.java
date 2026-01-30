@@ -1,13 +1,17 @@
 package com.example.app.ui.frame;
 
+import com.example.app.DrawOther;
 import com.example.app.GameCanvas;
+import com.example.app.Updatable;
 import com.example.app.ui.UIObject;
 import com.example.app.utils.Vector2D;
+import com.example.app.utils.collections.LinkedList;
+import com.example.app.utils.collections.List;
 
 import java.awt.*;
 import java.util.ArrayList;
 
-public class UIFrame extends UIObject {
+public class UIFrame extends UIObject implements Updatable, DrawOther {
 
     final GameCanvas gc;
 
@@ -15,7 +19,9 @@ public class UIFrame extends UIObject {
     private UIFrame parentFrame = null;
 
     // CLASS VARIABLES
-    private final ArrayList<FrameCase> frameCases = new ArrayList<>();
+    private final List<FrameCase> frameCases = new LinkedList<>();
+    private final List<FrameCase> toAddBuffer = new LinkedList<>();
+    private final List<FrameCase> toRemoveBuffer = new LinkedList<>();
     private int maxCol, maxRow; // To place ui
 
     // DRAW OPTIONS
@@ -41,7 +47,7 @@ public class UIFrame extends UIObject {
         setDrawRule(drawReference);
 
         setDrawEvenly();
-        gc.uiM.addUIObject(this);
+        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
@@ -56,7 +62,7 @@ public class UIFrame extends UIObject {
         setShape(col, row);
 
         setDrawEvenly();
-        gc.uiM.addUIObject(this);
+        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
@@ -74,7 +80,7 @@ public class UIFrame extends UIObject {
         setShape(col, row);
 
         setDrawEvenly();
-        gc.uiM.addUIObject(this);
+        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
@@ -185,9 +191,9 @@ public class UIFrame extends UIObject {
         assert col < maxCol;
         assert row < maxRow;
         object.setDrawRule(getDrawRule());
+        object.setShow(isShow());
         FrameCase newFrameCase = new FrameCase(object, col, row);
         frameCases.add(newFrameCase);
-        gc.uiM.addUIObject(object);
     }
 
     @Override
@@ -270,6 +276,44 @@ public class UIFrame extends UIObject {
 
                         assert false : "Wrong draw option";
                     }
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public void update() {
+        if (isActive()){
+            // REMOVE BUFFER
+            for (FrameCase frameCase : toRemoveBuffer) {
+                frameCases.remove(frameCase);
+            }
+            toRemoveBuffer.clear();
+
+            // ADD BUFFER
+            for (FrameCase frameCase : toAddBuffer) {
+                frameCases.add(frameCase);
+            }
+            toAddBuffer.clear();
+
+            // UPDATE OBJECTS
+            for (FrameCase frameCase : frameCases){
+                UIObject object = frameCase.getObject();
+                if (object instanceof Updatable updatable){
+                    updatable.update();
+                }
+                if (object.isMouseOver()) {
+                    gc.uiM.setMouseOverUI();
                 }
             }
         }

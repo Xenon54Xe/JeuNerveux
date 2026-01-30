@@ -1,16 +1,13 @@
 package com.example.app.entity.group;
 
 import com.example.app.GameCanvas;
+import com.example.app.entity.Entity;
 import com.example.app.entity.LivingEntity;
-import com.example.app.entity.Player;
-import com.example.app.event.component.ComponentEntityDead;
-import com.example.app.event.component.IEventComponent;
-import com.example.app.utils.Vector2D;
 
-public class PlayerEntityGroup extends EntityGroup{
+public class PlayerEntityGroup extends LeaderEntityGroup{
 
     // CLASS VARIABLES
-    private final int enemyFindInterval = 20;
+    private final int enemyFindInterval = 10;
     private int enemyFindCount = 0;
     private LivingEntity foundEnemy = null;
 
@@ -18,11 +15,13 @@ public class PlayerEntityGroup extends EntityGroup{
         super(gc);
 
         setMaster(player);
+        addEntity(player);
     }
 
     @Override
     public void update() {
-        super.update();
+        // Update buffers
+        updateBuffers();
 
         // Look for nearby enemies
         enemyFindCount--;
@@ -31,7 +30,6 @@ public class PlayerEntityGroup extends EntityGroup{
             enemyFindCount = enemyFindInterval;
             findNewEnemy();
         }
-
         if (foundEnemy != null){
             makeEntitiesMove(foundEnemy.getWorldPosition(), false);
         }else {
@@ -42,39 +40,40 @@ public class PlayerEntityGroup extends EntityGroup{
     private void findNewEnemy() {
         foundEnemy = null;
 
-        if (gc.sceneryM.groups.isEmpty()){
-            return;
-        }
-
         // Find new enemy
         double minDistance = Double.POSITIVE_INFINITY;
-        for (int i = 0; i < gc.sceneryM.groups.size(); i++) {
+        // Find the nearest group
+        IEntityGroup nearestGroup = null;
+        for (IEntityGroup group : gc.entityM.getGroups()) {
+            if (group instanceof LeaderEntityGroup leaderEntityGroup){
+                if (group.getID() == id){
+                    continue;
+                }
 
-            IEntityGroup group = gc.sceneryM.groups.get(i);
-            if (group.isEmpty()){
-                continue;
-            }
-            LivingEntity entity = group.getMaster();
-            if (entity == null){
-                continue;
-            }
+                LivingEntity master = leaderEntityGroup.getMaster();
+                if (master == null){
+                    continue;
+                }
 
-            double distance = entity.getWorldPosition().getDistance(getMaster().getWorldPosition());
-            if (!(entity.getGroupID() == id) && distance < gc.TILE_SIZE * 4){
+                double distance = master.getWorldPosition().getDistance(getMaster().getWorldPosition());
+                if (distance < minDistance){
 
-                if (foundEnemy == null || distance < minDistance) {
                     minDistance = distance;
-                    foundEnemy = entity;
+                    nearestGroup = group;
                 }
             }
         }
-    }
+        // Find the nearest entity in the nearest group
+        if (nearestGroup != null) {
+            for (Entity entity : nearestGroup.getEntities()) {
+                if (entity instanceof LivingEntity livingEntity) {
+                    double distance = livingEntity.getWorldPosition().getDistance(getMaster().getWorldPosition());
+                    if (distance < gc.TILE_SIZE * 4 && distance < minDistance) {
 
-    @Override
-    public void onTrigger(IEventComponent component) {
-        if (component instanceof ComponentEntityDead(LivingEntity killed, LivingEntity killer)){
-            if (killed == getMaster()){
-                killGroup();
+                        minDistance = distance;
+                        foundEnemy = livingEntity;
+                    }
+                }
             }
         }
     }

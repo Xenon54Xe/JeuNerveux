@@ -1,4 +1,4 @@
-package com.example.app.utils;
+package com.example.app.utils.collections;
 
 import com.example.app.tile.Tile;
 

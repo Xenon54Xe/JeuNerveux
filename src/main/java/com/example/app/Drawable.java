@@ -12,7 +12,7 @@ public interface Drawable {
     int DRAW_BOTTOM_LEFT = 3;
     int DRAW_BOTTOM_RIGHT = 4;
 
-    void setShow(boolean active);
+    void setShow(boolean show);
     
     boolean isShow();
 
@@ -140,7 +140,6 @@ public interface Drawable {
                 && mouseMH.getScreenY() > getDrawTopLeftScreenY()
                 && mouseMH.getScreenY() < getDrawTopLeftScreenY() + getHeight();
     }
-
 
     default int getScreenX(Trackable tracked, int worldX){
         // Anchor position

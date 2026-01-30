@@ -110,26 +110,24 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
     }
 
     public void playerMoveBehavior(){
-        if (getMoveDirectionVector() != Vector2D.ZERO) {
-            setMoveDirectionVector(Vector2D.ZERO);
-        }
-
         if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed) {
 
-            Vector2D newMoveVector = Vector2D.ZERO;
+            double addX = 0, addY = 0;
             if (keyH.upPressed) {
-                newMoveVector = newMoveVector.add(Vector2D.UP);
+                addY = -1;
             }
             if (keyH.downPressed) {
-                newMoveVector = newMoveVector.add(Vector2D.DOWN);
+                addY = 1;
             }
             if (keyH.leftPressed) {
-                newMoveVector = newMoveVector.add(Vector2D.LEFT);
+                addX = -1;
             }
             if (keyH.rightPressed) {
-                newMoveVector = newMoveVector.add(Vector2D.RIGHT);
+                addY = 1;
             }
-            setMoveDirectionVector(newMoveVector.getNormalized());
+            double length = Math.sqrt(addX * addX + addY * addY);
+            setMoveDirectionVector(addX / length, addY / length);
+            updateDrawDirection();
 
             if (keyH.xPressed && getSpeed() != sprintSpeed) {
                 setSpeed(sprintSpeed);
@@ -140,8 +138,6 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
             else if (getSpeed() != baseSpeed) {
                 setSpeed(baseSpeed);
             }
-
-            updateDrawDirection();
 
             // MOVE IF THERE IS NO COLLISIONS (MOVE VECTOR != ZERO)
             move(gc.dt);
@@ -165,7 +161,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
         if (isActive()) {
             super.update();
 
-            if (isOwnBehavior()) {
+            if (isMoveSpontaneously()) {
                 playerMoveBehavior();
             }
             playerAttackBehavior();
@@ -184,7 +180,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
             if (attackTimer > 0) {
                 // DRAW ATTACK IMAGE
                 if (attackTimer > attackDelay / 2) {
-                    if (getDrawDirection() == Vector2D.S_RIGHT) {
+                    if (getDrawDirection() == Vector2D.INT_RIGHT) {
                         g2.drawImage(attackImageRight, getScreenX() - getWidth() / 2, getScreenY() - getHeight() / 2, getWidth(), getHeight(), null);
                     }
                     else {
@@ -205,8 +201,9 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
     @Override
     public void attack() {
-        boolean succes = attackNearestEntity(this, gc.entityM.livingEntities, reach, damage);
-        if (succes) {
+        LivingEntity nearest = gc.entityM.getNearestLivingEntity(this, getWorldPosition());
+        if (nearest != null && getWorldPosition().getDistance(nearest.getWorldPosition()) <= reach) {
+            nearest.damage(damage, this);
             attackTimer = attackDelay;
         }
     }
@@ -224,10 +221,10 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
                 LivingEntity entity = (LivingEntity) killed.makeClone();
                 entity.setWorldPosition(killed.getWorldPosition());
                 entity.setSpeed(baseSpeed);
-                playerEntityGroup.addEntity(entity);
+                playerEntityGroup.safeAddEntity(entity);
 
                 if (playerEntityGroup.size() > 10){
-                    LivingEntity weekest = playerEntityGroup.getWeekest();
+                    LivingEntity weekest = playerEntityGroup.getWeakest();
                     playerEntityGroup.safeRemoveEntity(weekest);
                     weekest.softKill(null);
                     return;
@@ -235,7 +232,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
             }
 
             if (killed.getGroupID() == getGroupID() && !killed.equals(this)){
-                playerEntityGroup.removeEntity(killed);
+                playerEntityGroup.safeAddEntity(killed);
             }
         }
     }

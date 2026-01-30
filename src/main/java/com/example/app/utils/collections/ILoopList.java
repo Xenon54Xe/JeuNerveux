@@ -1,14 +1,10 @@
-package com.example.app.utils;
+package com.example.app.utils.collections;
 
-public interface ILoopList<E> {
+import java.util.Iterator;
+
+public interface ILoopList<E> extends Collection<E>, Iterable<E> {
     // A list with looping behavior (the pointer can move from end to start and vice versa)
     // Non-ordered list
-
-    int size();
-
-    boolean isEmpty();
-
-    void clear();
 
     void shift(boolean reverse);
 
@@ -38,16 +34,6 @@ public interface ILoopList<E> {
 
     boolean remove(E value);
 
-    boolean contains(E value);
-
-    default void setRoot(E value){
-        assert contains(value);
-
-        while (!get().equals(value)){
-            shift();
-        }
-    }
-
     default Object[] toArray(){
         if (size() == 0){
             return null;
@@ -60,5 +46,21 @@ public interface ILoopList<E> {
         return values;
     }
 
-    String toString();
+    @Override
+    default Iterator<E> iterator(){
+        return new Iterator<>() {
+            private int currentIndex = 0;
+
+            @Override
+            public boolean hasNext() {
+                return currentIndex < size();
+            }
+
+            @Override
+            public E next() {
+                currentIndex++;
+                return get(true);
+            }
+        };
+    }
 }

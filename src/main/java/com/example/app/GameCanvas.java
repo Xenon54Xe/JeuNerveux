@@ -41,11 +41,11 @@ public class GameCanvas extends Canvas implements Runnable {
     public int gameState;
 
     // \`EVENTS\` (public to match original usage)
-    public final IEvent eventUIClick = new Event();
     public final IEvent eventEntityDead = new Event();
+    public final IEvent eventEntityLeavedGroup = new Event();
     public final IEvent eventChangeMap = new Event();
     public final IEvent eventCreateMap = new Event();
-    public final IEvent eventGroupDead = new Event();
+    public final IEvent eventUIClick = new Event();
 
     // \`INPUT HANDLERS\`
     public final KeyHandler keyH = new KeyHandler();
@@ -53,17 +53,17 @@ public class GameCanvas extends Canvas implements Runnable {
     public final MouseMotionHandler mouseMH = new MouseMotionHandler();
 
     // \`MANAGERS\`
-    public final TileManager tileM;
-    public final MapDrawerManager mapDrawerM;
-    public final LoadMapManager loadMapM;
-    public final MapCreateManager mapCreateM;
-    public final SceneryManager sceneryM;
-    public final UIManager uiM;
-    public final EntityManager entityM;
-    public Trackable tracked;
+    public TileManager tileM;
+    public MapDrawerManager mapDrawerM;
+    public LoadMapManager loadMapM;
+    public MapCreateManager mapCreateM;
+    public SceneryManager sceneryM;
+    public UIManager uiM;
+    public EntityManager entityM;
+    public Trackable tracked = new DefaultTracked();
 
     // \`COLLISION & SOUND\`
-    public final CollisionChecker cChecker;
+    public CollisionChecker cChecker;
     private final Sound music = new Sound();
     private final Sound se = new Sound();
 
@@ -74,6 +74,10 @@ public class GameCanvas extends Canvas implements Runnable {
     public final boolean editorMode = true;
 
     public GameCanvas() {
+        initGameCanvas();
+    }
+
+    void initGameCanvas(){
         // window / canvas settings
         setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         setBackground(Color.BLACK);
@@ -90,7 +94,6 @@ public class GameCanvas extends Canvas implements Runnable {
         eventUIClick.addListener(testListener);
         eventEntityDead.addListener(testListener);
         eventCreateMap.addListener(testListener);
-        eventGroupDead.addListener(testListener);
 
         // collision
         cChecker = new CollisionChecker(this);
@@ -105,6 +108,12 @@ public class GameCanvas extends Canvas implements Runnable {
 
         entityM = new EntityManager(this);
         sceneryM = new SceneryManager(this);
+
+        // Init managers
+        entityM.init();
+        sceneryM.init();
+
+        // Scenery
         sceneryM.changeScenery(SceneryManager.TITLE_SCENERY);
 
         setFocusable(true);

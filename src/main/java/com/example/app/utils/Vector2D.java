@@ -1,9 +1,10 @@
 package com.example.app.utils;
 
 import com.example.app.GameCanvas;
+import com.example.app.utils.collections.LinkedList;
+import com.example.app.utils.collections.List;
 
-import java.awt.*;
-import java.util.ArrayList;
+import java.awt.Rectangle;
 
 public class Vector2D {
 
@@ -18,12 +19,16 @@ public class Vector2D {
     public static final Vector2D LEFT = new Vector2D(-1, 0);
     public static final Vector2D RIGHT = new Vector2D(1, 0);
 
-    public static final int S_ZERO = 0;
-    public static final int S_UP = 1;
-    public static final int S_DOWN = 2;
-    public static final int S_LEFT = 3;
-    public static final int S_RIGHT = 4;
+    public static final int INT_ZERO = 0;
+    public static final int INT_UP = 1;
+    public static final int INT_DOWN = 2;
+    public static final int INT_LEFT = 3;
+    public static final int INT_RIGHT = 4;
 
+    public static final int MUL_UP =  -1;
+    public static final int MUL_DOWN = 1;
+    public static final int MUL_LEFT = -1;
+    public static final int MUL_RIGHT = 1;
 
     public Vector2D(double x, double y) {
         this.x = x;
@@ -39,7 +44,7 @@ public class Vector2D {
         return Math.round(Math.random() * (max - min)) + min;
     }
 
-    public static Vector2D chooseRandomWorldPosition(GameCanvas gc, ILoopList<Integer> choiceTiles) {
+    public static Vector2D chooseRandomWorldPosition(GameCanvas gc, List<Integer> choiceTiles) {
         return tileToWorldPosition(gc, chooseRandomTile(gc, choiceTiles));
     }
 
@@ -51,12 +56,9 @@ public class Vector2D {
         return tileToWorldPosition(gc, position[0], position[1]);
     }
 
-    public static int[] chooseRandomTile(GameCanvas gc, ILoopList<Integer> choiceTiles) {
+    public static int[] chooseRandomTile(GameCanvas gc, List<Integer> choiceTiles) {
         int randomIndex = (int) random(0, choiceTiles.size() - 1);
-        for (int i = 0; i < randomIndex; i++) {
-            choiceTiles.shift();
-        }
-        int randomNumber = choiceTiles.get();
+        int randomNumber = choiceTiles.get(randomIndex);
 
         int col, row;
         col = randomNumber % gc.tileM.getMaxWorldCol();
@@ -69,16 +71,17 @@ public class Vector2D {
         double x = Math.random() * 2 - 1;
         double y = Math.random() * 2 - 1;
 
+        assert x != 0 || y != 0 : "Its your lucky day !!!";
         return new Vector2D(x, y).getNormalized();
     }
 
     public static Vector2D getRelatedVector(int direction){
         return switch (direction){
-            case S_ZERO -> ZERO;
-            case S_UP -> UP;
-            case S_DOWN -> DOWN;
-            case S_LEFT -> LEFT;
-            case S_RIGHT -> RIGHT;
+            case INT_ZERO -> ZERO;
+            case INT_UP -> UP;
+            case INT_DOWN -> DOWN;
+            case INT_LEFT -> LEFT;
+            case INT_RIGHT -> RIGHT;
             default -> throw new IllegalStateException("Unexpected value: " + direction);
         };
     }
@@ -91,34 +94,44 @@ public class Vector2D {
         return (int) Math.floor(worldY / tileSize);
     }
 
-    public static int[] getTile(int tileSize, Vector2D position) {
-        int[] tile = new int[2];
+    public static List<Integer> getTile(int tileSize, Vector2D position) {
+        List<Integer> tile = new LinkedList<>();
 
-        tile[0] = getTileX(tileSize, position.getX());
-        tile[1] = getTileY(tileSize, position.getY());
+        tile.add(getTileX(tileSize, position.getX()));
+        tile.add(getTileY(tileSize, position.getY()));
 
         return tile;
     }
 
     public static double getDistance(Vector2D one, Vector2D two) {
-        return two.sub(one).getLength();
+        double dx = one.getX() - two.getX();
+        double dy = one.getY() - two.getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public static boolean isPointInArea(double x, double y, double minX, double minY, double maxX, double maxY){
+        return (x >= minX
+                && x <= maxX
+                && y >= minY
+                && y <= maxY);
     }
 
     public static boolean isPointInArea(Vector2D point, Vector2D topLeftAreaPoint, int width, int height){
-        Vector2D bottomRightAreaPoint = topLeftAreaPoint.add(new Vector2D(width, height));
+        double minX, maxX, minY, maxY;
+        minX = topLeftAreaPoint.getX();
+        maxX = topLeftAreaPoint.getX() + width;
+        minY = topLeftAreaPoint.getY();
+        maxY = topLeftAreaPoint.getY() + height;
 
-        return (point.getX() > topLeftAreaPoint.getX()
-                && point.getX() < bottomRightAreaPoint.getX()
-                && point.getY() > topLeftAreaPoint.getY()
-                && point.getY() < bottomRightAreaPoint.getY());
+        return isPointInArea(point.getX(), point.getY(), minX, minY, maxX, maxY);
     }
 
-    public static boolean isPointInArea(Vector2D point, Vector2D topLeftAreaPoint, Rectangle area){
-        return isPointInArea(point, topLeftAreaPoint.add(new Vector2D(area.x, area.y)), area.width, area.height);
-    }
-
-    public static boolean isPointInArea(Vector2D point, Rectangle area){
-        return isPointInArea(point, new Vector2D(area.x, area.y), area.width, area.height);
+    public static boolean isPointInArea(Vector2D point, Vector2D referencePoint, Rectangle area){
+        return isPointInArea(point.getX(), point.getY(),
+                referencePoint.getX() + area.x,
+                referencePoint.getY() + area.y,
+                referencePoint.getX() + area.width,
+                referencePoint.getY() + area.height);
     }
 
     public double getX() {
@@ -138,51 +151,55 @@ public class Vector2D {
     }
 
     public Vector2D getNormalized() {
-        Vector2D newVector = new Vector2D(this);
+        Vector2D newVector = copy();
         newVector.normalize();
         return newVector;
     }
 
+    public Vector2D getOrthogonal(){
+        return new Vector2D(-getY(), getX());
+    }
+
     public boolean isNormalized() {
-        return Math.abs(getLength() - 1) < 0.0001 || equals(Vector2D.ZERO);
+        return Math.abs(getLength() - 1) < 0.0001;
     }
 
     public int getMainDirection() {
         if (x == 0 && y == 0) {
-            return S_ZERO;
+            return INT_ZERO;
         }
 
         if (Math.abs(x) > Math.abs(y)) {
             if (x > 0) {
-                return S_RIGHT;
+                return INT_RIGHT;
             } else {
-                return S_LEFT;
+                return INT_LEFT;
             }
         } else {
             if (y > 0) {
-                return S_DOWN;
+                return INT_DOWN;
             } else {
-                return S_UP;
+                return INT_UP;
             }
         }
     }
 
-    public ArrayList<Integer> getDirections() {
+    public int[] getDirections() {
         if (x == 0 && y == 0) {
             return null;
         }
 
-        ArrayList<Integer> directions = new ArrayList<>();
+        int[] directions = new int[2];
         if (x > 0) {
-            directions.add(S_RIGHT);
+            directions[0] = INT_RIGHT;
         } else if (x < 0) {
-            directions.add(S_LEFT);
+            directions[0] = INT_LEFT;
         }
 
         if (y > 0) {
-            directions.add(S_DOWN);
+            directions[1] = INT_DOWN;
         } else if (y < 0) {
-            directions.add(S_UP);
+            directions[1] = INT_UP;
         }
 
         return directions;
@@ -196,45 +213,51 @@ public class Vector2D {
         this.y = y;
     }
 
-    public Vector2D add(Vector2D other) {
-        return new Vector2D(x + other.x, y + other.y);
+    public void add(Vector2D other) {
+        x += other.x;
+        y += other.y;
     }
 
-    public Vector2D sub(Vector2D other) {
-        return new Vector2D(x - other.x, y - other.y);
+    public void sub(double x, double y){
+        this.x -= x;
+        this.y -= y;
     }
 
-    public Vector2D mul(double other) {
-        return new Vector2D(x * other, y * other);
+    public void sub(Vector2D other) {
+        sub(other.x, other.y);
     }
 
-    public Vector2D getOrthogonal(){
-        return new Vector2D(-getY(), getX());
+    public void mul(double other) {
+        x *= other;
+        y *= other;
     }
 
     public double dotProduct(Vector2D other) {
         return x * other.getX() + y * other.getY();
     }
 
-    public Vector2D projectTo(Vector2D targetVector) {
+    public Vector2D getProjectionOn(Vector2D targetVector) {
         double dotP = dotProduct(targetVector);
-        return new Vector2D(targetVector.mul(dotP));
+
+        Vector2D newVector = targetVector.copy();
+        newVector.mul(dotP);
+        return newVector;
     }
 
     public Vector2D absProjectTo(Vector2D targetVector){
-        // Keep the main orientation of this (self)
+        // Keep the main orientation of this (self) vector when projecting on targetVector
         double dotP = dotProduct(targetVector);
-        if (dotP > 0){
-            return projectTo(targetVector);
+        Vector2D newVector = getProjectionOn(targetVector);
+        if (dotP < 0){
+            newVector.mul(-1);
         }
-        else {
-            return projectTo(targetVector).mul(-1);
-        }
+        return newVector;
     }
 
-    public Vector2D div(double other){
+    public void div(double other){
         assert other != 0;
-        return new Vector2D(x / other, y / other);
+        x /= other;
+        y /= other;
     }
 
     public void normalize(){

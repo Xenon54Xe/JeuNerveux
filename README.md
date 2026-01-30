@@ -60,3 +60,25 @@ de leur taille, de leur nombre et d'où on veut les positionner</li>
 <ul>
 <li>Système de réutilisation des entités tuées (réutiliser la variable pour réduire le travail du garbage collector)</li>
 </ul>
+
+<h2>Comportements recherchés</h2>
+
+<h3>Entités</h3>
+<ul>
+<li>Toute entité doit faire partie d'un entity group</li>
+<li>Une entité ne peut pas appartenir à plusieurs entity groups</li>
+<li>Il existe un entity group principal où toutes les entités sont par défaut</li>
+<li>Une entité peut être déplacée d'un entity group à un autre</li>
+<li>Les entités sont alors mises à jour à travers leur entity group respectifs</li>
+<li>Les collisions sont gérées à travers les entity groups</li>
+<li>Seuls les entités d'un même entity group génèrent des collisions entre elles</li>
+<li>Il est possible de définir des collisions entre deux entity groups différents</li>
+<li>Les entity group sont mis à jour à travers EntityManager</li>
+<li>Les collisions entre entity groups sont gérées à travers EntityManager</li>
+<li>Une entité ne doit être ajoutée qu'à un entity group pour exister, pas dans EntityManager</li>
+</ul>
+
+<h2>TODO</h2>
+<ul>
+<li>Adapter EntityManager etc pour être compatible avec le fonctionnement par entity group</li>
+</ul>

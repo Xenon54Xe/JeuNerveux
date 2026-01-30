@@ -38,6 +38,16 @@ public class WritableBox extends UIBox implements IUIText, Updatable {
     }
 
     @Override
+    public boolean isActive() {
+        return active;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    @Override
     public void update(){
         if (isShow()) {
             if (gc.mouseH.leftClickClicked) {

@@ -17,9 +17,6 @@ public abstract class LivingEntity extends Entity {
     private int xp;
     private boolean dead;
 
-    // GROUP
-    private int groupID = -1;
-
     public LivingEntity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int health, int waitTimeBeforeAnimation, int xp) {
         super(gc, solidArea, name, speed, width, height, waitTimeBeforeAnimation);
 
@@ -70,14 +67,6 @@ public abstract class LivingEntity extends Entity {
 
     public boolean isDead() {
         return dead;
-    }
-
-    public int getGroupID() {
-        return groupID;
-    }
-
-    public void setGroupID(int groupID) {
-        this.groupID = groupID;
     }
 
     void kill(LivingEntity killer){

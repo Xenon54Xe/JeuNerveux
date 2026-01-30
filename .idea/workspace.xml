@@ -4,64 +4,55 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v1.0.1&#10;feat:&#10;- added files">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Drawable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ArrayList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILoopList.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/BiNode.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/OneNode.java" afterDir="false" />
+    <list default="true" id="fd9682dc-8dfc-4ab1-8544-86cc6a71fda4" name="Changes" comment="v1.0.2&#10;Refactor: Rename interfaces and classes, implement new List and LoopList structures">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/DrawOther.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Manager.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/LeaderEntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/LivingEntityGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentEntityLeftGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentRequestUpdate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/Binode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/Collection.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/LinkedList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/List.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/CollisionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/Drawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Drawable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/GameCanvas.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/IDrawable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ITrackable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Trackable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/SceneryManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/Sound.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Sound.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/Updatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Updatable.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Entity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/EntityManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/IAttackEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/LivingEntity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Animal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Animal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Bear.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Bear.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Cat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Cat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Dog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Dog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Fox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Fox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Mouse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Mouse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rabbit.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rabbit.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rat.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Rat.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Wolf.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/animals/Wolf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/AnimalEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/AnimalEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/EntityGroup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/IEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/IEntityGroup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/entity/group/PlayerEntityGroup.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/IEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/IListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/Listener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/TestListener.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentChangeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentChangeMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/LoadMapManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapCreateManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/event/component/ComponentGroupDead.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/MapDrawerManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/tile/TileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IClickable.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUIText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/IUpdatable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/Updatable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIBoxText.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIDrawVector.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIDrawVector.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIImageButton.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMainMenuManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIOval.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIOval.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UIText.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/UITextButton.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/WritableBox.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/ui/frame/UIFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILinkedList.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/IList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/List.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LoopList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/Node.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLinkedList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLoopList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ArrayList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/ILoopList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/ILoopList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/List.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/LoopList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/LoopList.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/BiNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/Node.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/Node.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Node/OneNode.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/TileLoopList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/collections/TileLoopList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/UtilsTester.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/app/utils/Vector2D.java" afterDir="false" />
     </list>
@@ -76,7 +67,7 @@
     </persistenceIdMap>
   </component>
   <component name="EmbeddingIndexingInfo">
-    <option name="cachedIndexableFilesCount" value="130" />
+    <option name="cachedIndexableFilesCount" value="140" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -283,7 +274,7 @@
       <option name="VM_PARAMETERS" value="-ea" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.example.app.utils.Node.*" />
+          <option name="PATTERN" value="com.example.app.utils.collections.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -616,7 +607,15 @@
       <option name="project" value="LOCAL" />
       <updated>1768929907458</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="v1.0.2&#10;Refactor: Rename interfaces and classes, implement new List and LoopList structures">
+      <option name="closed" value="true" />
+      <created>1769476216021</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1769476216021</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -631,8 +630,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.2.2&#10;feat:&#10;- code refactoring&#10;- better buttons with text&#10;- smarter interfaces" />
-    <MESSAGE value="v0.3.0&#10;feat: &#10;- the screen will never show the outside of the map&#10;- made ITrackable to have more flexibility on which thing we track&#10;- code refactor&#10;- living entities : damage, health..." />
     <MESSAGE value="v0.3.1&#10;feat:&#10;- improved event system" />
     <MESSAGE value="v0.4.0&#10;feat:&#10;- can draw vectors&#10;- can kill entity&#10;- event system refactor&#10;- entity manager&#10;- mouse : can walk around&#10;must:&#10;- improve teh event system to allow one class to listen to every type of event while keeping the specificity of every event" />
     <MESSAGE value="v0.4.1&#10;feat: &#10;- collision checker improved&#10;- xp" />
@@ -655,8 +652,10 @@
     <MESSAGE value="v0.10.0&#10;feat:&#10;- added ui map" />
     <MESSAGE value="v1.0.0-b&#10;feat:&#10;- added map (not optimized : can draw everything to an image.png and draw this image instead of drawing thousands of squares)&#10;- added mouse, rat, rabbit, cat, dog, fox, wolf and bear&#10;- killing the bear means win&#10;- changed designs&#10;bugs:&#10;- congratulations text doesn't disappear after 3 seconds (even if events works)&#10;- when entities want to attack they make the game lag&#10;TODO:&#10;- complete refactor for optimization &amp; visibility / usability" />
     <MESSAGE value="v1.0.0&#10;feat:&#10;- entities no longer target invisible/inexistant entity&#10;- compatible with .jar compiling" />
+    <MESSAGE value="Refactor: Rename interfaces and classes, implement new List and LoopList structures" />
     <MESSAGE value="v1.0.1&#10;feat:&#10;- added files" />
-    <option name="LAST_COMMIT_MESSAGE" value="v1.0.1&#10;feat:&#10;- added files" />
+    <MESSAGE value="v1.0.2&#10;Refactor: Rename interfaces and classes, implement new List and LoopList structures" />
+    <option name="LAST_COMMIT_MESSAGE" value="v1.0.2&#10;Refactor: Rename interfaces and classes, implement new List and LoopList structures" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

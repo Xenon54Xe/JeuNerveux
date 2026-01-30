@@ -4,15 +4,14 @@ import com.example.app.GameCanvas;
 import com.example.app.Trackable;
 import com.example.app.Drawable;
 import com.example.app.Updatable;
-import com.example.app.utils.FileUtils;
-import com.example.app.utils.ILoopList;
-import com.example.app.utils.Vector2D;
+import com.example.app.entity.group.EntityGroup;
+import com.example.app.utils.*;
+import com.example.app.utils.collections.List;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public abstract class Entity implements Updatable, Drawable, Trackable, IEntity {
@@ -26,27 +25,30 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
     // IMAGES
     public BufferedImage left1, left2, right1, right2;
     // IMAGES LOGIC
-    private int drawDirection = Vector2D.S_LEFT;
+    private int drawDirection = Vector2D.INT_LEFT;
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private final int waitTimeBeforeAnimation;
 
     // CLASS VARIABLES
-    private Rectangle solidArea;
+    private final Rectangle solidArea;
     private final String name;
     private int speed;
     private final int width, height;
     private final int id;
 
     // MOVEMENT
-    private Vector2D worldPosition = Vector2D.ZERO;
-    private Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
+    private final Vector2D worldPosition = Vector2D.ZERO;
+    private final Vector2D moveDirectionVector = Vector2D.DOWN; // Must be normalized before used in movement
 
     // STATUS
     private boolean show = true;
     private boolean active = true;
     private boolean avoidWall;
-    private boolean ownBehavior = true;
+    private boolean moveSpontaneously = true;
+
+    // GROUP
+    private int groupID = EntityGroup.NULL_GROUP_ID;
 
     public Entity(GameCanvas gc, Rectangle solidArea, String name, int speed, int width, int height, int waitTimeBeforeAnimation){
         this.gc = gc;
@@ -63,6 +65,15 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
         // ID
         id = NEXT_ID++;
     }
+
+    public int getGroupID() {
+        return groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
 
     public String getName() {
         return name;
@@ -115,16 +126,18 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
     }
 
     public void updateDrawDirection(){
-        ArrayList<Integer> directions = moveDirectionVector.getDirections();
+        int[] directions = moveDirectionVector.getDirections();
         if (directions == null){
             return;
         }
 
-        for (int direction : directions){
-            if (direction == Vector2D.S_LEFT){
-                setDrawDirection(Vector2D.S_LEFT);
-            } else if (direction == Vector2D.S_RIGHT) {
-                setDrawDirection(Vector2D.S_RIGHT);
+        for (int i = 0; i < directions.length; i++) {
+            int direction = directions[i];
+
+            if (direction == Vector2D.INT_LEFT){
+                setDrawDirection(Vector2D.INT_LEFT);
+            } else if (direction == Vector2D.INT_RIGHT) {
+                setDrawDirection(Vector2D.INT_RIGHT);
             }
         }
     }
@@ -147,15 +160,24 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
         return worldPosition;
     }
 
+    @Deprecated
     public Vector2D getWorldTopLeftPosition(){
-        return getWorldPosition().sub(new Vector2D(width / 2.0, height / 2.0));
+        Vector2D vector2D = getWorldPosition().copy();
+        vector2D.sub(width / 2.0, height / 2.0);
+        return vector2D;
     }
 
-    public void setWorldPosition(Vector2D worldPosition) {
-        this.worldPosition = worldPosition;
+    public void setWorldPosition(Vector2D position) {
+        worldPosition.setX(position.getX());
+        worldPosition.setY(position.getY());
     }
 
-    public void setRandomTilePosition(ILoopList<Integer> choiceTiles){
+    public void setWorldPosition(double x, double y) {
+        worldPosition.setX(x);
+        worldPosition.setY(y);
+    }
+
+    public void setRandomTilePosition(List<Integer> choiceTiles){
         setTilePosition(Vector2D.chooseRandomTile(gc, choiceTiles));
     }
 
@@ -169,12 +191,20 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
         return worldPosition.getY();
     }
 
-    public double getTopLeftWorldX(){
+    public double getLeft(){
         return getWorldX() - width / 2.0;
     }
 
-    public double getTopLeftWorldY(){
+    public double getTop(){
         return getWorldY() - height / 2.0;
+    }
+
+    public double getRight(){
+        return getWorldX() + width / 2.0;
+    }
+
+    public double getBottom(){
+        return getWorldY() + height / 2.0;
     }
 
     public int getScreenX() {
@@ -183,10 +213,6 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
 
     public int getScreenY() {
         return Drawable.super.getScreenY(gc.tracked, (int)getWorldY());
-    }
-
-    public Vector2D getScreenPosition(){
-        return new Vector2D(getScreenX(), getScreenY());
     }
 
     public int getCameraWorldX(){
@@ -208,15 +234,11 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
     }
 
     public void setTilePosition(int col, int row){
-        setWorldPosition(new Vector2D(gc.TILE_SIZE * col + getWidth() / 2.0, gc.TILE_SIZE * row + getHeight() / 2.0));
+        setWorldPosition(gc.TILE_SIZE * col + getWidth() / 2.0, gc.TILE_SIZE * row + getHeight() / 2.0);
     }
 
     public void setTilePosition(int[] position){
-        setTilePosition(position[0], position[1]);
-    }
-
-    public void setTilePosition(Vector2D position){
-        setTilePosition((int)position.getX(), (int)position.getY());
+        setWorldPosition(position[0], position[1]);
     }
 
     public int getSpeed() {
@@ -241,20 +263,32 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
     }
 
     public Vector2D getNextMoveVector(double dt){
-        return moveDirectionVector.mul(getSpeed() * dt);
+        Vector2D vector2D = moveDirectionVector.copy();
+        vector2D.mul(getSpeed() * dt);
+        return vector2D;
     }
 
-    public void setMoveDirectionVector(Vector2D moveDirectionVector) {
+    public void setMoveDirectionVector(Vector2D vector){
+        moveDirectionVector.setX(vector.getX());
+        moveDirectionVector.setY(vector.getY());
         assert moveDirectionVector.isNormalized();
-        this.moveDirectionVector = moveDirectionVector;
+    }
+
+    public void setMoveDirectionVector(double x, double y){
+        moveDirectionVector.setX(x);
+        moveDirectionVector.setY(y);
+        assert moveDirectionVector.isNormalized();
     }
 
     public Rectangle getSolidArea() {
         return solidArea;
     }
 
-    public void setSolidArea(Rectangle solidArea) {
-        this.solidArea = solidArea;
+    public void setSolidArea(int x, int y, int width, int height) {
+        solidArea.x = x;
+        solidArea.y = y;
+        solidArea.width = width;
+        solidArea.height = height;
     }
 
     public boolean mouseOver() {
@@ -277,12 +311,12 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
         this.avoidWall = avoidWall;
     }
 
-    public boolean isOwnBehavior() {
-        return ownBehavior;
+    public boolean isMoveSpontaneously() {
+        return moveSpontaneously;
     }
 
-    public void setOwnBehavior(boolean ownBehavior) {
-        this.ownBehavior = ownBehavior;
+    public void setMoveSpontaneously(boolean moveSpontaneously) {
+        this.moveSpontaneously = moveSpontaneously;
     }
 
     public int getWaitTimeBeforeAnimation() {
@@ -297,7 +331,7 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
             // CHOOSE THE NEXT IMAGE
             int drawDirection = getDrawDirection();
             switch (drawDirection) {
-                case Vector2D.S_UP -> {
+                case Vector2D.INT_UP -> {
                     if (getSpriteNum() == 1) {
                         image = getSprite("up1");
                     }
@@ -305,7 +339,7 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
                         image = getSprite("up2");
                     }
                 }
-                case Vector2D.S_DOWN -> {
+                case Vector2D.INT_DOWN -> {
                     if (getSpriteNum() == 1) {
                         image = getSprite("down1");
                     }
@@ -313,7 +347,7 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
                         image = getSprite("down2");
                     }
                 }
-                case Vector2D.S_LEFT -> {
+                case Vector2D.INT_LEFT -> {
                     if (getSpriteNum() == 1) {
                         image = getSprite("left1");
                     }
@@ -321,7 +355,7 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
                         image = getSprite("left2");
                     }
                 }
-                case Vector2D.S_RIGHT -> {
+                case Vector2D.INT_RIGHT -> {
                     if (getSpriteNum() == 1) {
                         image = getSprite("right1");
                     }
@@ -338,22 +372,24 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
 
     private void move(Vector2D vector2D) {
         // Make the entity move using its moveVectorDirection
-        worldPosition = worldPosition.add(vector2D);
+        worldPosition.add(vector2D);
     }
 
     public void move(double dt) {
         // Anticipate collisions
-        Vector2D correctedMoveVector = gc.cChecker.checkTile(this, getNextMoveVector(dt)); // Disable moving if collisions will happen
+        Vector2D moveVector = getNextMoveVector(dt);
+        gc.cChecker.checkTile(this, moveVector); // Disable moving if collisions will happen
 
-        move(correctedMoveVector);
+        move(moveVector);
     }
 
-    public void move(ArrayList<Entity> entities, double dt){
+    public void move(List<Entity> entities, double dt){
         // Anticipate collisions with entities
-        Vector2D correctedMoveVector = gc.cChecker.checkTile(this, getNextMoveVector(dt)); // Disable moving if collisions will happen
-        correctedMoveVector = gc.cChecker.checkEntity(entities, this, correctedMoveVector);
+        Vector2D moveVector = getNextMoveVector(dt);
+        gc.cChecker.checkTile(this, moveVector); // Disable moving if collisions will happen
+        gc.cChecker.checkEntity(entities, this, moveVector);
 
-        move(correctedMoveVector);
+        move(moveVector);
     }
 
     public boolean equals(Entity other) {
@@ -368,7 +404,6 @@ public abstract class Entity implements Updatable, Drawable, Trackable, IEntity 
 
     @Override
     public void setDrawRule(int drawRule) {
-
     }
 
     @Override

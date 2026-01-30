@@ -12,9 +12,10 @@ import com.example.app.tile.LoadMapManager;
 import com.example.app.tile.MapCreateManager;
 import com.example.app.tile.MapDrawerManager;
 import com.example.app.ui.frame.UIFrame;
+import com.example.app.utils.collections.List;
+import com.example.app.utils.collections.LinkedList;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 /**
  * If an ui object should be updatable, then implements IUpdatable
@@ -31,11 +32,13 @@ public class UIManager implements Listener, Updatable {
     private boolean mouseOverUI;
 
     // Elements
-    private final ArrayList<Drawable> uiObjects = new ArrayList<>();
-    private final ArrayList<Updatable> updatableUIObjects = new ArrayList<>();
+    private final List<UIFrame> uiFrames = new LinkedList<>();
+    private final List<UIFrame> toAddBuffer = new LinkedList<>();
+    private final List<UIFrame> toRemoveBuffer = new LinkedList<>();
 
-    // UI MAP
-    public final UIMap uiMap;
+//    // UI MAP
+//    public final UIMap uiMap;
+
     // MAIN MENU
     private UIFrame mainMenu;
     private boolean isInitMainMenu = false;
@@ -48,11 +51,11 @@ public class UIManager implements Listener, Updatable {
 
         arial_tile_size = new Font("Arial", Font.PLAIN, gc.TILE_SIZE / 2);
 
-        // UI
-        uiMap = new UIMap(gc, "map", gc.SCREEN_WIDTH, 0, gc.TILE_SIZE * 4, gc.TILE_SIZE * 4);
-        uiMap.setDrawRule(UIObject.DRAW_TOP_RIGHT);
-        //uiMap.setShow(true);
-        addUIObject(uiMap);
+//        // UI
+//        uiMap = new UIMap(gc, "map", gc.SCREEN_WIDTH, 0, gc.TILE_SIZE * 4, gc.TILE_SIZE * 4);
+//        uiMap.setDrawRule(UIObject.DRAW_TOP_RIGHT);
+//        //uiMap.setShow(true);
+//        addFrame(uiMap);
 
         // EVENT
         register();
@@ -62,42 +65,71 @@ public class UIManager implements Listener, Updatable {
         return mouseOverUI;
     }
 
-    public void addUIObject(UIObject uiObject){
-
-        if (uiObject instanceof Updatable updatable) {
-            updatableUIObjects.add(updatable);
-        }
-        uiObjects.add(uiObject);
+    public void setMouseOverUI() {
+        mouseOverUI = true;
     }
 
-    public boolean removeUIObject(UIObject uiObject){
+    private void addFrame(UIFrame uiFrame){
+        uiFrames.add(uiFrame);
+    }
 
-        if (uiObject instanceof Updatable updatable) {
-            updatableUIObjects.remove(updatable);
-        }
-        return uiObjects.remove(uiObject);
+    public void safeAddFrame(UIFrame uiFrame){
+        toAddBuffer.add(uiFrame);
+    }
+
+    private void removeFrame(UIFrame uiFrame) {
+        uiFrames.remove(uiFrame);
+    }
+
+    public void safeRemoveFrame(UIFrame uiFrame){
+        toRemoveBuffer.add(uiFrame);
+    }
+
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
     }
 
     public void update(){
-        // For updatable objects
-        for (Updatable updatable : updatableUIObjects){
-            updatable.update();
-        }
+        if (isActive()) {
+            // REMOVE BUFFER
+            for (UIFrame uiFrame : toRemoveBuffer) {
+                removeFrame(uiFrame);
+            }
+            toRemoveBuffer.clear();
 
-        // INIT MAIN MENU
-        if (!isInitMainMenu){
-            initMainMenu();
-            isInitMainMenu = true;
-        }
+            // ADD BUFFER
+            for (UIFrame uiFrame : toAddBuffer) {
+                addFrame(uiFrame);
+            }
+            toAddBuffer.clear();
 
-        // MAIN MENU
-        if (gc.keyH.getLastKeyCode() == KeyHandler.ESCAPE){
-            setShow(!mainMenu.isShow());
+            // UPDATE FRAMES
+            mouseOverUI = false;
+            for (UIFrame uiFrame : uiFrames){
+                uiFrame.update();
+            }
 
-            if (gc.gameState == GameCanvas.PLAY_STATE){
-                gc.gameState = GameCanvas.PAUSE_STATE;
-            }else if (gc.gameState == GameCanvas.PAUSE_STATE){
-                gc.gameState = GameCanvas.PLAY_STATE;
+            // INIT MAIN MENU
+            if (!isInitMainMenu) {
+                initMainMenu();
+                isInitMainMenu = true;
+            }
+
+            // MAIN MENU
+            if (gc.keyH.getLastKeyCode() == KeyHandler.ESCAPE) {
+                setShow(!mainMenu.isShow());
+
+                if (gc.gameState == GameCanvas.PLAY_STATE) {
+                    gc.gameState = GameCanvas.PAUSE_STATE;
+                } else if (gc.gameState == GameCanvas.PAUSE_STATE) {
+                    gc.gameState = GameCanvas.PLAY_STATE;
+                }
             }
         }
     }
@@ -159,32 +191,27 @@ public class UIManager implements Listener, Updatable {
 
         mainMenu.setShow(true);
     }
+
     private void hideAll(){
         gc.loadMapM.setShow(false);
         gc.mapDrawerM.setShow(false);
         gc.mapCreateM.setShow(false);
     }
+
     public void setShow(boolean active){
         hideAll();
         mainMenu.setShow(active);
     }
 
-    private void drawUI(Graphics2D g2, ArrayList<Drawable> uiObjects){
-        for (Drawable object : uiObjects){
-            object.draw(g2);
-            if (!mouseOverUI && object.isMouseOver()){
-                mouseOverUI = true;
-            }
-        }
-    }
 
     public void draw(Graphics2D g2){
 
         g2.setFont(arial_tile_size);
         g2.setColor(Color.WHITE);
 
-        mouseOverUI = false;
-        drawUI(g2, uiObjects); // Test also if mouse over ui
+        for (UIFrame uiFrame : uiFrames){
+            uiFrame.draw(g2);
+        }
     }
 
     @Override

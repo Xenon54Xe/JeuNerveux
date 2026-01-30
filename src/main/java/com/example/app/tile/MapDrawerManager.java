@@ -81,7 +81,7 @@ public class MapDrawerManager implements Listener {
 
             if (updateCount <= 0){
                 updateCount = updateDelay;
-                gc.uiM.uiMap.initMap(gc.tileM.tileMap);
+                //gc.uiM.uiMap.initMap(gc.tileM.tileMap);
             }
             updateCount--;
         }

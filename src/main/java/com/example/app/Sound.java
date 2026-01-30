@@ -17,7 +17,6 @@ public class Sound {
     Clip clip;
     URL[] soundURL = new URL[30];
 
-
     public Sound() {
 
         soundURL[INTRO_SCENE] = getClass().getResource("/sounds/introscene.wav");

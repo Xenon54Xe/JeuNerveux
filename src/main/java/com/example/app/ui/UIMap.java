@@ -4,7 +4,7 @@ import com.example.app.GameCanvas;
 import com.example.app.entity.LivingEntity;
 import com.example.app.tile.Tile;
 import com.example.app.tile.TileMap;
-import com.example.app.utils.ILoopList;
+import com.example.app.utils.collections.ILoopList;
 
 import java.awt.*;
 import java.util.ArrayList;

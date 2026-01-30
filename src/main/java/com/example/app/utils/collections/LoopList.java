@@ -1,10 +1,8 @@
-package com.example.app.utils;
-
-import com.example.app.utils.Node.BiNode;
+package com.example.app.utils.collections;
 
 public class LoopList<E> implements ILoopList<E> {
 
-    private BiNode<E> root;
+    private Binode<E> root;
     private int size;
     private int currentIndex;
 
@@ -15,13 +13,14 @@ public class LoopList<E> implements ILoopList<E> {
         currentIndex = -1;
     }
 
-    public LoopList(E value){
-        root = new BiNode<>(value);
-        root.next = root;
-        root.prev = root;
+    @SafeVarargs
+    public LoopList(E... values){
+        root = null;
 
-        size = 1;
-        currentIndex = 0;
+        size = 0;
+        currentIndex = -1;
+
+        addAll(values);
     }
 
     @Override
@@ -39,7 +38,7 @@ public class LoopList<E> implements ILoopList<E> {
 
     @Override
     public E get(boolean shift, boolean reverse) {
-        E value = root.value;
+        E value = root.data;
         if (shift){
             shift(reverse);
         }
@@ -49,15 +48,15 @@ public class LoopList<E> implements ILoopList<E> {
     @Override
     public void add(E value){
         if (size == 0){
-            root = new BiNode<>(value);
+            root = new Binode<>(value);
             root.next = root;
             root.prev = root;
             size = 1;
             currentIndex = 0;
         }
         else {
-            BiNode<E> newBiNode = new BiNode<>(root.value);
-            root.value = value;
+            Binode<E> newBiNode = new Binode<>(root.data);
+            root.data = value;
 
             newBiNode.next = root.next;
             newBiNode.prev = root;
@@ -101,11 +100,9 @@ public class LoopList<E> implements ILoopList<E> {
             return false;
         }
 
-        for (int i = 0; i < size; i++){
-            if (root.value.equals(value)){
-                return remove();
-            }
-            shift();
+        if (contains(value)){
+            remove();
+            return true;
         }
 
         return false;

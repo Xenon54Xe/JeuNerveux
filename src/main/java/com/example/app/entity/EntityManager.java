@@ -1,115 +1,191 @@
 package com.example.app.entity;
 
+import com.example.app.DrawOther;
 import com.example.app.GameCanvas;
+import com.example.app.Manager;
+import com.example.app.Updatable;
 import com.example.app.entity.group.EntityGroup;
-import com.example.app.event.*;
-import com.example.app.event.component.ComponentChangeMap;
-import com.example.app.event.component.ComponentEntityDead;
-import com.example.app.event.component.ComponentGroupDead;
-import com.example.app.event.component.IEventComponent;
-import com.example.app.utils.ILoopList;
-import com.example.app.utils.LoopList;
+import com.example.app.entity.group.IEntityGroup;
+import com.example.app.entity.group.LeaderEntityGroup;
+import com.example.app.utils.Vector2D;
+import com.example.app.utils.collections.List;
+import com.example.app.utils.collections.LinkedList;
 
 import java.awt.*;
 
-public class EntityManager implements Listener {
+public class EntityManager implements Manager, DrawOther, Updatable {
 
     final GameCanvas gc;
 
     // CLASS VARIABLES
-    public final ILoopList<LivingEntity> entitiesToAdd = new LoopList<>();
-    public final ILoopList<LivingEntity> livingEntities = new LoopList<>();
-    private final ILoopList<LivingEntity> entitiesToRemove = new LoopList<>();
+    // Entity group managment
+    private IEntityGroup defaultGroup;
+    private final List<IEntityGroup> groups;
+    private final List<IEntityGroup> toAddBuffer = new LinkedList<>();
+    private final List<IEntityGroup> toRemoveBuffer = new LinkedList<>();
+
+    // Gather empty groups
+    private final int gatherEmptyGroupsDelay = 180;
+    private int gatherEmptyGroupsCounter = 0;
 
     public Player player;
 
     public EntityManager(GameCanvas gc){
         this.gc = gc;
 
-        // EVENT
-        register();
+        groups = new LinkedList<>();
+    }
+
+    public void init(){
+        // Groups MANAGMENT
+        defaultGroup = new EntityGroup(gc);
+        groups.add(defaultGroup);
     }
 
     public void setPlayer(Player player) {
         this.player = player;
     }
 
-    public void addEntity(LivingEntity entity){
-        livingEntities.add(entity);
+    public List<Entity> getAloneEntities() {
+        return defaultGroup.getEntities();
     }
 
-    public void safeAddEntity(LivingEntity entity){
-        entitiesToAdd.add(entity);
+    public void addEntity(Entity entity){
+        defaultGroup.safeAddEntity(entity);
     }
 
-    private void removeEntity(LivingEntity entity){
-        livingEntities.remove(entity);
+    public void removeEntity(Entity entity){
+        defaultGroup.safeRemoveEntity(entity);
     }
 
-    public void safeRemoveEntity(LivingEntity entity){
-        // Add the com.example.app.entity to the list of com.example.app.entity to remove
-        if (!entitiesToRemove.contains(entity)) {
-            entitiesToRemove.add(entity);
-        }
+    void addGroup(EntityGroup group){
+        assert !groups.contains(group);
+        groups.add(group);
+    }
+
+    public void safeAddGroup(EntityGroup group){
+        toAddBuffer.add(group);
+    }
+
+    void removeGroup(EntityGroup group){
+        assert groups.remove(group);
+    }
+
+    public void safeRemoveGroup(EntityGroup group){
+        toRemoveBuffer.add(group);
     }
 
     public void safeRemoveAllEntities(){
-        for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.get(true).softKill(null);
+        for (IEntityGroup group : groups){
+            group.safeRemoveAllEntities();
         }
     }
 
-    public void trackPlayer(){
-        if (player != null) {
-            gc.tracked = player;
-        }
+    public List<IEntityGroup> getGroups(){
+        return groups;
     }
 
-    public void trackRandom() {
-        for (int i = 0; i < livingEntities.size(); i++){
-            LivingEntity entity = livingEntities.get(true);
-            if (entity != gc.tracked && !entitiesToRemove.contains(entity)){
-                gc.tracked = entity;
-                return;
+    public void trackFirstFound() {
+        for (IEntityGroup group : groups){
+            if (group instanceof LeaderEntityGroup leaderEntityGroup){
+                LivingEntity master = leaderEntityGroup.getMaster();
+                if (master != null){
+                    gc.setTracked(master);
+                    return;
+                }
             }
         }
     }
 
-    public void regenAllEntities(){
-        for (int i = 0; i < livingEntities.size(); i++) {
-            LivingEntity entity = livingEntities.get(true);
-            entity.setHealth(entity.getMaxHealth());
+    public void regenerateAllEntities(){
+        for (IEntityGroup group : groups){
+            for (Entity entity : group.getEntities()){
+                if (entity instanceof LivingEntity livingEntity){
+                    livingEntity.setHealth(livingEntity.getMaxHealth());
+                }
+            }
         }
     }
 
+    public LivingEntity getNearestLivingEntity(Entity entity, Vector2D position){
+        if (groups.isEmpty()){
+            return null;
+        }
+
+        // Search for nearest group
+        double lowestDistance = Double.POSITIVE_INFINITY;
+        LeaderEntityGroup nearestGroup = null;
+        for (IEntityGroup group : groups) {
+            if (group.getID() == entity.getGroupID()) {
+                continue;
+            }
+
+            if (group instanceof LeaderEntityGroup leaderEntityGroup) {
+                if (leaderEntityGroup.getMaster() == null) {
+                    continue;
+                }
+                double distance = position.getDistance(leaderEntityGroup.getMaster().getWorldPosition());
+                if (distance < lowestDistance) {
+                    lowestDistance = distance;
+                    nearestGroup = leaderEntityGroup;
+                }
+            }
+        }
+
+        // Search for nearest entity in the nearest group
+        LivingEntity nearestEntity = null;
+        if (nearestGroup != null) {
+            lowestDistance = Double.POSITIVE_INFINITY;
+            for (Entity other : nearestGroup.getEntities()) {
+                if (other instanceof LivingEntity livingEntity) {
+                    double distance = position.getDistance(livingEntity.getWorldPosition());
+                    if (distance < lowestDistance) {
+                        lowestDistance = distance;
+                        nearestEntity = livingEntity;
+                    }
+                }
+            }
+        }
+
+        return nearestEntity;
+    }
+
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    @Override
+    public boolean isShow() {
+        return true;
+    }
+
+    @Override
+    public void setShow(boolean show) {
+
+    }
+
+    @Override
     public void update(){
-        // Remove entities
-        if (!entitiesToRemove.isEmpty()) {
-            for (int i = 0; i < entitiesToRemove.size(); i++) {
-                removeEntity(entitiesToRemove.get(true));
-            }
-            entitiesToRemove.clear();
+
+        if (!isActive()){
+            return;
         }
 
-        // Add entities
-        if (!entitiesToAdd.isEmpty()) {
-            livingEntities.addAll(entitiesToAdd.toArray());
-            entitiesToAdd.clear();
-        }
-
-        // Update entities
-        for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.get(true).update();
-        }
-
-        if (gc.keyH.fClicked){
-            trackRandom();
-        }
-        if (gc.keyH.gClicked){
-            trackPlayer();
-        }
         if(gc.keyH.rClicked && gc.editorMode){
-            regenAllEntities();
+            regenerateAllEntities();
+        }
+
+        // Update groups
+        if (gc.gameState == GameCanvas.PLAY_STATE) {
+            for (IEntityGroup group : groups) {
+                group.update();
+            }
         }
 
         // Update ui map
@@ -117,46 +193,10 @@ public class EntityManager implements Listener {
     }
 
     public void draw(Graphics2D g2){
-        if (player != null) {
-            livingEntities.setRoot(player);
-            livingEntities.shift();
-        }
-
-        for (int i = 0; i < livingEntities.size(); i++){
-            livingEntities.get(true).draw(g2);
-        }
-    }
-
-    @Override
-    public void onTrigger(IEventComponent component) {
-        if (component instanceof ComponentEntityDead edComponent) {
-            LivingEntity deadEntity = edComponent.deadEntity();
-
-            safeRemoveEntity(deadEntity);
-
-            if (deadEntity.equals(gc.tracked)) {
-                trackRandom();
-            }
-
-            if (player != null && deadEntity.equals(player)){
-                player = null;
+        if (isShow()) {
+            for (IEntityGroup group : groups) {
+                group.draw(g2);
             }
         }
-        if (component instanceof ComponentChangeMap cmComponent){
-            for (int i = 0; i < livingEntities.size(); i++){
-                livingEntities.get(true).setRandomTilePosition(cmComponent.spawnableTiles());
-            }
-        }
-        if (component instanceof ComponentGroupDead(EntityGroup group)){
-            for (LivingEntity entity : group.entities){
-                removeEntity(entity);
-            }
-        }
-    }
-
-    @Override
-    public void register() {
-        gc.eventChangeMap.addListener(this);
-        gc.eventEntityDead.addListener(this);
     }
 }

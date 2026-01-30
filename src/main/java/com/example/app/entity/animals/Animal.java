@@ -1,7 +1,6 @@
 package com.example.app.entity.animals;
 
 import com.example.app.GameCanvas;
-import com.example.app.entity.Entity;
 import com.example.app.entity.IAttackEntity;
 import com.example.app.entity.LivingEntity;
 import com.example.app.utils.Vector2D;
@@ -26,7 +25,8 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
         this.reach = reach;
         this.damage = damage;
 
-        setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
+        Vector2D random = Vector2D.getRandomVectorNormalized();
+        setMoveDirectionVector(random.getX(), random.getY());
         initImages();
         setAvoidWall(true);
     }
@@ -41,7 +41,7 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
 
     void initImages(){}
 
-    public void baseBehavior(){
+    public void moveSpontaneously(){
         // MOUSE BEHAVIOR
         if (behaviorCount <= 0){
             behaviorCount = 20;
@@ -49,8 +49,14 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
             double amount = (Math.random() - 0.5) / 2 ;
 
             Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
+            orthogonalVector.mul(amount);
 
-            setMoveDirectionVector(getMoveDirectionVector().add(orthogonalVector.mul(amount)).getNormalized());
+            double x, y, length;
+            x = orthogonalVector.getX();
+            y = orthogonalVector.getY();
+            length = Math.sqrt(x * x + y * y);
+
+            setMoveDirectionVector(x / length, y / length);
             updateDrawDirection();
         }
         behaviorCount--;
@@ -62,8 +68,8 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
     @Override
     public void attack() {
         if(attackTimer <= 0) {
-            boolean succes = attackFirstNearEnoughEntity(this, gc.entityM.livingEntities, reach, damage);
-            if(succes) {
+            boolean success = attackFirstNearEnoughEntity(this, gc.entityM.getAloneEntities(), reach, damage);
+            if(success) {
                 attackTimer = 20;
             }
         }
@@ -78,8 +84,8 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
         if (isActive()){
             super.update();
 
-            if (isOwnBehavior()){
-                baseBehavior();
+            if (isMoveSpontaneously()){
+                moveSpontaneously();
             }
 
             attack();

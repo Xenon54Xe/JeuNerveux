@@ -26,13 +26,19 @@ public class UITextButton extends UIBoxText implements Updatable {
         mouseMH = gc.mouseMH;
     }
 
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
+    @Override
     public void setActive(boolean active) {
         this.active = active;
     }
 
     @Override
     public void update() {
-        if (active && isShow()) {
+        if (isActive() && isShow()) {
             if (mouseOver() && mouseH.leftClickClicked) {
                 eventUIClick.trigger(new ComponentUIClick(this, ComponentUIClick.LEFT_BUTTON));
             }

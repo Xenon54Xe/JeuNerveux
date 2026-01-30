@@ -3,6 +3,9 @@ package com.example.app.tile;
 import com.example.app.GameCanvas;
 import com.example.app.event.component.ComponentChangeMap;
 import com.example.app.utils.*;
+import com.example.app.utils.collections.List;
+import com.example.app.utils.collections.LinkedList;
+import com.example.app.utils.collections.TileLoopList;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -23,7 +26,7 @@ public class TileManager {
     public TileMap tileMap;
 
     // If the map is 50x50 the 50th com.example.app.tile will be nbCol=0, nbRow = 1...
-    public ILoopList<Integer> spawnableTiles = new LoopList<>();
+    public List<Integer> spawnableTiles = new LinkedList<>();
 
     // LOAD MAP LATER
     private boolean willLoadMap = false;
@@ -144,8 +147,8 @@ public class TileManager {
 
         gc.eventChangeMap.trigger(new ComponentChangeMap(mapName, spawnableTiles));
 
-        // MAP
-        gc.uiM.uiMap.initMap(tileMap);
+//        // MAP
+//        gc.uiM.uiMap.initMap(tileMap);
     }
 
     public void setTileMapNum(int[][][] tileMapNum) {
@@ -162,8 +165,9 @@ public class TileManager {
     public void draw(Graphics2D g2){
         assert tileMap != null;
 
-        double cameraWorldX = gc.tracked.getCameraWorldX();
-        double cameraWorldY = gc.tracked.getCameraWorldY();
+        double cameraWorldX, cameraWorldY;
+        cameraWorldX = gc.tracked.getCameraWorldX();
+        cameraWorldY = gc.tracked.getCameraWorldY();
 
         int startWorldCol, endWorldCol, startWorldRow, endWorldRow;
         startWorldCol = Math.max(

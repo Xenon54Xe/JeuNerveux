@@ -1,227 +1,153 @@
 package com.example.app.entity.group;
 
 import com.example.app.GameCanvas;
-import com.example.app.entity.LivingEntity;
-import com.example.app.entity.animals.*;
-import com.example.app.event.*;
-import com.example.app.event.component.ComponentEntityDead;
-import com.example.app.event.component.ComponentGroupDead;
-import com.example.app.event.component.IEventComponent;
-import com.example.app.Updatable;
-import com.example.app.utils.Vector2D;
+import com.example.app.entity.Entity;
+import com.example.app.event.component.ComponentEntityLeftGroup;
+import com.example.app.utils.collections.List;
+import com.example.app.utils.collections.LinkedList;
 
-import java.util.ArrayList;
+import java.awt.*;
 
-public abstract class EntityGroup implements Listener, IEntityGroup, Updatable {
+public class EntityGroup implements IEntityGroup {
 
     final GameCanvas gc;
 
     // STATIC
+    public static final int NULL_GROUP_ID = -1;
     private static int NEXT_ID = 0;
+    public final int id;
 
     // CLASS VARIABLES
-    public final int id;
-    private LivingEntity master = null;
-
-    public final ArrayList<LivingEntity> entities = new ArrayList<>();
-    private final ArrayList<LivingEntity> entitiesToRemove = new ArrayList<>();
-    private int removeCount = 0;
-    private int entityCount = 0;
-
-    // ANIMAL TYPE
-    public int animalType = -1;
+    public final List<Entity> entities = new LinkedList<>();
+    private final List<Entity> toAddBuffer = new LinkedList<>();
+    private final List<Entity> toRemoveBuffer = new LinkedList<>();
+    private boolean show = true;
+    private boolean active = true;
 
     public EntityGroup(GameCanvas gc){
         id = NEXT_ID++;
 
         this.gc = gc;
+
+        gc.entityM.safeAddGroup(this);
     }
 
-    @Override
     public int getID() {
         return id;
     }
 
-    @Override
-    public LivingEntity getMaster() {
-        return master;
-    }
-
-    public void setMaster(LivingEntity entity){
-        entity.setOwnBehavior(true);
-        master = entity;
-    }
-
-    public LivingEntity intToEntity(int i){
-        return switch (i){
-            case 0 -> new Mouse(gc, "mouse");
-            case 1 -> new Rat(gc, "rat");
-            case 2 -> new Rabbit(gc, "rabbi");
-            case 3 -> new Cat(gc, "cat");
-            case 4 -> new Dog(gc, "dog");
-            case 5 -> new Fox(gc, "fox");
-            case 6 -> new Wolf(gc, "wolf");
-            case 7 -> new Bear(gc, "bear");
-            default -> throw new IllegalStateException("Unexpected value: " + i);
-        };
-    }
-
-    public int entityToInt(LivingEntity entity){
-        if (entity instanceof Mouse){
-            return 0;
-        } else if (entity instanceof Rat) {
-            return 1;
-        } else if (entity instanceof Rabbit) {
-            return 2;
-        } else if (entity instanceof Cat) {
-            return 3;
-        } else if (entity instanceof Dog) {
-            return 4;
-        } else if (entity instanceof Fox) {
-            return 5;
-        } else if (entity instanceof Wolf) {
-            return 6;
-        } else if (entity instanceof Bear) {
-            return 7;
-        }else {
-            return -1;
-        }
-    }
-
-    @Override
-    public void addEntity(LivingEntity entity){
-        if (animalType == -1){
-            animalType = entityToInt(entity);
-        }
+    void addEntity(Entity entity){
+        assert entity.getGroupID() == -1 : "Entity already belongs to a group";
 
         entity.setGroupID(id);
-        entity.setOwnBehavior(false);
-
-        gc.entityM.safeAddEntity(entity);
-
         entities.add(entity);
-        entityCount++;
+    }
 
-        if (master == null){
-            setMaster(entity);
+    public void safeAddEntity(Entity entity){
+        toAddBuffer.add(entity);
+    }
+
+    void removeEntity(Entity entity){
+        assert entities.remove(entity);
+
+        entity.setGroupID(-1);
+        gc.eventEntityLeavedGroup.trigger(new ComponentEntityLeftGroup(entity));
+    }
+
+    public void safeRemoveEntity(Entity entity){
+        toRemoveBuffer.add(entity);
+    }
+
+    public void safeRemoveAllEntities(){
+        for(Entity entity : entities){
+            if (!toRemoveBuffer.contains(entity)){
+                toRemoveBuffer.add(entity);
+            }
         }
     }
 
-    public boolean removeEntity(LivingEntity entity){
-        if (entities.remove(entity)){
-            entityCount--;
-            if (entity.equals(master) && entityCount > 0){
-                master = entities.getFirst();
-            }
-
-            if (entityCount == 0) {
-                killGroup();
-            }
-            return true;
-        }
-        return false;
-    }
-
-    @Override
-    public void safeRemoveEntity(LivingEntity entity){
-        entitiesToRemove.add(entity);
-        removeCount = 2;
-    }
-
-    @Override
-    public void killGroup(){
-        gc.eventGroupDead.trigger(new ComponentGroupDead(this));
-    }
-
-    @Override
-    public boolean contains(LivingEntity entity){
+    public boolean contains(Entity entity){
         return entities.contains(entity);
     }
 
-    public LivingEntity getWeekest(){
-        LivingEntity weekest = entities.getFirst();
-
-        for (LivingEntity entity : entities){
-            if (entity.getHealth() < weekest.getHealth()){
-                weekest = entity;
-            }
-        }
-
-        return weekest;
+    public boolean toRemoveBufferContains(Entity entity){
+        return toRemoveBuffer.contains(entity);
     }
 
-    @Override
     public int size(){
         return entities.size();
     }
 
-    @Override
     public boolean isEmpty(){
         return size() == 0;
     }
 
-    public void makeEntitiesMove(Vector2D targetPosition, boolean canTeleporte){
-        makeEntitiesMove(targetPosition, canTeleporte, false);
+    @Override
+    public List<Entity> getEntities() {
+        return entities;
     }
 
-    public void makeEntitiesMove(Vector2D targetPosition, boolean canTeleporte, boolean notTooClose){
-        for (LivingEntity entity : entities){
+    @Override
+    public boolean isActive() {
+        return active;
+    }
 
-            if (!entity.equals(master)){
-                Vector2D position = entity.getWorldPosition();
-                Vector2D targetVector = targetPosition.sub(position);
-                if (notTooClose && targetVector.getLength() < gc.TILE_SIZE){
-                    continue;
-                }
-
-                if (canTeleporte && targetVector.getLength() > gc.SCREEN_WIDTH){
-                    entity.setWorldPosition(targetPosition);
-                }
-                else {
-                    Vector2D targetDirection = targetVector.getNormalized();
-                    entity.setMoveDirectionVector(targetDirection);
-                    entity.move(new ArrayList<>(entities), gc.dt);
-                }
-            }
-
-
-//            Vector2D repulsion = Vector2D.ZERO;
-//            for (LivingEntity other : entities){
-//
-//                Vector2D diff = entity.getWorldPosition().sub(other.getWorldPosition());
-//                if (diff.getLength() < gc.tileSize) {
-//                    if (diff.equals(Vector2D.ZERO)) {
-//                        diff = Vector2D.getRandomVectorNormalized();
-//                    }
-//                    diff.normalize();
-//                    repulsion = repulsion.add(diff);
-//                }
-//            }
-//            entity.move(repulsion);
-        }
+    @Override
+    public void setActive(boolean active) {
+        this.active = active;
     }
 
     @Override
     public void update() {
+        if (isActive()) {
+            // Update buffers
+            updateBuffers();
 
-        removeCount--;
-        if (removeCount <= 0){
-            for (LivingEntity entity : entitiesToRemove){
+            // Update entities
+            updateEntities();
+        }
+    }
+
+    void updateBuffers(){
+        // Remove entities
+        if (!toRemoveBuffer.isEmpty()){
+            for (Entity entity : toRemoveBuffer){
                 removeEntity(entity);
             }
-            entitiesToRemove.clear();
+            toRemoveBuffer.clear();
+        }
+
+        // Add entities
+        if (!toAddBuffer.isEmpty()) {
+            for (Entity entity : toAddBuffer) {
+                addEntity(entity);
+            }
+            toAddBuffer.clear();
+        }
+    }
+
+    void updateEntities(){
+        for (Entity entity : entities){
+            entity.update();
         }
     }
 
     @Override
-    public void onTrigger(IEventComponent component) {
-        if (component instanceof ComponentEntityDead(LivingEntity deadEntity, LivingEntity killer)){
-            safeRemoveEntity(deadEntity);
-        }
+    public void setShow(boolean show) {
+        this.show = show;
     }
 
     @Override
-    public void register() {
-        gc.eventEntityDead.addListener(this);
+    public boolean isShow() {
+        return show;
+    }
+
+    @Override
+    public void draw(Graphics2D g2){
+        if (isShow()) {
+            for (Entity entity : entities) {
+                entity.draw(g2);
+            }
+        }
     }
 }

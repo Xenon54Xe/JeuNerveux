@@ -29,12 +29,7 @@ public class Bear extends Animal{
 
     @Override
     public void softKill(LivingEntity killer) {
-        gc.sceneryM.safeChangeScenery(SceneryManager.TITLE_SCENERY);
-        UIText text = new UIText(Color.YELLOW,"Congratulations !!!", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
-        text.setShow(true);
-        text.setDrawRule(UIObject.DRAW_CENTER);
-        gc.uiM.addUIObject(text);
-
+        gc.sceneryM.win();
         super.softKill(killer);
     }
 

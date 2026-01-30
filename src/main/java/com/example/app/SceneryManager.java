@@ -4,24 +4,18 @@ import com.example.app.entity.*;
 import com.example.app.entity.animals.*;
 import com.example.app.entity.group.AnimalEntityGroup;
 import com.example.app.entity.group.EntityGroup;
-import com.example.app.entity.group.IEntityGroup;
 import com.example.app.entity.group.PlayerEntityGroup;
 import com.example.app.event.*;
-import com.example.app.event.component.ComponentGroupDead;
 import com.example.app.event.component.ComponentUIClick;
 import com.example.app.event.component.IEventComponent;
 import com.example.app.ui.frame.UIFrame;
 import com.example.app.ui.UIObject;
 import com.example.app.ui.UIText;
-import com.example.app.utils.ArrayList;
-import com.example.app.utils.ILoopList;
-import com.example.app.utils.List;
-import com.example.app.utils.LoopList;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 
-public class SceneryManager implements Listener {
+public class SceneryManager implements Manager, Listener {
 
     final GameCanvas gc;
 
@@ -35,14 +29,14 @@ public class SceneryManager implements Listener {
     private int changeSceneryCounter = 1;
     private String lastChosenScenery;
 
-    // UI
-    // MAP1
-    private final UIFrame uiFrameMap1;
     // LOADING
-    private final UIText loadingText;
-
-    public final List<IEntityGroup> groups = new ArrayList<>();
-    private int[] animalGroupCount = new int[8];
+    private UIFrame loadingFrame;
+    // Win frame, last for 5 seconds
+    private UIFrame winFrame;
+    private final int winDelay = 300;
+    private int winCounter = 0;
+    // MAP1
+    private UIFrame uiFrameMap1;
 
     // UI TO UPDATE
     UIText playerPosition;
@@ -51,23 +45,31 @@ public class SceneryManager implements Listener {
     public SceneryManager(GameCanvas gc){
         this.gc = gc;
 
-        // UI MENUS
-        uiFrameMap1 = new UIFrame(gc, "Scenery Map1", UIObject.DRAW_TOP_LEFT,
-                0, 0, gc.TILE_SIZE, gc.TILE_SIZE * 2, 1, 2);
-        uiFrameMap1.setDrawEvenly();
-
-        // UI
-        makeUI();
-        // Chargement
-        loadingText = new UIText(Color.WHITE, "LOADING...", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
-        loadingText.setDrawRule(UIObject.DRAW_CENTER);
-        gc.uiM.addUIObject(loadingText);
-
         // EVENT
         register();
     }
 
-    private void makeUI(){
+    @Override
+    public void init() {
+        // Loading FRAME
+        loadingFrame = new UIFrame(gc, "Default Frame", UIObject.DRAW_CENTER);
+        loadingFrame.setDrawEvenly();
+        loadingFrame.setShape(1, 1);
+        // Loading
+        UIText loadingText = new UIText(Color.WHITE, "LOADING...", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
+        loadingFrame.addUIObject(loadingText, 0, 0);
+
+        // win frame
+        winFrame = new UIFrame(gc, "Win Frame", UIObject.DRAW_CENTER);
+        winFrame.setDrawEvenly();
+        winFrame.setShape(1, 1);
+        UIText winText = new UIText(Color.YELLOW, "YOU WIN!", gc.SCREEN_WIDTH / 2, gc.SCREEN_HEIGHT / 2);
+        winFrame.addUIObject(winText, 0, 0);
+
+        // map1 frame
+        uiFrameMap1 = new UIFrame(gc, "Scenery Map1", UIObject.DRAW_TOP_LEFT,
+                0, 0, gc.TILE_SIZE, gc.TILE_SIZE * 2, 1, 2);
+        uiFrameMap1.setDrawEvenly();
         // MAP1
         playerPosition = new UIText(Color.WHITE, "Position : ", gc.TILE_SIZE, gc.TILE_SIZE);
         playerMobs = new UIText(Color.WHITE, "0/10", gc.TILE_SIZE, gc.TILE_SIZE * 2);
@@ -80,7 +82,7 @@ public class SceneryManager implements Listener {
         if (scenery.equals(TITLE_SCENERY) || scenery.equals(MAP1_SCENERY) || scenery.equals(CLEAN_SCENERY) || scenery.equals(STRENGTH_SCENERY)) {
 
             // SHOW chargement
-            loadingText.setShow(true);
+            loadingFrame.setShow(true);
             lastChosenScenery = scenery;
             changeSceneryCounter = 2;
         }
@@ -93,17 +95,14 @@ public class SceneryManager implements Listener {
             hideAllUI();
             gc.entityM.safeRemoveAllEntities();
 
-            if (scenery.equals(TITLE_SCENERY)) {
-                titleScenery();
-            } else if (scenery.equals(MAP1_SCENERY)) {
-                map1Scenery();
-            } else if (scenery.equals(CLEAN_SCENERY)){
-                cleanScenery();
-            }else {
-                strengthScenery();
+            switch (scenery) {
+                case TITLE_SCENERY -> titleScenery();
+                case MAP1_SCENERY -> map1Scenery();
+                case CLEAN_SCENERY -> cleanScenery();
+                default -> strengthScenery();
             }
 
-            loadingText.setShow(false);
+            loadingFrame.setShow(false);
         }
     }
 
@@ -125,7 +124,7 @@ public class SceneryManager implements Listener {
         }
 
         // TRACKED
-        gc.entityM.trackRandom();
+        gc.entityM.trackFirstFound();
     }
 
     private void map1Scenery(){
@@ -144,14 +143,10 @@ public class SceneryManager implements Listener {
 
         // UI
         uiFrameMap1.setShow(true);
-
-        groups.clear();
-        animalGroupCount = new int[8];
     }
 
     private void cleanScenery(){
         // PLAYER
-        Rectangle playerSolidArea = new Rectangle(8, 16, 32, 32);
         Player player = new Player(gc, "Player", 200, 10000, 6, 0, 2 * gc.TILE_SIZE, 20);
         player.setRandomTilePosition(gc.tileM.spawnableTiles);
         gc.entityM.addEntity(player);
@@ -175,20 +170,16 @@ public class SceneryManager implements Listener {
         gc.setTracked(player);
 
         gc.tileM.loadMap("EmptyScenery");
-
-        groups.clear();
-        animalGroupCount = new int[8];
     }
 
     private void makeEntityGroup(LivingEntity template, Vector2D position, int count){
-        IEntityGroup group = new AnimalEntityGroup(gc);
-        groups.add(group);
+        EntityGroup group = new AnimalEntityGroup(gc);
 
         for (int i = 0; i < count; i++) {
 
             Entity entity = template.makeClone();
-            entity.setWorldPosition(position);
-            group.addEntity((LivingEntity) entity);
+            entity.setWorldPosition(position.getX(), position.getY());
+            group.safeAddEntity(entity);
         }
     }
 
@@ -220,6 +211,11 @@ public class SceneryManager implements Listener {
         };
     }
 
+    public void win(){
+        winFrame.setShow(true);
+        winCounter = winDelay;
+    }
+
     public void update(){
 
         if (lastChosenScenery.equals(TITLE_SCENERY)){
@@ -234,58 +230,6 @@ public class SceneryManager implements Listener {
                 playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
                 playerMobs.setText(gc.entityM.player.playerEntityGroup.size() + "/10");
             }
-
-            if (gc.gameState == GameCanvas.PLAY_STATE) {
-                // ENTITY GROUP
-                for (int i = 0; i < groups.size(); i++) {
-                    groups.get(i).update();
-                }
-
-                if (gc.entityM.player != null) {
-                    // MAKE GROUPS SPAWN AROUND PLAYER
-                    // Mouse to Rabbit
-                    for (int i = 0; i <= 2; i++) {
-                        int groupCount = animalGroupCount[i];
-                        if (groupCount < 10) {
-                            animalGroupCount[i]++;
-                            LivingEntity template = intToEntity(i);
-
-                            int count = (int) (Math.random() * 3) + 3;
-                            makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                        }
-                    }
-                    // Cat to dog
-                    for (int i = 3; i <= 4; i++) {
-                        int groupCount = animalGroupCount[i];
-                        if (groupCount < 5) {
-                            animalGroupCount[i]++;
-                            LivingEntity template = intToEntity(i);
-
-                            int count = (int) (Math.random() * 3) + 3;
-                            makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                        }
-                    }
-                    // Fox to wolf
-                    for (int i = 5; i <= 6; i++) {
-                        int groupCount = animalGroupCount[i];
-                        if (groupCount < 2) {
-                            animalGroupCount[i]++;
-                            LivingEntity template = intToEntity(i);
-
-                            int count = (int) (Math.random() * 3) + 3;
-                            makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                        }
-                    }
-                    int groupCount = animalGroupCount[7];
-                    if (groupCount < 1) {
-                        animalGroupCount[7]++;
-                        LivingEntity template = intToEntity(7);
-
-                        int count = 1;
-                        makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                    }
-                }
-            }
         }
 
         if (lastChosenScenery.equals(STRENGTH_SCENERY)) {
@@ -294,45 +238,20 @@ public class SceneryManager implements Listener {
                 playerPosition.setText("Position : " + gc.entityM.player.getTileX() + ", " + gc.entityM.player.getTileY());
                 playerMobs.setText("XP : " + gc.entityM.player.getXp());
             }
-
-            if (gc.gameState == GameCanvas.PLAY_STATE) {
-                // ENTITY GROUP
-                for (int i = 0; i < groups.size(); i++) {
-                    groups.get(i).update();
-                }
-
-                if (gc.entityM.player != null) {
-                    // MAKE GROUPS SPAWN AROUND PLAYER
-                    // Wolf
-                    int nbA = 0;
-                    int countA = 10;
-                    int groupCount = animalGroupCount[nbA];
-                    if (groupCount < 1) {
-                        animalGroupCount[nbA]++;
-                        LivingEntity template = intToEntity(nbA);
-
-                        int count = countA;
-                        makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                    }
-                    // Wolf
-                    int nbB = nbA + 1;
-                    int countB = 1;
-                    groupCount = animalGroupCount[nbB];
-                    if (groupCount < 1) {
-                        animalGroupCount[nbB]++;
-                        LivingEntity template = intToEntity(nbB);
-
-                        int count = countB;
-                        makeEntityGroup(template, Vector2D.chooseRandomWorldPosition(gc, gc.tileM.spawnableTiles), count);
-                    }
-                }
-            }
         }
 
         if (changeSceneryCounter > 0){
             changeSceneryCounter--;
             if (changeSceneryCounter == 0){
                 changeScenery(lastChosenScenery);
+            }
+        }
+
+        // Update temporary win frame
+        if (winCounter > 0){
+            winCounter--;
+            if (winCounter == 0){
+                winFrame.setShow(false);
             }
         }
     }
@@ -345,19 +264,11 @@ public class SceneryManager implements Listener {
             if (mouseButtonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
                 safeChangeScenery(payload);
             }
-        } else if (component instanceof ComponentGroupDead(EntityGroup group)) {
-            if (group instanceof PlayerEntityGroup){
-                return;
-            }
-
-            assert groups.remove(group);
-            animalGroupCount[group.animalType]--;
         }
     }
 
     @Override
     public void register() {
         gc.eventUIClick.addListener(this);
-        gc.eventGroupDead.addListener(this);
     }
 }
