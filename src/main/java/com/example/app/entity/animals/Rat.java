@@ -2,12 +2,11 @@ package com.example.app.entity.animals;
 
 import com.example.app.GameCanvas;
 import com.example.app.entity.Entity;
-import com.example.app.entity.IAttackEntity;
-import com.example.app.utils.Vector2D;
+import com.example.app.entity.Attack;
 
 import java.awt.*;
 
-public class Rat extends Animal implements IAttackEntity {
+public class Rat extends Animal implements Attack {
 
     public Rat(GameCanvas gc, String name){
         super(gc, new Rectangle(10, 25, 15, 10), name, 50, 35, 35, 231, 180, 2, gc.TILE_SIZE, 6, 30);

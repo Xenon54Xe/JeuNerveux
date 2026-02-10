@@ -13,7 +13,7 @@ public class EntityGroup implements IEntityGroup {
     final GameCanvas gc;
 
     // STATIC
-    public static final int NULL_GROUP_ID = -1;
+    public static final int NONE_GROUP_ID = -1;
     private static int NEXT_ID = 0;
     public final int id;
 
@@ -37,7 +37,7 @@ public class EntityGroup implements IEntityGroup {
     }
 
     void addEntity(Entity entity){
-        assert entity.getGroupID() == -1 : "Entity already belongs to a group";
+        assert entity.getGroupID() == -1 : "Entity " + entity.getName() + " already belongs to a group";
 
         entity.setGroupID(id);
         entities.add(entity);
@@ -100,6 +100,9 @@ public class EntityGroup implements IEntityGroup {
     @Override
     public void update() {
         if (isActive()) {
+
+
+
             // Update buffers
             updateBuffers();
 

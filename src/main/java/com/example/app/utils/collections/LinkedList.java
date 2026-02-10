@@ -163,4 +163,13 @@ public class LinkedList<E> implements List<E> {
             }
         };
     }
+
+    @Override
+    public String toString() {
+        StringBuilder text = new StringBuilder("[");
+        for (E data : this) {
+            text.append(data).append(", ");
+        }
+        return text.substring(0, text.length() - 2) + "]";
+    }
 }

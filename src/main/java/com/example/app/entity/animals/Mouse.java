@@ -2,15 +2,15 @@ package com.example.app.entity.animals;
 
 import com.example.app.GameCanvas;
 import com.example.app.entity.Entity;
-import com.example.app.entity.IAttackEntity;
+import com.example.app.entity.Attack;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 
-public class Mouse extends Animal implements IAttackEntity {
+public class Mouse extends Animal implements Attack {
 
     public Mouse(GameCanvas gc, String name){
-        super(gc, new Rectangle(6, 20, 12, 4), name, 50, gc.TILE_SIZE / 2, gc.TILE_SIZE / 2, 74, 180, 1, gc.TILE_SIZE, 5, 30);
+        super(gc, new Rectangle(6, 20, 12, 4), name, gc.TILE_SIZE / 4, gc.TILE_SIZE / 2, gc.TILE_SIZE / 2, 74, 180, 1, gc.TILE_SIZE, 5, 30);
 
         setMoveDirectionVector(Vector2D.getRandomVectorNormalized());
         initImages();

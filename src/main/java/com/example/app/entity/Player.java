@@ -6,12 +6,13 @@ import com.example.app.event.*;
 import com.example.app.event.component.ComponentEntityDead;
 import com.example.app.event.component.IEventComponent;
 import com.example.app.handler.KeyHandler;
+import com.example.app.utils.FileUtils;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
-public class Player extends LivingEntity implements IAttackEntity, Listener {
+public class Player extends LivingEntity implements Attack, Listener {
 
     // UTILS
     private final KeyHandler keyH;
@@ -30,7 +31,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
     private BufferedImage attackImageLeft;
 
     // PLAYER GROUP
-    public PlayerEntityGroup playerEntityGroup;
+    public final PlayerEntityGroup playerEntityGroup;
 
     public Player(GameCanvas gc, String name){
         super(gc, new Rectangle(30, 70, 36, 20), name, 200, gc.TILE_SIZE * 2, gc.TILE_SIZE * 2, 100, 6, 0);
@@ -49,7 +50,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
         // PLAYER ENTITY GROUP
         playerEntityGroup = new PlayerEntityGroup(gc, this);
-        setGroupID(playerEntityGroup.id);
+        gc.entityM.safeAddGroup(playerEntityGroup);
 
         // Event
         register();
@@ -57,7 +58,6 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
     public Player(GameCanvas gc, String name, int speed, int health, int waitTimeBeforeAnimation, int xp, int reach, int damage){
         super(gc, new Rectangle(8, 32, 32, 16), name, speed, gc.TILE_SIZE, gc.TILE_SIZE, health, waitTimeBeforeAnimation, xp);
-//new Rectangle(32, 50, 32, 32)
         keyH = gc.keyH;
 
         sprintSpeed = speed * 3;
@@ -73,7 +73,7 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
         // PLAYER ENTITY GROUP
         playerEntityGroup = new PlayerEntityGroup(gc, this);
-        setGroupID(playerEntityGroup.id);
+        gc.entityM.safeAddGroup(playerEntityGroup);
 
         // Event
         register();
@@ -81,12 +81,12 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
     public void initImages(){
         // PLAYER IMAGES
-        attackImageRight = getSpriteImage("entities/player", "shaman_attack_right.png");
-        attackImageLeft = getSpriteImage("entities/player", "shaman_attack_left.png");
-        left1 = getSpriteImage("entities/player", "shaman_left1.png");
-        left2 = getSpriteImage("entities/player", "shaman_left2.png");
-        right1 = getSpriteImage("entities/player", "shaman_right1.png");
-        right2 = getSpriteImage("entities/player", "shaman_right2.png");
+        attackImageRight = FileUtils.getSpriteImage("entities/player", "shaman_attack_right.png");
+        attackImageLeft = FileUtils.getSpriteImage("entities/player", "shaman_attack_left.png");
+        setSprite(LEFT_1, FileUtils.getSpriteImage("entities/player", "shaman_left1.png"));
+        setSprite(LEFT_2, FileUtils.getSpriteImage("entities/player", "shaman_left2.png"));
+        setSprite(RIGHT_1, FileUtils.getSpriteImage("entities/player", "shaman_right1.png"));
+        setSprite(RIGHT_2, FileUtils.getSpriteImage("entities/player", "shaman_right2.png"));
     }
 
     public int getReach() {
@@ -154,6 +154,8 @@ public class Player extends LivingEntity implements IAttackEntity, Listener {
 
     @Override
     public void update(){
+        System.out.println("Player update !!");
+
         if (gc.mouseH.leftClickClicked){
             canAttack = !canAttack;
         }

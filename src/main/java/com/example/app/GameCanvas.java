@@ -60,7 +60,7 @@ public class GameCanvas extends Canvas implements Runnable {
     public SceneryManager sceneryM;
     public UIManager uiM;
     public EntityManager entityM;
-    public Trackable tracked = new DefaultTracked();
+    private Trackable tracked = new DefaultTracked();
 
     // \`COLLISION & SOUND\`
     public CollisionChecker cChecker;
@@ -206,6 +206,10 @@ public class GameCanvas extends Canvas implements Runnable {
     }
 
     // \`SETTERS / UTIL\`
+    public Trackable getTracked() {
+        return tracked;
+    }
+
     public void setTracked(Trackable tracked) {
         this.tracked = tracked;
     }

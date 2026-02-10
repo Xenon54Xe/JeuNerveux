@@ -1,13 +1,13 @@
 package com.example.app.entity.animals;
 
 import com.example.app.GameCanvas;
-import com.example.app.entity.IAttackEntity;
+import com.example.app.entity.Attack;
 import com.example.app.entity.LivingEntity;
 import com.example.app.utils.Vector2D;
 
 import java.awt.*;
 
-public abstract class Animal extends LivingEntity implements IAttackEntity {
+public abstract class Animal extends LivingEntity implements Attack {
 
     // ATTACK
     final int attackDelay;
@@ -41,22 +41,21 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
 
     void initImages(){}
 
-    public void moveSpontaneously(){
+    public void autoMove(){
         // MOUSE BEHAVIOR
         if (behaviorCount <= 0){
             behaviorCount = 20;
 
             double amount = (Math.random() - 0.5) / 2 ;
 
-            Vector2D orthogonalVector = new Vector2D(getMoveDirectionVector().getY(), -getMoveDirectionVector().getX()).getNormalized();
+            Vector2D moveDirection = getMoveDirectionVector().copy();
+
+            Vector2D orthogonalVector = moveDirection.getOrthogonal().getNormalized();
             orthogonalVector.mul(amount);
+            moveDirection.add(orthogonalVector);
+            moveDirection.normalize();
 
-            double x, y, length;
-            x = orthogonalVector.getX();
-            y = orthogonalVector.getY();
-            length = Math.sqrt(x * x + y * y);
-
-            setMoveDirectionVector(x / length, y / length);
+            setMoveDirectionVector(moveDirection);
             updateDrawDirection();
         }
         behaviorCount--;
@@ -85,7 +84,7 @@ public abstract class Animal extends LivingEntity implements IAttackEntity {
             super.update();
 
             if (isMoveSpontaneously()){
-                moveSpontaneously();
+                autoMove();
             }
 
             attack();

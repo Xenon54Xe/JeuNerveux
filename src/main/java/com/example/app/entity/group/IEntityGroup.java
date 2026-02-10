@@ -1,6 +1,5 @@
 package com.example.app.entity.group;
 
-import com.example.app.DrawOther;
 import com.example.app.Updatable;
 import com.example.app.entity.Entity;
 import com.example.app.utils.collections.List;

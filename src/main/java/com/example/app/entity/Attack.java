@@ -1,9 +1,8 @@
 package com.example.app.entity;
 
-import com.example.app.utils.collections.ILoopList;
 import com.example.app.utils.collections.List;
 
-public interface IAttackEntity {
+public interface Attack {
 
     void attack();
 

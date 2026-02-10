@@ -25,7 +25,7 @@ public class UIImageButton extends UIBoxImage implements Updatable {
 
     @Override
     public boolean isActive() {
-        return false;
+        return active;
     }
 
     @Override

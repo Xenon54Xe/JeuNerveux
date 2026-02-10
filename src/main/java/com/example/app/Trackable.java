@@ -15,10 +15,6 @@ public interface Trackable {
 
     int getCameraWorldY();
 
-    default Vector2D getCameraWorldPosition(){
-        return new Vector2D(getCameraWorldX(), getCameraWorldY());
-    }
-
     default double calcCameraWorldX(int screenWidth, int worldWidth){
         // Top left corner of the screen
         if (getWorldX() >= screenWidth / 2.0 && getWorldX() <= worldWidth - screenWidth / 2.0){

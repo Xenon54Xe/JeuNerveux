@@ -1,7 +1,5 @@
 package com.example.app.utils.collections;
 
-import java.util.Iterator;
-
 public interface List<E> extends Collection<E> {
 
     void add(E element);

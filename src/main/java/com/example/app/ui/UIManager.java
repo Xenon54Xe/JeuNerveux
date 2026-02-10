@@ -33,6 +33,7 @@ public class UIManager implements Listener, Updatable {
 
     // Elements
     private final List<UIFrame> uiFrames = new LinkedList<>();
+    private final List<UIFrame> showedFramesBeforeHiding = new LinkedList<>();
     private final List<UIFrame> toAddBuffer = new LinkedList<>();
     private final List<UIFrame> toRemoveBuffer = new LinkedList<>();
 
@@ -83,55 +84,6 @@ public class UIManager implements Listener, Updatable {
 
     public void safeRemoveFrame(UIFrame uiFrame){
         toRemoveBuffer.add(uiFrame);
-    }
-
-    @Override
-    public boolean isActive() {
-        return true;
-    }
-
-    @Override
-    public void setActive(boolean active) {
-
-    }
-
-    public void update(){
-        if (isActive()) {
-            // REMOVE BUFFER
-            for (UIFrame uiFrame : toRemoveBuffer) {
-                removeFrame(uiFrame);
-            }
-            toRemoveBuffer.clear();
-
-            // ADD BUFFER
-            for (UIFrame uiFrame : toAddBuffer) {
-                addFrame(uiFrame);
-            }
-            toAddBuffer.clear();
-
-            // UPDATE FRAMES
-            mouseOverUI = false;
-            for (UIFrame uiFrame : uiFrames){
-                uiFrame.update();
-            }
-
-            // INIT MAIN MENU
-            if (!isInitMainMenu) {
-                initMainMenu();
-                isInitMainMenu = true;
-            }
-
-            // MAIN MENU
-            if (gc.keyH.getLastKeyCode() == KeyHandler.ESCAPE) {
-                setShow(!mainMenu.isShow());
-
-                if (gc.gameState == GameCanvas.PLAY_STATE) {
-                    gc.gameState = GameCanvas.PAUSE_STATE;
-                } else if (gc.gameState == GameCanvas.PAUSE_STATE) {
-                    gc.gameState = GameCanvas.PLAY_STATE;
-                }
-            }
-        }
     }
 
     // MAIN MENU
@@ -189,20 +141,75 @@ public class UIManager implements Listener, Updatable {
             mainMenu.addUIObject(titleScreen, 0, 2);
         }
 
-        mainMenu.setShow(true);
+        safeAddFrame(mainMenu);
     }
 
     private void hideAll(){
-        gc.loadMapM.setShow(false);
-        gc.mapDrawerM.setShow(false);
-        gc.mapCreateM.setShow(false);
+        showedFramesBeforeHiding.clear();
+        for (UIFrame frame : uiFrames){
+            if (frame.isShow() && !frame.equals(mainMenu)){
+                showedFramesBeforeHiding.add(frame);
+            }
+            frame.setShow(false);
+        }
     }
 
-    public void setShow(boolean active){
-        hideAll();
-        mainMenu.setShow(active);
+    public void showMainMenu(boolean showMainMenu){
+        if (showMainMenu) {
+            hideAll();
+        }
+        mainMenu.setShow(showMainMenu);
     }
 
+    @Override
+    public boolean isActive() {
+        return true;
+    }
+
+    @Override
+    public void setActive(boolean active) {
+
+    }
+
+    public void update(){
+        if (isActive()) {
+            // REMOVE BUFFER
+            for (UIFrame uiFrame : toRemoveBuffer) {
+                removeFrame(uiFrame);
+            }
+            toRemoveBuffer.clear();
+
+            // ADD BUFFER
+            for (UIFrame uiFrame : toAddBuffer) {
+                addFrame(uiFrame);
+            }
+            toAddBuffer.clear();
+
+            // UPDATE FRAMES
+            mouseOverUI = false;
+            for (UIFrame uiFrame : uiFrames){
+                uiFrame.update();
+            }
+
+            // INIT MAIN MENU
+            if (!isInitMainMenu) {
+                initMainMenu();
+                isInitMainMenu = true;
+            }
+
+            // MAIN MENU
+            if (gc.keyH.getLastKeyCode() == KeyHandler.ESCAPE) {
+                System.out.println("Escape !");
+                showMainMenu(!mainMenu.isShow());
+
+                if (gc.gameState == GameCanvas.PLAY_STATE) {
+                    gc.gameState = GameCanvas.PAUSE_STATE;
+                } else if (gc.gameState == GameCanvas.PAUSE_STATE) {
+                    gc.gameState = GameCanvas.PLAY_STATE;
+                }
+            }
+        }
+    }
 
     public void draw(Graphics2D g2){
 
@@ -216,12 +223,10 @@ public class UIManager implements Listener, Updatable {
 
     @Override
     public void onTrigger(IEventComponent component) {
+
         // MAIN MENU
         if (component instanceof ComponentUIClick(UIObject uiObject, String mouseButtonClicked)) {
             // assume ComponentUIClick is a record-like type with accessors uiObject() and mouseButtonClicked()
-
-            System.out.println("UI Manager detected click on: " + uiObject.getName() + " with button: " + mouseButtonClicked);
-
             String payload = uiObject.getName();
 
             if (mouseButtonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
@@ -232,7 +237,7 @@ public class UIManager implements Listener, Updatable {
                         || payload.equals(TITLE_SCREEN)
                         || payload.equals(STRENGTH_TEST)){
 
-                    setShow(false);
+                    showMainMenu(false);
                     if (payload.equals(LoadMapManager.ACTIVATE_MAP_LOADING)){
                         gc.loadMapM.setShow(true);
                     }

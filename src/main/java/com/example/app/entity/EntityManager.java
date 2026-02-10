@@ -1,8 +1,6 @@
 package com.example.app.entity;
 
-import com.example.app.DrawOther;
 import com.example.app.GameCanvas;
-import com.example.app.Manager;
 import com.example.app.Updatable;
 import com.example.app.entity.group.EntityGroup;
 import com.example.app.entity.group.IEntityGroup;
@@ -50,15 +48,15 @@ public class EntityManager implements Manager, DrawOther, Updatable {
         return defaultGroup.getEntities();
     }
 
-    public void addEntity(Entity entity){
+    public void safeAddEntity(Entity entity){
         defaultGroup.safeAddEntity(entity);
     }
 
-    public void removeEntity(Entity entity){
+    public void safeRemoveEntity(Entity entity){
         defaultGroup.safeRemoveEntity(entity);
     }
 
-    void addGroup(EntityGroup group){
+    private void addGroup(EntityGroup group){
         assert !groups.contains(group);
         groups.add(group);
     }
@@ -67,7 +65,7 @@ public class EntityManager implements Manager, DrawOther, Updatable {
         toAddBuffer.add(group);
     }
 
-    void removeGroup(EntityGroup group){
+    private void removeGroup(EntityGroup group){
         assert groups.remove(group);
     }
 
@@ -94,6 +92,9 @@ public class EntityManager implements Manager, DrawOther, Updatable {
                     return;
                 }
             }
+        }
+        if (!defaultGroup.isEmpty()) {
+            gc.setTracked(defaultGroup.getEntities().get(0));
         }
     }
 
@@ -172,10 +173,20 @@ public class EntityManager implements Manager, DrawOther, Updatable {
 
     @Override
     public void update(){
-
         if (!isActive()){
             return;
         }
+
+        // UPDATE BUFFERS
+        for (IEntityGroup entityGroup : toRemoveBuffer){
+            groups.remove(entityGroup);
+        }
+        toRemoveBuffer.clear();
+
+        for (IEntityGroup entityGroup : toAddBuffer){
+            groups.add(entityGroup);
+        }
+        toAddBuffer.clear();
 
         if(gc.keyH.rClicked && gc.editorMode){
             regenerateAllEntities();

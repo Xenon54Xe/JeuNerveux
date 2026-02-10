@@ -7,7 +7,7 @@ public abstract class UIObject implements Drawable {
 
     // Management
     public static int NEXT_ID = 0;
-    public final int id;
+    private final int id;
 
     // CLASS VARIABLES
     private int screenX, screenY;
@@ -42,6 +42,10 @@ public abstract class UIObject implements Drawable {
             case DRAW_BOTTOM_LEFT, DRAW_BOTTOM_RIGHT -> maxY - y;
             default -> throw new IllegalStateException("Unexpected value: " + drawRule);
         };
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getName() {

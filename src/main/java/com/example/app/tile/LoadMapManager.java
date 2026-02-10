@@ -95,8 +95,7 @@ public class LoadMapManager implements Listener {
             if (payload.equals(VALIDATE) && buttonClicked.equals(ComponentUIClick.LEFT_BUTTON)) {
 
                 // LOAD MAP
-                gc.tileM.setMapName(selectedMapName);
-                gc.tileM.loadMap();
+                gc.tileM.loadMap(selectedMapName);
 
                 // Scenery
                 gc.sceneryM.safeChangeScenery(SceneryManager.CLEAN_SCENERY);

@@ -39,10 +39,6 @@ public class TileManager {
         getTileImage();
     }
 
-    public void setMapName(String mapName) {
-        this.mapName = mapName;
-    }
-
     public String getMapName() {
         return mapName;
     }
@@ -124,7 +120,7 @@ public class TileManager {
     }
 
     public void loadMap(String mapName){
-        setMapName(mapName);
+        this.mapName = mapName;
         loadMap();
     }
 
@@ -166,8 +162,8 @@ public class TileManager {
         assert tileMap != null;
 
         double cameraWorldX, cameraWorldY;
-        cameraWorldX = gc.tracked.getCameraWorldX();
-        cameraWorldY = gc.tracked.getCameraWorldY();
+        cameraWorldX = gc.getTracked().getCameraWorldX();
+        cameraWorldY = gc.getTracked().getCameraWorldY();
 
         int startWorldCol, endWorldCol, startWorldRow, endWorldRow;
         startWorldCol = Math.max(

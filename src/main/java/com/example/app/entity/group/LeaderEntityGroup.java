@@ -10,7 +10,7 @@ import com.example.app.utils.Vector2D;
 public class LeaderEntityGroup extends EntityGroup implements LivingEntityGroup{
 
     // CLASS VARIABLES
-    public LivingEntity master;
+    public LivingEntity master = null;
 
     public LeaderEntityGroup(GameCanvas gc) {
         super(gc);
@@ -21,17 +21,20 @@ public class LeaderEntityGroup extends EntityGroup implements LivingEntityGroup{
     @Override
     void addEntity(Entity entity) {
         super.addEntity(entity);
-        entity.setMoveSpontaneously(false);
 
         if (master == null){
             setMaster((LivingEntity) entity);
+            entity.setAutoMove(true);
+        }
+        else {
+            entity.setAutoMove(false);
         }
     }
 
     @Override
     void removeEntity(Entity entity) {
         super.removeEntity(entity);
-        entity.setMoveSpontaneously(true);
+        entity.setAutoMove(true);
 
         if (entity.equals(master)){
             randomChooseMaster();
@@ -43,12 +46,10 @@ public class LeaderEntityGroup extends EntityGroup implements LivingEntityGroup{
     }
 
     public void setMaster(LivingEntity master) {
+        assert this.master == null;
         this.master = master;
         master.setGroupID(id);
-        master.setMoveSpontaneously(true);
-        if (!contains(master)){
-            safeAddEntity(master);
-        }
+        master.setAutoMove(true);
     }
 
     public void randomChooseMaster(){

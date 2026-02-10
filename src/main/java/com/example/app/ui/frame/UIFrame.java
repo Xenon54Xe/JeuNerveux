@@ -1,6 +1,5 @@
 package com.example.app.ui.frame;
 
-import com.example.app.DrawOther;
 import com.example.app.GameCanvas;
 import com.example.app.Updatable;
 import com.example.app.ui.UIObject;
@@ -9,7 +8,6 @@ import com.example.app.utils.collections.LinkedList;
 import com.example.app.utils.collections.List;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 public class UIFrame extends UIObject implements Updatable, DrawOther {
 
@@ -47,7 +45,6 @@ public class UIFrame extends UIObject implements Updatable, DrawOther {
         setDrawRule(drawReference);
 
         setDrawEvenly();
-        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
@@ -62,7 +59,6 @@ public class UIFrame extends UIObject implements Updatable, DrawOther {
         setShape(col, row);
 
         setDrawEvenly();
-        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
@@ -80,10 +76,13 @@ public class UIFrame extends UIObject implements Updatable, DrawOther {
         setShape(col, row);
 
         setDrawEvenly();
-        gc.uiM.safeAddFrame(this);
 
         // Initial size
         updateSize();
+    }
+
+    public List<FrameCase> getFrameCases() {
+        return frameCases;
     }
 
     public UIFrame getParentFrame() {
@@ -198,85 +197,94 @@ public class UIFrame extends UIObject implements Updatable, DrawOther {
 
     @Override
     public void draw(Graphics2D g2) {
-        // Used to update positions
         if (isShow()){
-
-            // SET POSITIONS
+            // UPDATE POSITIONS
             updatePositionTimer--;
             if (updatePositionTimer <= 0 || firstTime >= 0) {
-                if (firstTime >= 0){
+                updatePositionTimer = updatePositionDelay;
+
+                if (firstTime >= 0) {
                     firstTime--;
                 }
-                updateSize();
+                updatePositions();
+            }
 
-                updatePositionTimer = updatePositionDelay;
-                switch (drawOption) {
-                    case DRAW_EVENLY -> {
+            // DRAW UI
+            for (FrameCase frameCase : frameCases){
+               frameCase.getObject().draw(g2);
+            }
+        }
+    }
 
-                        int curStepX = getWidth() / (maxCol + 1);
-                        int curStepY = getHeight() / (maxRow + 1);
+    private void updatePositions() {
+        // SET POSITIONS
+        updateSize();
 
-                        for (FrameCase frameCase : frameCases){
-                            UIObject object = frameCase.getObject();
-                            int col = frameCase.getCol();
-                            int row = frameCase.getRow();
+        switch (drawOption) {
+            case DRAW_EVENLY -> {
 
-                            object.setScreenX(getDrawTopLeftScreenX() + curStepX * (col + 1));
-                            object.setScreenY(getDrawTopLeftScreenY() + curStepY * (row + 1));
-                        }
-                    }
-                    case DRAW_STEP_BETWEEN_CENTER -> {
+                int curStepX = getWidth() / (maxCol + 1);
+                int curStepY = getHeight() / (maxRow + 1);
 
-                        int startScreenX = getDrawRuleScreenX();
-                        int startScreenY = getDrawRuleScreenY();
-                        if (getDrawRule() == DRAW_CENTER){
-                            startScreenX -= cumulatedWidth / 2;
-                            startScreenY -= cumulatedHeight / 2;
-                        }
+                for (FrameCase frameCase : frameCases){
+                    UIObject object = frameCase.getObject();
+                    int col = frameCase.getCol();
+                    int row = frameCase.getRow();
 
-                        int[] mul = getDrawReferenceMultiplier();
-                        int widthMul = mul[0];
-                        int heightMul = mul[1];
-
-                        for (FrameCase frameCase : frameCases){
-                            UIObject object = frameCase.getObject();
-                            int col = frameCase.getCol();
-                            int row = frameCase.getRow();
-
-                            object.setScreenX(startScreenX + col * stepX * widthMul);
-                            object.setScreenY(startScreenY + row * stepY * heightMul);
-                        }
-                    }
-                    case DRAW_STEP_BETWEEN_EDGES -> {
-
-                        int startScreenX = getDrawRuleScreenX();
-                        int startScreenY = getDrawRuleScreenY();
-                        if (getDrawRule() == DRAW_CENTER){
-                            startScreenX -= cumulatedWidth / 2;
-                            startScreenY -= cumulatedHeight / 2;
-                        }
-
-                        System.out.println("/////////////////");
-                        System.out.println(maxWidth + "  " + maxHeight);
-
-                        int[] mul = getDrawReferenceMultiplier();
-                        int widthMul = mul[0];
-                        int heightMul = mul[1];
-
-                        for (FrameCase frameCase : frameCases){
-                            UIObject object = frameCase.getObject();
-                            int col = frameCase.getCol();
-                            int row = frameCase.getRow();
-
-                            object.setScreenX(startScreenX + col * widthMul * (stepX + maxWidth));
-                            object.setScreenY(startScreenY + row * heightMul * (stepY + maxHeight));
-                        }
-                    }
-                    default -> {
-
-                        assert false : "Wrong draw option";
-                    }
+                    object.setScreenX(getDrawTopLeftScreenX() + curStepX * (col + 1));
+                    object.setScreenY(getDrawTopLeftScreenY() + curStepY * (row + 1));
                 }
+            }
+            case DRAW_STEP_BETWEEN_CENTER -> {
+
+                int startScreenX = getDrawRuleScreenX();
+                int startScreenY = getDrawRuleScreenY();
+                if (getDrawRule() == DRAW_CENTER){
+                    startScreenX -= cumulatedWidth / 2;
+                    startScreenY -= cumulatedHeight / 2;
+                }
+
+                int[] mul = getDrawReferenceMultiplier();
+                int widthMul = mul[0];
+                int heightMul = mul[1];
+
+                for (FrameCase frameCase : frameCases){
+                    UIObject object = frameCase.getObject();
+                    int col = frameCase.getCol();
+                    int row = frameCase.getRow();
+
+                    object.setScreenX(startScreenX + col * stepX * widthMul);
+                    object.setScreenY(startScreenY + row * stepY * heightMul);
+                }
+            }
+            case DRAW_STEP_BETWEEN_EDGES -> {
+
+                int startScreenX = getDrawRuleScreenX();
+                int startScreenY = getDrawRuleScreenY();
+                if (getDrawRule() == DRAW_CENTER){
+                    startScreenX -= cumulatedWidth / 2;
+                    startScreenY -= cumulatedHeight / 2;
+                }
+
+                System.out.println("/////////////////");
+                System.out.println(maxWidth + "  " + maxHeight);
+
+                int[] mul = getDrawReferenceMultiplier();
+                int widthMul = mul[0];
+                int heightMul = mul[1];
+
+                for (FrameCase frameCase : frameCases){
+                    UIObject object = frameCase.getObject();
+                    int col = frameCase.getCol();
+                    int row = frameCase.getRow();
+
+                    object.setScreenX(startScreenX + col * widthMul * (stepX + maxWidth));
+                    object.setScreenY(startScreenY + row * heightMul * (stepY + maxHeight));
+                }
+            }
+            default -> {
+
+                assert false : "Wrong draw option";
             }
         }
     }

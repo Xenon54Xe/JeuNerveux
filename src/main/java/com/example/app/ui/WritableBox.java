@@ -55,7 +55,7 @@ public class WritableBox extends UIBox implements IUIText, Updatable {
             }
         }
 
-        if (active && isShow()) {
+        if (isActive() && isShow()) {
             int lastKeyCode = gc.keyH.getLastKeyCode();
 
             if (lastKeyCode != -1) {

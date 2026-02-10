@@ -4,7 +4,6 @@ import com.example.app.entity.*;
 import com.example.app.entity.animals.*;
 import com.example.app.entity.group.AnimalEntityGroup;
 import com.example.app.entity.group.EntityGroup;
-import com.example.app.entity.group.PlayerEntityGroup;
 import com.example.app.event.*;
 import com.example.app.event.component.ComponentUIClick;
 import com.example.app.event.component.IEventComponent;
@@ -112,30 +111,25 @@ public class SceneryManager implements Manager, Listener {
 
     private void titleScenery(){
         // MAP
-        gc.tileM.setMapName(TITLE_SCENERY);
-        gc.tileM.loadMap();
+        gc.tileM.loadMap(TITLE_SCENERY);
 
         // ENTITY MANAGER
         // MICE
+        System.out.println(gc.tileM.spawnableTiles);
         for (int i = 0; i < 5; i++) {
             Mouse mouse = new Mouse(gc, "mouse" + i);
             mouse.setRandomTilePosition(gc.tileM.spawnableTiles);
-            gc.entityM.addEntity(mouse);
+            gc.entityM.safeAddEntity(mouse);
         }
-
-        // TRACKED
-        gc.entityM.trackFirstFound();
     }
 
     private void map1Scenery(){
         // MAP
-        gc.tileM.setMapName(MAP1_SCENERY);
-        gc.tileM.loadMap();
+        gc.tileM.loadMap(MAP1_SCENERY);
 
         // ENTITY MANAGER
         // PLAYER
         Player player = new Player(gc, "Player");
-        gc.entityM.addEntity(player);
         gc.entityM.setPlayer(player);
 
         // TRACKED
@@ -149,7 +143,7 @@ public class SceneryManager implements Manager, Listener {
         // PLAYER
         Player player = new Player(gc, "Player", 200, 10000, 6, 0, 2 * gc.TILE_SIZE, 20);
         player.setRandomTilePosition(gc.tileM.spawnableTiles);
-        gc.entityM.addEntity(player);
+        gc.entityM.safeAddEntity(player);
         gc.entityM.setPlayer(player);
 
         // TRACKED
@@ -163,7 +157,7 @@ public class SceneryManager implements Manager, Listener {
         player.setDamage(100000);
         player.setAttackDelay(1);
         player.setMaxHealth(1000000000);
-        gc.entityM.addEntity(player);
+        gc.entityM.safeAddEntity(player);
         gc.entityM.setPlayer(player);
 
         // TRACKED
@@ -219,6 +213,10 @@ public class SceneryManager implements Manager, Listener {
     public void update(){
 
         if (lastChosenScenery.equals(TITLE_SCENERY)){
+            if (gc.getTracked() instanceof DefaultTracked){
+                gc.entityM.trackFirstFound();
+            }
+
             if (gc.gameState == GameCanvas.PAUSE_STATE){
                 gc.gameState = GameCanvas.PLAY_STATE;
             }

@@ -14,7 +14,6 @@ public class PlayerEntityGroup extends LeaderEntityGroup{
     public PlayerEntityGroup(GameCanvas gc, LivingEntity player) {
         super(gc);
 
-        setMaster(player);
         addEntity(player);
     }
 

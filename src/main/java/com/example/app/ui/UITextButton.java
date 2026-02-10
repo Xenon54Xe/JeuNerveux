@@ -28,7 +28,7 @@ public class UITextButton extends UIBoxText implements Updatable {
 
     @Override
     public boolean isActive() {
-        return false;
+        return active;
     }
 
     @Override

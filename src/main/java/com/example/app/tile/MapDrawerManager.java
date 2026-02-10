@@ -70,8 +70,8 @@ public class MapDrawerManager implements Listener {
         if (uiFrame.isShow()){
             // Allow to draw tiles
             if (!gc.uiM.isMouseOverUI() && gc.mouseH.leftClickPressed){
-                int worldX = (gc.mouseMH.getScreenX() + gc.tracked.getCameraWorldX()) / gc.TILE_SIZE;
-                int worldY = (gc.mouseMH.getScreenY() + gc.tracked.getCameraWorldY()) / gc.TILE_SIZE;
+                int worldX = (gc.mouseMH.getScreenX() + gc.getTracked().getCameraWorldX()) / gc.TILE_SIZE;
+                int worldY = (gc.mouseMH.getScreenY() + gc.getTracked().getCameraWorldY()) / gc.TILE_SIZE;
 
                 if (worldX > gc.tileM.getMaxWorldCol() - 1 || worldX < 0 || worldY > gc.tileM.getMaxWorldRow() - 1 || worldY < 0){
                     return;

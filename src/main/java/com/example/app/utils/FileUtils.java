@@ -2,6 +2,8 @@ package com.example.app.utils;
 
 import com.example.app.tile.TileMap;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URISyntaxException;
@@ -12,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Objects;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.stream.Collectors;
@@ -144,6 +147,15 @@ public class FileUtils {
         userResources.addAll(baseResources);
 
         return userResources;
+    }
+
+    public static BufferedImage getSpriteImage(String directory, String fileName){
+        try{
+            return ImageIO.read(Objects.requireNonNull(FileUtils.loadFile(directory, fileName)));
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public static void saveMap(TileMap tileMap, String mapName){
