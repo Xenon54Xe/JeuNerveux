@@ -2,6 +2,11 @@
 
 <h2>Français</h2>
 
+<h3>Lancer le jeu</h3>
+
+<p>Copier le .jar dans un dossier et écrire dans le terminal :</p>
+<p><mark>java -jar "nom du fichier".jar</mark></p>
+
 <h3>Map</h3>
 
 <ol>

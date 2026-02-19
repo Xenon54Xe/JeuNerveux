@@ -3,7 +3,6 @@ package com.example.app;
 import com.example.app.entity.EntityManager;
 import com.example.app.event.Event;
 import com.example.app.event.IEvent;
-import com.example.app.event.TestListener;
 import com.example.app.handler.KeyHandler;
 import com.example.app.handler.MouseHandler;
 import com.example.app.handler.MouseMotionHandler;
@@ -194,6 +193,7 @@ public class GameCanvas extends Canvas implements Runnable {
         // Allow to have a one frame click
         // UPDATE AFTER EVERY THING !!!!
         // TO ALLOW ONE FRAME CLICK ...
+        // Only update handler at the end !
         keyH.update();
         mouseH.update();
     }
